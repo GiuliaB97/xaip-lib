@@ -1,0 +1,28 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:////PointingToDeclaration/evaluation/[root]/index.html
+$dokka.location://cleanDirectory/#kotlin.String/PointingToDeclaration/evaluation/[root]/clean-directory.html
+$dokka.location://createPlansList/#core.Problem#kotlin.Int/PointingToDeclaration/evaluation/[root]/create-plans-list.html
+$dokka.location://measureMemory/#explanation.Question#kotlin.String/PointingToDeclaration/evaluation/[root]/measure-memory.html
+$dokka.location://measureMemory2/#explanation.Question#kotlin.String/PointingToDeclaration/evaluation/[root]/measure-memory2.html
+$dokka.location://measureTimeMillis/#explanation.Question#kotlin.String/PointingToDeclaration/evaluation/[root]/measure-time-millis.html
+$dokka.location:/BaseBenchmark.Companion///PointingToDeclaration/evaluation/[root]/-base-benchmark/-companion/index.html
+$dokka.location:/BaseBenchmark///PointingToDeclaration/evaluation/[root]/-base-benchmark/index.html
+$dokka.location:/BaseBenchmark/BaseBenchmark/#/PointingToDeclaration/evaluation/[root]/-base-benchmark/-base-benchmark.html
+$dokka.location:/BaseBenchmark/writeBenchmark/#kotlin.String#core.Problem#kotlin.String#kotlin.Int#kotlin.collections.List[core.Plan]#kotlin.Boolean/PointingToDeclaration/evaluation/[root]/-base-benchmark/write-benchmark.html
+$dokka.location:utils////PointingToDeclaration/evaluation/utils/index.html
+$dokka.location:utils//main/#kotlin.Array[kotlin.String]/PointingToDeclaration/evaluation/utils/main.html
+$dokka.location:utils/MemorySampler.Stats///PointingToDeclaration/evaluation/utils/-memory-sampler/-stats/index.html
+$dokka.location:utils/MemorySampler.Stats/Stats/#kotlin.Long#kotlin.Long#kotlin.Int/PointingToDeclaration/evaluation/utils/-memory-sampler/-stats/-stats.html
+$dokka.location:utils/MemorySampler.Stats/avg/#/PointingToDeclaration/evaluation/utils/-memory-sampler/-stats/avg.html
+$dokka.location:utils/MemorySampler.Stats/max/#/PointingToDeclaration/evaluation/utils/-memory-sampler/-stats/max.html
+$dokka.location:utils/MemorySampler.Stats/plus/#kotlin.Long/PointingToDeclaration/evaluation/utils/-memory-sampler/-stats/plus.html
+$dokka.location:utils/MemorySampler.Stats/size/#/PointingToDeclaration/evaluation/utils/-memory-sampler/-stats/size.html
+$dokka.location:utils/MemorySampler.Stats/sum/#/PointingToDeclaration/evaluation/utils/-memory-sampler/-stats/sum.html
+$dokka.location:utils/MemorySampler///PointingToDeclaration/evaluation/utils/-memory-sampler/index.html
+$dokka.location:utils/MemorySampler/MemorySampler/#kotlin.Long/PointingToDeclaration/evaluation/utils/-memory-sampler/-memory-sampler.html
+$dokka.location:utils/MemorySampler/run/#/PointingToDeclaration/evaluation/utils/-memory-sampler/run.html
+$dokka.location:utils/MemorySampler/start/#/PointingToDeclaration/evaluation/utils/-memory-sampler/start.html
+$dokka.location:utils/MemorySampler/terminate/#/PointingToDeclaration/evaluation/utils/-memory-sampler/terminate.html
+utils
+
