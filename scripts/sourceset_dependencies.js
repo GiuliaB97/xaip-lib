@@ -1,1 +1,1 @@
-sourceset_dependencies='{":planning:dokkaHtml/main":[]}'
+sourceset_dependencies='{":explanation:dokkaHtml/main":[]}'
