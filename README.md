@@ -3,23 +3,24 @@
 *Authors:
 [Giulia Brugnatti](https://github.com/giuliab97)*
 
-This project, developed as part of the Master Thesis for the Msc in Computer Science and Engineering, 
-consists of a library for eXplainable AI planning (XAIP).
+## Intro
 
-The aim of the project is to implement a software proposal to create model-based contrastive explanation 
-within the XAIP domain.
+This project, developed as part of the Master Thesis for the Msc in Computer Science and Engineering, consists of a pure Kotlin library for eXplainable AI planning (XAIP).
 
-Within this framework, the project is made up of four modules that will be described in the next lines.
+The aim of the project is to implement a software proposal to create model-based contrastive explanation within the XAIP domain.
 
-## Planning
-The planning module is a self-contained modules containing the core entities to design and solve a planning problem.
+Within this framework, the project is made up of four modules that will be described in the next lines:
+
+- the `planning` module is a self-contained modules containing the core entities to design and solve a planning problem.
 Its abstractions are exploited within the different modules of the library to guarantee the coherence of the proposal.
 
-## Explanation
-The core module of the library it provides the core entities to enable users to inquiry a planner about its decisions.
+- the key module of the library is the `explanation` module; it provides the core entities to enable users to inquiry a planner about its decisions and retrieve explanation about them.
 
-## DSL
-The DSL is a utility moduly design enhance the usage of the planning module.
+- the `dsl` module is a utility moduly design enhance the usage of the planning module.
 
-## Domain 
-Modules containing the implementation of two planning domains: the Block World and the Logistic domains.
+- the `domain` module containing the implementation of two planning domains: the Block World and the Logistics domains.
+
+
+## For users
+
+This project is a work in progress, not yet intended for general purpose usage.
