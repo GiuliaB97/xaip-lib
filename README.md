@@ -3,6 +3,10 @@
 *Authors:
 [Giulia Brugnatti](https://github.com/giuliab97)*
 
+
+**Some quick links**:
+- [Documentation](https://giuliab97.github.io/xaip-lib/) (work in progress)
+
 ## Intro
 
 This project, developed as part of the Master Thesis for the Msc in Computer Science and Engineering, consists of a pure Kotlin library for eXplainable AI planning (XAIP).
