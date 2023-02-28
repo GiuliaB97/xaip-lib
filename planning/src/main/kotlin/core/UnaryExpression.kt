@@ -23,7 +23,7 @@ interface UnaryExpression : Expression {
          */
         fun of(
             expression: Expression,
-            operand: String
+            operand: String,
         ): UnaryExpression = UnaryExpressionImpl(expression, operand)
     }
 }
