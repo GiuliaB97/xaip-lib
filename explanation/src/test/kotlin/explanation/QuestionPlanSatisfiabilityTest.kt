@@ -31,7 +31,7 @@ class QuestionPlanSatisfiabilityTest : AnnotationSpec() {
     fun `BlockWorld plan not valid`() { // idempotent operators
         val q5 = QuestionPlanSatisfiability(
             Problems.pickX,
-            Plan.of(listOf(pickA, putdownA))
+            Plan.of(listOf(pickA, putdownA)),
         )
         val explanation = Explainer.of(Planner.strips()).explain(q5)
         explanation.isPlanValid() shouldBe false
@@ -41,7 +41,7 @@ class QuestionPlanSatisfiabilityTest : AnnotationSpec() {
     fun `GraphDomain plan valid`() {
         val q5 = QuestionPlanSatisfiability(
             graphProblemRfromLoc1Loc2,
-            planRfromL1toL2
+            planRfromL1toL2,
         )
         val explanation = Explainer.of(Planner.strips()).explain(q5)
         println(explanation.toString())
@@ -52,7 +52,7 @@ class QuestionPlanSatisfiabilityTest : AnnotationSpec() {
     fun `GraphDomain plan not valid`() {
         val q5 = QuestionPlanSatisfiability(
             graphProblemRfromLoc1Loc2,
-            planRfromL1toL5
+            planRfromL1toL5,
         )
         val explanation = Explainer.of(Planner.strips()).explain(q5)
         println(explanation.toString())
@@ -64,7 +64,7 @@ class QuestionPlanSatisfiabilityTest : AnnotationSpec() {
         val exception = shouldThrow<UnsupportedOperationException> {
             QuestionPlanSatisfiability(
                 Problems.pickX,
-                Plan.of(listOf(pickA, putdownA))
+                Plan.of(listOf(pickA, putdownA)),
             ).buildHypotheticalDomain()
         }
         exception.message shouldStartWith "Reconciliation"
@@ -75,7 +75,7 @@ class QuestionPlanSatisfiabilityTest : AnnotationSpec() {
         val exception = shouldThrow<UnsupportedOperationException> {
             QuestionPlanSatisfiability(
                 Problems.pickX,
-                Plan.of(listOf(pickA, putdownA))
+                Plan.of(listOf(pickA, putdownA)),
             ).buildHypotheticalProblem()
         }
         exception.message shouldStartWith "Reconciliation"
