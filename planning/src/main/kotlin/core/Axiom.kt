@@ -30,7 +30,7 @@ interface Axiom {
         fun of(
             parameters: Map<Variable, Type>,
             context: Expression,
-            implies: Expression
+            implies: Expression,
         ): Axiom = AxiomImpl(parameters, context, implies)
     }
 }

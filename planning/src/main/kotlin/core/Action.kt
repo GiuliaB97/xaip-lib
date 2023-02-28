@@ -45,7 +45,7 @@ interface Action {
             name: String,
             parameters: Map<Variable, Type>,
             preconditions: Set<Fluent>,
-            effects: Set<Effect>
+            effects: Set<Effect>,
         ): Action = ActionImpl(name, parameters, preconditions, effects)
     }
 }
