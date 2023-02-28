@@ -12,7 +12,7 @@ internal data class OperatorImpl(
     override val parameters: Map<Variable, Type>,
     override val preconditions: Set<Fluent>,
     override val effects: Set<Effect>,
-    override val args: List<Value> = parameters.keys.toList()
+    override val args: List<Value> = parameters.keys.toList(),
 ) : Operator {
 
     override val positiveEffects: Set<Effect> by lazy { effects.filter { it.isPositive }.toSet() }
@@ -26,7 +26,7 @@ internal data class OperatorImpl(
         copy(
             preconditions = preconditions.map { it.apply(substitution) }.toSet(),
             effects = effects.map { it.apply(substitution) }.toSet(),
-            args = args.map { it.apply(substitution) }
+            args = args.map { it.apply(substitution) },
         )
 
     /**
@@ -38,7 +38,7 @@ internal data class OperatorImpl(
             // parameters = parameters.mapKeys { (k,_)-> k.refresh(scope) },
             preconditions = preconditions.map { it.refresh(scope) }.toSet(),
             effects = effects.map { it.refresh(scope) }.toSet(),
-            args = args.map { it.refresh(scope) }
+            args = args.map { it.refresh(scope) },
         )
     }
 
