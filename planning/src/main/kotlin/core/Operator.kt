@@ -16,12 +16,12 @@ interface Operator : Applicable<Operator>, Action {
          * Factory method for an [Operator] creation.
          */
         fun of(
-            action: Action
+            action: Action,
         ): Operator = OperatorImpl(
             action.name,
             action.parameters,
             action.preconditions,
-            action.effects
+            action.effects,
         )
     }
 }
