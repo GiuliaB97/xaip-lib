@@ -28,7 +28,7 @@ interface BinaryExpression : Expression {
         fun of(
             expression1: Expression,
             expression2: Expression,
-            operand: String
+            operand: String,
         ): BinaryExpression = BinaryExpressionImpl(expression1, expression2, operand)
     }
 }
