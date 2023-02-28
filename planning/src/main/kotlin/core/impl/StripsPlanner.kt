@@ -43,7 +43,7 @@ internal class StripsPlanner : Planner {
         initialState: State,
         actions: Set<Action>,
         goal: FluentBasedGoal,
-        maxDepth: Int
+        maxDepth: Int,
     ): Sequence<Plan> = sequence {
         with(ExecutionContext(initialState, goal, maxDepth)) {
             while (true) {

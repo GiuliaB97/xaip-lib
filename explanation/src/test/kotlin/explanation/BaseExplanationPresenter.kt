@@ -27,6 +27,7 @@ class BaseExplanationPresenter : AnnotationSpec() {
         explanationPresenter.present() shouldStartWith ("The")
         explanationPresenter.presentMinimalExplanation() shouldStartWith ("Minimal")
     }
+
     // Add operator
     @Test
     fun `Add useless operator (pickA) to the plan pickC in pickC problem (incorrect plan)`() {
@@ -34,7 +35,7 @@ class BaseExplanationPresenter : AnnotationSpec() {
             Problems.pickC,
             Plan.of(listOf(pickC)),
             pickA,
-            0
+            0,
         )
         testExplanation(question)
     }
@@ -46,11 +47,11 @@ class BaseExplanationPresenter : AnnotationSpec() {
             Plan.of(
                 listOf(
                     LogisticsDomain.Operators.moveRfromL1toL2,
-                    LogisticsDomain.Operators.moveRfromL2toL1
-                )
+                    LogisticsDomain.Operators.moveRfromL2toL1,
+                ),
             ),
             LogisticsDomain.Operators.moveRfromL2toL1,
-            1
+            1,
         )
         testExplanation(question)
     }
@@ -61,7 +62,7 @@ class BaseExplanationPresenter : AnnotationSpec() {
             Problems.stackAB,
             Plan.of(listOf(stackAB)),
             pickA,
-            0
+            0,
         )
         testExplanation(question)
     }
@@ -72,7 +73,7 @@ class BaseExplanationPresenter : AnnotationSpec() {
         val question = QuestionRemoveOperator(
             Problems.pickC,
             Plan.of(listOf(pickA, pickC)),
-            pickA
+            pickA,
         )
         testExplanation(question)
     }
@@ -86,7 +87,7 @@ class BaseExplanationPresenter : AnnotationSpec() {
             Plan.of(listOf(pickC, stackAB)),
             pickA,
             0,
-            BlockWorldDomain.States.allBlocksAtFloor
+            BlockWorldDomain.States.allBlocksAtFloor,
         )
         testExplanation(question)
     }
@@ -98,7 +99,7 @@ class BaseExplanationPresenter : AnnotationSpec() {
         val question = QuestionPlanProposal(
             Problems.stackAB,
             Plan.of(listOf(pickA, stackAB)),
-            Plan.of(listOf(pickA))
+            Plan.of(listOf(pickA)),
         )
         testExplanation(question)
     }
@@ -115,7 +116,7 @@ class BaseExplanationPresenter : AnnotationSpec() {
     fun `BlockWorld plan not valid`() { // idempotent operators
         val question = QuestionPlanSatisfiability(
             Problems.pickC,
-            Plan.of(listOf(pickC, putdownC))
+            Plan.of(listOf(pickC, putdownC)),
         )
         testExplanation(question)
     }
@@ -126,7 +127,7 @@ class BaseExplanationPresenter : AnnotationSpec() {
             Problems.armNotEmpty,
             Plan.of(listOf(BlockWorldDomain.Operators.pickB)),
             pickC,
-            1
+            1,
         )
 
         val explanation = Explainer.of(Planner.strips()).explain(q1)

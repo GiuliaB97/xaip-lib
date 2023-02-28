@@ -37,8 +37,8 @@ class QuestionReplaceOperatorTest : AnnotationSpec() {
                 Fluents.clearD,
                 Fluents.clearB,
                 Fluents.atBFloor,
-                Fluents.armEmpty
-            )
+                Fluents.armEmpty,
+            ),
         )
         val explanation = Explainer.of(Planner.strips()).explain(q3)
 
@@ -65,8 +65,8 @@ class QuestionReplaceOperatorTest : AnnotationSpec() {
                 Fluents.atDFloor,
                 Fluents.clearD,
                 Fluents.atBFloor,
-                Fluents.armEmpty
-            )
+                Fluents.armEmpty,
+            ),
         )
         val explanation = Explainer.of(Planner.strips()).explain(q3)
 
@@ -85,7 +85,7 @@ class QuestionReplaceOperatorTest : AnnotationSpec() {
             Plan.of(listOf(pickC, stackAB)),
             pickA,
             0,
-            States.allBlocksAtFloor
+            States.allBlocksAtFloor,
         )
         val explanation = Explainer.of(Planner.strips()).explain(q3)
 
@@ -105,7 +105,7 @@ class QuestionReplaceOperatorTest : AnnotationSpec() {
             graphProblemRtoX,
             planRfromL1toL2,
             moveRfromL1toL3,
-            0
+            0,
         )
         val explanation = Explainer.of(Planner.strips()).explain(q3)
 
@@ -125,8 +125,8 @@ class QuestionReplaceOperatorTest : AnnotationSpec() {
                     Problems.stackZWpickX,
                     Plan.of(listOf(pickA, stackAB, pickC)),
                     stackAB,
-                    0
-                )
+                    0,
+                ),
             )
         }
         exception.message shouldStartWith "Error"

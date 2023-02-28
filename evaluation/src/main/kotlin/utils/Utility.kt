@@ -59,11 +59,11 @@ fun measureTimeMillis(question: Question, explanationType: String): Long {
     val start = System.currentTimeMillis()
     if (explanationType.startsWith("c", true)) {
         ContrastiveExplanationPresenter.of(
-            Explainer.of(Planner.strips()).explain(question)
+            Explainer.of(Planner.strips()).explain(question),
         ).presentContrastiveExplanation()
     } else {
         ContrastiveExplanationPresenter.of(
-            Explainer.of(Planner.strips()).explain(question)
+            Explainer.of(Planner.strips()).explain(question),
         ).present()
     }
     return System.currentTimeMillis() - start
@@ -77,7 +77,7 @@ fun measureMemory(question: Question, explanationType: String): Long {
     val beforeHeapMemoryUsage = mbean.heapMemoryUsage
     if (explanationType.startsWith("c", true)) {
         val instance = ContrastiveExplanationPresenter.of(
-            Explainer.of(Planner.strips()).explain(question)
+            Explainer.of(Planner.strips()).explain(question),
         ).presentContrastiveExplanation()
     } else {
         ContrastiveExplanationPresenter.of(Explainer.of(Planner.strips()).explain(question)).present()
@@ -97,11 +97,11 @@ fun measureMemory2(question: Question, explanationType: String): Long {
 
     if (explanationType.startsWith("c", true)) {
         val instance = ContrastiveExplanationPresenter.of(
-            Explainer.of(Planner.strips()).explain(question)
+            Explainer.of(Planner.strips()).explain(question),
         ).presentContrastiveExplanation()
     } else {
         ContrastiveExplanationPresenter.of(
-            Explainer.of(Planner.strips()).explain(question)
+            Explainer.of(Planner.strips()).explain(question),
         ).present()
     }
 
@@ -131,7 +131,7 @@ fun createPlansList(problem: Problem, maxLength: Int): List<Plan> {
             listOf(pickC, stackCD, unstackCD),
             listOf(pickD, stackDA, unstackDA),
             listOf(pickD, stackDB, unstackDB),
-            listOf(pickD, stackDC, unstackDC)
+            listOf(pickD, stackDC, unstackDC),
         )
         val plans = mutableListOf(Plan.of(listOf(pickA, stackAB)))
         return create(maxLength, plans, idempotentActionSetBlockWorld)
@@ -141,7 +141,7 @@ fun createPlansList(problem: Problem, maxLength: Int): List<Plan> {
             listOf(moveRfromL1toL3, moveRfromL3toL1),
             listOf(moveRfromL1toL5, moveRfromL5toL1),
             listOf(moveRfromL1toL3, loadC2fromL3onR, moveRfromL3toL1, unloadC2fromRtoL1),
-            listOf(moveRfromL1toL2, loadC1fromL2onR, moveRfromL2toL1, unloadC1fromRtoL1)
+            listOf(moveRfromL1toL2, loadC1fromL2onR, moveRfromL2toL1, unloadC1fromRtoL1),
         )
         val plans = mutableListOf(Plan.of(listOf(moveRfromL1toL2)))
         return create(maxLength, plans, idempotentActionSetLogistic)
@@ -152,7 +152,7 @@ fun createPlansList(problem: Problem, maxLength: Int): List<Plan> {
 private fun create(
     maxLength: Int,
     plans: MutableList<Plan>,
-    idempotentActionSetBlockWorld: List<List<Operator>>
+    idempotentActionSetBlockWorld: List<List<Operator>>,
 ): List<Plan> {
     val iterator = plans.listIterator()
     val concatenationForPlan = 2

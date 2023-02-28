@@ -53,7 +53,7 @@ abstract class BaseQuestion : Question {
             effects = when (negated) {
                 true -> mutableSetOf(Effect.negative(fluent)).also { it.addAll(action.effects) }
                 else -> mutableSetOf(Effect.of(fluent)).also { it.addAll(action.effects) }
-            }
+            },
         )
     }
 
@@ -71,7 +71,7 @@ abstract class BaseQuestion : Question {
                     }
                 }
             },
-            types = domain.types
+            types = domain.types,
         )
 
     /**
@@ -82,7 +82,7 @@ abstract class BaseQuestion : Question {
         problem: Problem,
         newFluent: Fluent?,
         state: State?,
-        updateState: Boolean = false
+        updateState: Boolean = false,
     ) =
         Problem.of(
             domain = hDomain,
@@ -95,8 +95,8 @@ abstract class BaseQuestion : Question {
                 null -> problem.goal
                 else -> FluentBasedGoal.of(
                     (problem.goal as FluentBasedGoal).targets.toMutableSet()
-                        .also { it.add(newFluent) }
+                        .also { it.add(newFluent) },
                 )
-            }
+            },
         )
 }

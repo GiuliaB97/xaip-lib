@@ -25,7 +25,7 @@ class SimulatorTest : AnnotationSpec() {
             Fluents.atAFloor,
             Fluents.clearD,
             Fluents.clearC,
-            Fluents.clearA
+            Fluents.clearA,
         )
     }
 
@@ -37,7 +37,7 @@ class SimulatorTest : AnnotationSpec() {
             Fluents.atCArm,
             Fluents.atAFloor,
             Fluents.clearD,
-            Fluents.clearB
+            Fluents.clearB,
         )
     }
 }

@@ -41,7 +41,7 @@ interface Domain {
             predicates: Set<Predicate>,
             actions: Set<Action>,
             types: Set<Type>,
-            axioms: Axiom? = null
+            axioms: Axiom? = null,
         ): Domain = DomainImpl(name, predicates, actions, types, axioms)
     }
 }

@@ -43,7 +43,7 @@ class AxiomDSLTest : AnnotationSpec() {
         val binaryExpression = BinaryExpression.of(
             Fluent.of(Predicates.on, false, Values.a, Values.b),
             Fluent.of(Predicates.on, false, Values.a, Values.b),
-            "or"
+            "or",
         )
 
         (ctx.expression1 as Fluent).name.filter { it.isLowerCase() } shouldBe
@@ -59,7 +59,7 @@ class AxiomDSLTest : AnnotationSpec() {
 
         val unaryExpression = UnaryExpression.of(
             Fluent.of(Predicates.on, false, Values.b, Values.c),
-            "not"
+            "not",
         )
         (implies.expression as Fluent).name.filter { it.isLowerCase() } shouldBe
             (unaryExpression.expression as Fluent).name.filter { it.isLowerCase() }

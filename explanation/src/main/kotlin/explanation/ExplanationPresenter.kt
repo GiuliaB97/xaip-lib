@@ -22,7 +22,7 @@ interface ExplanationPresenter {
          * Factory method for an [Explanation] creation.
          */
         fun of(
-            explanation: Explanation
+            explanation: Explanation,
         ): ExplanationPresenter = BaseExplanationPresenter(explanation)
     }
 }

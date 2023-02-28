@@ -38,7 +38,7 @@ interface Problem {
             domain: Domain,
             objects: ObjectSet,
             initialState: State,
-            goal: Goal
+            goal: Goal,
         ): Problem = ProblemImpl(domain, objects, initialState, goal)
     }
 }

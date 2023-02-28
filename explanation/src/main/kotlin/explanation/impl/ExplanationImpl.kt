@@ -14,7 +14,7 @@ import explanation.utils.retrieveArtificialOperator
  */
 internal data class ExplanationImpl(
     override val question: Question,
-    override val explainer: Explainer
+    override val explainer: Explainer,
 ) : Explanation {
     override var novelPlan: Plan = Plan.of(emptyList())
 
@@ -52,17 +52,17 @@ internal data class ExplanationImpl(
                             it.addAll(
                                 try {
                                     explainer.planner.plan(
-                                        question.buildHypotheticalProblem().first()
+                                        question.buildHypotheticalProblem().first(),
                                     ).first().operators
                                 } catch (_: Exception) {
                                     throw IllegalArgumentException(
                                         "Error: the operator ${question.focus} is not applicable to the state chosen:" +
                                             " ${(question.inState == null)
-                                                .then(question.problem.initialState) ?: question.inState}"
+                                                .then(question.problem.initialState) ?: question.inState}",
                                     )
-                                }
+                                },
                             )
-                        }
+                        },
                 )
             }
             is QuestionAddOperator -> {
@@ -75,8 +75,10 @@ internal data class ExplanationImpl(
             }
             is QuestionRemoveOperator -> {
                 novelPlan = explainer.planner.plan(question.buildHypotheticalProblem().first()).first()
-                if (novelPlan.operators.retrieveArtificialOperator() != null) novelPlan =
-                    Plan.of(novelPlan.operators.replaceArtificialOperator(question.problem.domain.actions))
+                if (novelPlan.operators.retrieveArtificialOperator() != null) {
+                    novelPlan =
+                        Plan.of(novelPlan.operators.replaceArtificialOperator(question.problem.domain.actions))
+                }
             }
             is QuestionPlanProposal -> novelPlan = question.alternativePlan
             is QuestionPlanSatisfiability -> novelPlan = question.plan
@@ -87,7 +89,9 @@ internal data class ExplanationImpl(
         val states = simulator.simulate(novelPlan, question.problem.initialState)
         return if (states.isNotEmpty()) {
             states.all { finalStateComplaintWithGoal(question.problem.goal as FluentBasedGoal, it) }
-        } else false
+        } else {
+            false
+        }
     }
 
     /**

@@ -22,8 +22,8 @@ class EndToEndExampleBlockWorld : AnnotationSpec() {
             Operators.pickD,
             Operators.stackDC,
             Operators.pickB,
-            Operators.stackBD
-        )
+            Operators.stackBD,
+        ),
     )
 
     private val domain = domain {
@@ -140,7 +140,7 @@ class EndToEndExampleBlockWorld : AnnotationSpec() {
             problem,
             formerPlan,
             Operators.putdownC,
-            3
+            3,
         )
         val explanation = explainer.explain(question)
         println(ContrastiveExplanationPresenter.of(explanation).present())
@@ -161,8 +161,8 @@ class EndToEndExampleBlockWorld : AnnotationSpec() {
                 Operators.pickD,
                 Operators.stackDC,
                 Operators.pickB,
-                Operators.stackBD
-            )
+                Operators.stackBD,
+            ),
         )
         val question = QuestionPlanProposal(problem, formerPlan, planProposal)
         val explanation = explainer.explain(question)

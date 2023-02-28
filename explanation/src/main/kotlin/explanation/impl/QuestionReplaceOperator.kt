@@ -18,7 +18,7 @@ class QuestionReplaceOperator(
     override val plan: Plan,
     override val focus: Operator,
     override val focusOn: Int,
-    val inState: State? = null
+    val inState: State? = null,
 ) : BaseQuestion() {
     override val newPredicate: Predicate by lazy { Predicate.of("") }
     override val newGroundFluent: Fluent by lazy { Fluent.of(newPredicate) }
@@ -32,7 +32,7 @@ class QuestionReplaceOperator(
                 domain = problem.domain,
                 objects = problem.objects,
                 initialState = inState,
-                goal = problem.goal
+                goal = problem.goal,
             )
         } else {
             problem
@@ -51,8 +51,8 @@ class QuestionReplaceOperator(
                     domain = hDomain,
                     objects = newProblem.objects,
                     initialState = state,
-                    goal = newProblem.goal
-                )
+                    goal = newProblem.goal,
+                ),
             )
         }
     }
