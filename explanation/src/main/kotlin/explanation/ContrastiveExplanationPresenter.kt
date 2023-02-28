@@ -13,7 +13,7 @@ interface ContrastiveExplanationPresenter : ExplanationPresenter {
          * Factory method for an [ContrastiveExplanationPresenter] creation.
          */
         fun of(
-            explanation: Explanation
+            explanation: Explanation,
         ): ContrastiveExplanationPresenter = ContrastiveExplanationPresenterImpl(explanation)
     }
 }
