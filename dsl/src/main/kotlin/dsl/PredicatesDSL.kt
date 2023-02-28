@@ -54,7 +54,10 @@ class PredicatesDSL(private val typesProvider: TypeProvider) {
      */
     operator fun String.invoke(vararg types: String): Predicate {
         val typesList = typeConverter(*types)
-        if (typeExist(typesList)) return Predicate.of(this, typesList)
-        else error("This should never happen")
+        if (typeExist(typesList)) {
+            return Predicate.of(this, typesList)
+        } else {
+            error("This should never happen")
+        }
     }
 }
