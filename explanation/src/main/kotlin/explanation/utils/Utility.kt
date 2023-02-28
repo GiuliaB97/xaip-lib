@@ -37,8 +37,8 @@ private fun createInitialOperator(action: Action, operator: Operator): Operator 
         newOperator = newOperator.apply(
             VariableAssignment.of(
                 operator.parameters.keys.toList()[operator.args.indexOf(arg)],
-                arg
-            )
+                arg,
+            ),
         )
     }
     return newOperator
@@ -52,7 +52,9 @@ fun List<Operator>.replaceArtificialOperator(actionList: Set<Action>): List<Oper
     this.toMutableList().map { operator ->
         if ("^" in operator.name) {
             newList.add(createInitialOperator(actionList.retrieveAction(operator), operator))
-        } else newList.add(operator)
+        } else {
+            newList.add(operator)
+        }
     }
     return newList
 }
