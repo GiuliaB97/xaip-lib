@@ -24,7 +24,7 @@ class QuestionAddOperatorTest : AnnotationSpec() {
             Problems.stackAB,
             Plan.of(listOf(stackAB)),
             pickA,
-            0
+            0,
         )
 
         val explanation = Explainer.of(Planner.strips()).explain(q1)
@@ -42,7 +42,7 @@ class QuestionAddOperatorTest : AnnotationSpec() {
             Problems.armNotEmpty,
             Plan.of(listOf(pickB)),
             pickC,
-            1
+            1,
         )
 
         val explanation = Explainer.of(Planner.strips()).explain(q1)
@@ -60,7 +60,7 @@ class QuestionAddOperatorTest : AnnotationSpec() {
             Problems.pickC,
             Plan.of(listOf(pickC)),
             pickA,
-            0
+            0,
         )
 
         val explanation = Explainer.of(Planner.strips()).explain(q1)
@@ -82,11 +82,11 @@ class QuestionAddOperatorTest : AnnotationSpec() {
                     moveRfromL1toL2,
                     loadC1fromL2onR,
                     moveRfromL2toL4,
-                    unloadC1fromRtoL4
-                )
+                    unloadC1fromRtoL4,
+                ),
             ),
             moveRfromL2toL1,
-            0
+            0,
         )
 
         val explanation = Explainer.of(Planner.strips()).explain(q1)
@@ -102,11 +102,11 @@ class QuestionAddOperatorTest : AnnotationSpec() {
             Plan.of(
                 listOf(
                     moveRfromL1toL2,
-                    moveRfromL2toL1
-                )
+                    moveRfromL2toL1,
+                ),
             ),
             moveRfromL2toL1,
-            1
+            1,
         )
 
         val explanation = Explainer.of(Planner.strips()).explain(q1)
@@ -124,7 +124,7 @@ class QuestionAddOperatorTest : AnnotationSpec() {
             Problems.stackAB,
             Plan.of(listOf(stackAB)),
             pickA,
-            0
+            0,
         ).buildHypotheticalDomain() shouldBe
             Domain.of(
                 Problems.stackAB.domain.name,
@@ -134,10 +134,10 @@ class QuestionAddOperatorTest : AnnotationSpec() {
                         name = Actions.pick.name + "^",
                         parameters = Actions.pick.parameters,
                         preconditions = Actions.pick.preconditions,
-                        effects = mutableSetOf(Effect.of(fluent)).also { it.addAll(Actions.pick.effects) }
-                    )
+                        effects = mutableSetOf(Effect.of(fluent)).also { it.addAll(Actions.pick.effects) },
+                    ),
                 ).also { it.addAll(Problems.stackAB.domain.actions) }.also { it.remove(Actions.pick) },
-                Problems.stackAB.domain.types
+                Problems.stackAB.domain.types,
             )
     }
 
@@ -151,7 +151,7 @@ class QuestionAddOperatorTest : AnnotationSpec() {
             Problems.stackAB,
             Plan.of(listOf(stackAB)),
             pickA,
-            0
+            0,
         ).buildHypotheticalProblem().first() shouldBe Problem.of(
             Domain.of(
                 Problems.stackAB.domain.name,
@@ -161,17 +161,17 @@ class QuestionAddOperatorTest : AnnotationSpec() {
                         name = Actions.pick.name + "^",
                         parameters = Actions.pick.parameters,
                         preconditions = Actions.pick.preconditions,
-                        effects = mutableSetOf(Effect.of(fluent)).also { it.addAll(Actions.pick.effects) }
-                    )
+                        effects = mutableSetOf(Effect.of(fluent)).also { it.addAll(Actions.pick.effects) },
+                    ),
                 ).also { it.addAll(Problems.stackAB.domain.actions) }.also { it.remove(Actions.pick) },
-                Problems.stackAB.domain.types
+                Problems.stackAB.domain.types,
             ),
             Problems.stackAB.objects,
             Problems.stackAB.initialState,
             FluentBasedGoal.of(
                 (Problems.stackAB.goal as FluentBasedGoal).targets.toMutableSet()
-                    .also { it.add(groundFluent) }
-            )
+                    .also { it.add(groundFluent) },
+            ),
         )
     }
 }
