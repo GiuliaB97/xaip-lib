@@ -24,7 +24,7 @@ class QuestionRemoveOperatorTest : AnnotationSpec() {
         val q2 = QuestionRemoveOperator(
             Problems.armNotEmpty,
             Plan.of(listOf(pickA)),
-            pickA
+            pickA,
         )
 
         val explanation = Explainer.of(Planner.strips()).explain(q2)
@@ -41,7 +41,7 @@ class QuestionRemoveOperatorTest : AnnotationSpec() {
         val q2 = QuestionRemoveOperator(
             Problems.stackDXA,
             Plan.of(listOf(pickB, stackBA, pickD, stackDB)),
-            pickB
+            pickB,
         )
 
         val explanation = Explainer.of(Planner.strips()).explain(q2)
@@ -60,7 +60,7 @@ class QuestionRemoveOperatorTest : AnnotationSpec() {
         val q2 = QuestionRemoveOperator(
             graphProblemRtoX,
             planRfromL1toL2,
-            moveRfromL1toL2
+            moveRfromL1toL2,
         )
         val explanation = Explainer.of(Planner.strips()).explain(q2)
         explanation.originalPlan shouldBe q2.plan
@@ -79,7 +79,7 @@ class QuestionRemoveOperatorTest : AnnotationSpec() {
         QuestionRemoveOperator(
             Problems.stackAB,
             Plan.of(listOf(BlockWorldDomain.Operators.stackAB)),
-            pickA
+            pickA,
         ).buildHypotheticalDomain() shouldBe
             Domain.of(
                 Problems.stackAB.domain.name,
@@ -90,10 +90,10 @@ class QuestionRemoveOperatorTest : AnnotationSpec() {
                         parameters = BlockWorldDomain.Actions.pick.parameters,
                         preconditions = BlockWorldDomain.Actions.pick.preconditions,
                         effects = mutableSetOf(Effect.negative(fluent))
-                            .also { it.addAll(BlockWorldDomain.Actions.pick.effects) }
-                    )
+                            .also { it.addAll(BlockWorldDomain.Actions.pick.effects) },
+                    ),
                 ).also { it.addAll(Problems.stackAB.domain.actions) }.also { it.remove(BlockWorldDomain.Actions.pick) },
-                Problems.stackAB.domain.types
+                Problems.stackAB.domain.types,
             )
     }
 
@@ -106,7 +106,7 @@ class QuestionRemoveOperatorTest : AnnotationSpec() {
         QuestionRemoveOperator(
             Problems.stackAB,
             Plan.of(listOf(BlockWorldDomain.Operators.stackAB)),
-            pickA
+            pickA,
         ).buildHypotheticalProblem().first() shouldBe Problem.of(
             Domain.of(
                 Problems.stackAB.domain.name,
@@ -117,17 +117,17 @@ class QuestionRemoveOperatorTest : AnnotationSpec() {
                         parameters = BlockWorldDomain.Actions.pick.parameters,
                         preconditions = BlockWorldDomain.Actions.pick.preconditions,
                         effects = mutableSetOf(Effect.negative(fluent))
-                            .also { it.addAll(BlockWorldDomain.Actions.pick.effects) }
-                    )
+                            .also { it.addAll(BlockWorldDomain.Actions.pick.effects) },
+                    ),
                 ).also { it.addAll(Problems.stackAB.domain.actions) }.also { it.remove(BlockWorldDomain.Actions.pick) },
-                Problems.stackAB.domain.types
+                Problems.stackAB.domain.types,
             ),
             Problems.stackAB.objects,
             State.of(mutableSetOf(groundFluent).also { it.addAll(Problems.stackAB.initialState.fluents) }),
             FluentBasedGoal.of(
                 (Problems.stackAB.goal as FluentBasedGoal).targets.toMutableSet()
-                    .also { it.add(groundFluent) }
-            )
+                    .also { it.add(groundFluent) },
+            ),
         )
     }
 }
