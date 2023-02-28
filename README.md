@@ -33,9 +33,11 @@ This project is a work in progress, not yet intended for general-purpose usage.
 
 ### Proof of concept demonstration
 
-We design a set of examples of the framework used for each domain.
-The end-to-end example can be retrieved at directory `evaluation/src/test/kotlin/endtoendexample` and show how to instantiate problems and require the system explanation about plans both exploiting the dsl and without using it.
+We design a set of usage examples of the framework for each domain defined.
+The end-to-end examples can be retrieved at directory `evaluation/src/test/kotlin/endtoendexample` and show how to create and instantiate domains and problems and also how to ask the system explanation about plans both exploiting the dsl and without using it.
+The execution of each example produces either a *general* explanation, or a *minimal* one.
 
+In the next lines, we will describe the general idea of the framework usage, besides giving some practical examples about how to enquire the system about its decisions and the kind of output a user should aspect.
 In general, we can summarize the core steps the user must perform to get an explanation as follows:
 - to begin, the user defines a model for a problem and a domain[^1];
 - the user then instantiates an appropriate question specifying its parameters; commonly: the problem and the domain defined in the previous step, the plan retrieved from the automatic planner and the user's suggestions;
