@@ -44,7 +44,7 @@ internal data class StateImpl(override val fluents: Set<Fluent>) : State {
         val preconditionsAsQuery = Tuple.wrapIfNeeded(action.preconditions.map { it.toTerm() }) as Struct
         return Solver.prolog.solverOf(
             staticKb = stateAsTheory,
-            flags = FlagStore.DEFAULT + (Unknown.name to Unknown.FAIL)
+            flags = FlagStore.DEFAULT + (Unknown.name to Unknown.FAIL),
         ).solve(preconditionsAsQuery)
             .filterIsInstance<Solution.Yes>()
             .map { it.substitution.toPddl() }
