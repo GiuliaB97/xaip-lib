@@ -9,39 +9,39 @@
 
 ## Intro
 
-This project, developed as part of the Master Thesis for the Msc in Computer Science and Engineering, consists of a pure Kotlin library for eXplainable AI planning (XAIP).
+This project, developed as part of the Master Thesis for the MSc in Computer Science and Engineering, consists of a pure Kotlin library for eXplainable AI planning (XAIP).
 
-The aim of the project is to implement a software proposal to create model-based contrastive explanation within the XAIP domain.
+The project aims to implement a software proposal to create a model-based contrastive explanation within the XAIP domain.
 
 Within this framework, the project is made up of four modules that will be described in the next lines:
 
-- the `planning` module is a self-contained modules containing the core entities to design and solve a planning problem.
+- the `planning` module is a self-contained module containing the core entities to design and solve a planning problem.
 Its abstractions are exploited within the different modules of the library to guarantee the coherence of the proposal.
 
-- the key module of the library is the `explanation` module; it provides the core entities to enable users to inquiry a planner about its decisions and retrieve explanation about them.
+- the key module of the library is the `explanation` module; it provides the core entities to enable users to inquire a planner about its decisions and retrieve explanations about them.
 
-- the `dsl` module is a utility moduly design enhance the usage of the planning module.
+- the `dsl` module is a utility module designed to enhance the usage of the planning module.
 
 - the `domain` module containing the implementation of two planning domains: the Block World and the Logistics domains.
 
 
 ## For users
 
-This project is a work in progress, not yet intended for general purpose usage.
+This project is a work in progress, not yet intended for general-purpose usage.
 
 ## Experiments
 
 ### Proof of concept demonstration
 
-We design a set of examples of the framework usage for each domains.
-The end-to-end-example can be retrieved at directory `evaluation/src/test/kotlin/endtoendexample` and show how to instantiate problems and require the system explanation about plans both exploiting the dsl, and without using it.
+We design a set of examples of the framework used for each domain.
+The end-to-end example can be retrieved at directory `evaluation/src/test/kotlin/endtoendexample` and show how to instantiate problems and require the system explanation about plans both exploiting the dsl and without using it.
 
 In general, we can summarize the core steps the user must perform to get an explanation as follows:
-- to begin, the user defines a model for a problem and a domain;
+- to begin, the user defines a model for a problem and a domain[^1];
 - the user then instantiates an appropriate question specifying its parameters; commonly: the problem and the domain defined in the previous step, the plan retrieved from the automatic planner and the user's suggestions;
 - consequently, the user must instantiate an `Explainer`; thus, the component responsible for building an explanation from a given question and an `ExplanationPresenter`, which is the entity entitled to show the explanation in a user-friendly way.
 
-For example let's assume we want to enquire the system about a solution proposed for a transportation problem within the Logistics domain.
+For example, let's assume we want to enquire the system about a solution proposed for a transportation problem within the Logistics domain.
 We assume a user wants to move some objects that we call containers in a given location and wants to exploit an agent, which we call a robot, to do so.
 More specifically we call:
 - `l1`, ..., `l7`: the locations. Particularly, we arrange the locations as a graph shown following figure:
@@ -66,7 +66,7 @@ val formerPlan = Plan.of(
             )
         )
 ```
-Wherease a user want to know why the robot did not go to `l6` to arrive at `l5`.
+Whereas a user wants to know why the robot did not go to `l6` to arrive at `l5`.
 To force the system to check if there is a feasible solution for the robot to go to `l6` instead of `l4`, the user should define an appropriate question, `QuestionReplaceOperator`, instantiating it with the proper parameters as follows:
 ```
 val question = QuestionReplaceOperator (
@@ -77,7 +77,7 @@ val question = QuestionReplaceOperator (
                 alternativeState
               )
 ```
-Next create an `Explainer` and initialize it with a `Planner`:
+Next, create an `Explainer` and initialize it with a `Planner`:
 ```
 val explainer = Explainer.of(Planner.strips())
 ```
@@ -104,6 +104,7 @@ The minimal solution is: [move(r, l1, l3), load(l3, c2, r), move(r, l3, l1),
     unload(l1, c2, r), move(r, l1, l2), load(l2, c1, r), move(r, l2, l4), 
     unload(l4, c1, r), move(r, l4, l5)]
 The plan is not the minimal solution.
+
 There are 2 additional operators with respect to the minimal solution: 
     [move(r, l4, l6), move(r, l6, l5)].
 ```
@@ -116,5 +117,7 @@ The plan: [move(r, l1, l3), load(l3, c2, r), move(r, l3, l1), unload(l1, c2, r),
  Operators missing: [move(r, l4, l5)]
  Additional operators: [move(r, l4, l6), move(r, l6, l5)]
 ``` 
-The two explanations provide a similar insight into the property of the solution proposed, but the second one presents it in a more concise way.
+The two explanations provide a similar insight into the property of the solution proposed, but the second one presents it more concisely.
 To this extent, we design *minimal explanations* for proficient users who may not be interested in a detailed explanation in natural language.
+
+[^1]: A set of problems for each domain defined is already available in the `domain` module.
