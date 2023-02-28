@@ -58,6 +58,6 @@ class MemorySampler(period: Long) : Thread() {
     private fun computeStats(samples: List<Long>): Stats = Stats(
         max = samples.max(),
         sum = samples.sum(),
-        size = samples.size
+        size = samples.size,
     )
 }
