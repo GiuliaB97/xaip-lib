@@ -29,7 +29,7 @@ class QuestionPlanProposalTest : AnnotationSpec() {
         val q4 = QuestionPlanProposal(
             BlockWorldProblem.armNotEmpty,
             planPickBstackBApickC,
-            planPickB
+            planPickB,
         )
 
         val explanation = Explainer.of(Planner.strips()).explain(q4)
@@ -41,7 +41,7 @@ class QuestionPlanProposalTest : AnnotationSpec() {
         val q4 = QuestionPlanProposal(
             BlockWorldProblem.stackAB,
             planPickAStackAB,
-            planPickA
+            planPickA,
         )
         val explanation = Explainer.of(Planner.strips()).explain(q4)
         explanation.isPlanValid() shouldBe false
@@ -52,7 +52,7 @@ class QuestionPlanProposalTest : AnnotationSpec() {
         val q4 = QuestionPlanProposal(
             graphProblemRtoX,
             planRfromL1toL2,
-            planRfromL1toL5
+            planRfromL1toL5,
         )
         val explanation = Explainer.of(Planner.strips()).explain(q4)
         explanation.isPlanValid() shouldBe true
@@ -63,7 +63,7 @@ class QuestionPlanProposalTest : AnnotationSpec() {
         val q4 = QuestionPlanProposal(
             graphProblemRfromLoc1Loc2,
             planRfromL1toL2,
-            planRfromL1toL5
+            planRfromL1toL5,
         )
         val explanation = Explainer.of(Planner.strips()).explain(q4)
         println(explanation.novelPlan)
@@ -76,7 +76,7 @@ class QuestionPlanProposalTest : AnnotationSpec() {
             QuestionPlanProposal(
                 graphProblemRfromLoc1Loc2,
                 planRfromL1toL2,
-                planRfromL1toL5
+                planRfromL1toL5,
             ).buildHypotheticalDomain()
         }
         exception.message shouldStartWith "Reconciliation"
@@ -88,7 +88,7 @@ class QuestionPlanProposalTest : AnnotationSpec() {
             QuestionPlanProposal(
                 graphProblemRfromLoc1Loc2,
                 planRfromL1toL2,
-                planRfromL1toL5
+                planRfromL1toL5,
             ).buildHypotheticalProblem()
         }
         exception.message shouldStartWith "Reconciliation"
