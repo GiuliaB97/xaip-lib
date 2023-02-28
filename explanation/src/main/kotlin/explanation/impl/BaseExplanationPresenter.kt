@@ -11,7 +11,7 @@ import explanation.ExplanationPresenter
  * Reification of the [Explanation] interface.
  */
 internal open class BaseExplanationPresenter(
-    override val explanation: Explanation
+    override val explanation: Explanation,
 ) : ExplanationPresenter {
     private val minimalSolution by lazy { explanation.explainer.minimalPlanSelector(explanation.question.problem) }
 
@@ -46,7 +46,7 @@ internal open class BaseExplanationPresenter(
     private val areThereAdditionalOperators by lazy {
         (additionalOperators.isNotEmpty()).then(
             " There ${beVerb(additionalOperators)} ${additionalOperators.size} additional $operator " +
-                "with respect to the minimal solution: $additionalOperators.\n"
+                "with respect to the minimal solution: $additionalOperators.\n",
         ) ?: ""
     }
 
@@ -54,7 +54,7 @@ internal open class BaseExplanationPresenter(
         (!explanation.novelPlan.operators.containsAll(minimalSolution.operators)).then(
             " and it does not contains all the necessary operators.\n" +
                 "There ${beVerb(operatorsMissing)} ${operatorsMissing.size} " +
-                "$operator missing: $operatorsMissing.\n"
+                "$operator missing: $operatorsMissing.\n",
         ) ?: "."
     }
 
