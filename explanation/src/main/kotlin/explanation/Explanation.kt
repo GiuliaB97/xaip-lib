@@ -72,7 +72,7 @@ interface Explanation {
          */
         fun of(
             question: Question,
-            explainer: Explainer
+            explainer: Explainer,
         ): Explanation = ExplanationImpl(question, explainer)
     }
 }
