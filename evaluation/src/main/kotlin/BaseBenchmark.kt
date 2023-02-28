@@ -38,7 +38,7 @@ open class BaseBenchmark {
         explanationType: String,
         questionType: Int,
         plans: List<Plan>,
-        isWorkFlow: Boolean = false
+        isWorkFlow: Boolean = false,
     ) {
         init(plans.toMutableList(), questionType, problem, explanationType)
         write(filename, problem, explanationType, questionType, isWorkFlow)
@@ -48,7 +48,7 @@ open class BaseBenchmark {
         problem: Problem,
         explanationType: String,
         questionType: Int,
-        isWorkFlow: Boolean = false
+        isWorkFlow: Boolean = false,
     ) {
         fun OutputStream.writeCsv() {
             val writer = bufferedWriter()
@@ -58,7 +58,7 @@ open class BaseBenchmark {
             resultsTime.forEach {
                 writer.write(
                     "${problem.domain.name}, ${it.key.operators.size}, $questionType, " +
-                        "${it.value}, ${resultsMemory[it.key]}"
+                        "${it.value}, ${resultsMemory[it.key]}",
                 )
                 writer.newLine()
                 i++
@@ -73,11 +73,11 @@ open class BaseBenchmark {
                     ${osName(System.getProperty("os.name"))}_
                     ${explanationType(explanationType)}_
                     Question$questionType.csv
-                """.replace("\\s".toRegex(), "")
+                """.replace("\\s".toRegex(), ""),
             ) ?: "res/$filename"
             ).let {
             FileOutputStream(
-                it
+                it,
             ).apply { writeCsv() }
         }
     }
@@ -92,9 +92,9 @@ open class BaseBenchmark {
                         question.plan,
                         question.focus,
                         question.focusOn,
-                        question.inState
+                        question.inState,
                     ),
-                    explanationType
+                    explanationType,
                 )
             else ->
                 measureTimeMillis(question, explanationType)
