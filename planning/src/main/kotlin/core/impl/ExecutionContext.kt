@@ -15,13 +15,13 @@ internal data class ExecutionContext(
     var stack: Stack<Applicable<*>>,
     val maxDepth: Int,
     var choicePoints: Deque<ChoicePoint> = LinkedList(),
-    var plan: MutableList<Operator> = mutableListOf()
+    var plan: MutableList<Operator> = mutableListOf(),
 ) {
     var counter = 0
     constructor(
         currentState: State,
         goal: FluentBasedGoal,
-        maxDepth: Int
+        maxDepth: Int,
     ) : this(currentState, Stack<Applicable<*>>().also { it.add(goal) }, maxDepth)
 
     private val depth: Int
@@ -62,7 +62,7 @@ internal data class ExecutionContext(
         stack: Stack<Applicable<*>>,
         currentState: State,
         plan: List<Operator>,
-        effect: Effect? = null
+        effect: Effect? = null,
     ) {
         for (elem in changes.asSequence().drop(1)) {
             @Suppress("UNCHECKED_CAST")
@@ -80,7 +80,7 @@ internal data class ExecutionContext(
                 }
             }
             this.addLast(
-                ChoicePoint(stackCopy, currentState, plan.toMutableList())
+                ChoicePoint(stackCopy, currentState, plan.toMutableList()),
             )
         }
     }
@@ -102,10 +102,10 @@ internal data class ExecutionContext(
         require(counter < max) {
             IllegalStateException(
                 "Error, reach the maximum number of choice points. " +
-                    "Choice points created were: ${ choicePoints.toSet().size}"
+                    "Choice points created were: ${ choicePoints.toSet().size}",
             )
         }
-        counter ++
+        counter++
         stack.update(substitutions.first())
     }
 
@@ -124,7 +124,7 @@ internal data class ExecutionContext(
 
     fun handleFluentNotInCurrentState(
         head: Fluent,
-        actions: Set<Action>
+        actions: Set<Action>,
     ): Boolean {
         val h = Effect.of(head)
         val actionsMatched = actions.map { Operator.of(it) }
