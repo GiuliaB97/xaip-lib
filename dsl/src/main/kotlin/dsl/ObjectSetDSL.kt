@@ -36,7 +36,7 @@ class ObjectSetDSL(private val typeProvider: TypeProvider) {
                 type,
                 args.map {
                     Object.of(it)
-                }.toSet()
+                }.toSet(),
             )
         } else {
             error("type not present in the core.Domain definition")
