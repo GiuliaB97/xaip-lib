@@ -35,7 +35,7 @@ class ContrastiveExplanationPresenterTest : AnnotationSpec() {
             Problems.pickC,
             Plan.of(listOf(pickC)),
             pickA,
-            0
+            0,
         )
         testExplanation(question)
     }
@@ -47,11 +47,11 @@ class ContrastiveExplanationPresenterTest : AnnotationSpec() {
             Plan.of(
                 listOf(
                     LogisticsDomain.Operators.moveRfromL1toL2,
-                    LogisticsDomain.Operators.moveRfromL2toL1
-                )
+                    LogisticsDomain.Operators.moveRfromL2toL1,
+                ),
             ),
             LogisticsDomain.Operators.moveRfromL2toL1,
-            1
+            1,
         )
         testExplanation(question)
     }
@@ -62,7 +62,7 @@ class ContrastiveExplanationPresenterTest : AnnotationSpec() {
             Problems.stackAB,
             Plan.of(listOf(stackAB)),
             pickA,
-            0
+            0,
         )
         testExplanation(question)
     }
@@ -73,7 +73,7 @@ class ContrastiveExplanationPresenterTest : AnnotationSpec() {
         val question = QuestionRemoveOperator(
             Problems.pickC,
             Plan.of(listOf(pickA, pickC)),
-            pickA
+            pickA,
         )
         testExplanation(question)
     }
@@ -87,7 +87,7 @@ class ContrastiveExplanationPresenterTest : AnnotationSpec() {
             Plan.of(listOf(pickC, stackAB)),
             pickA,
             0,
-            BlockWorldDomain.States.allBlocksAtFloor
+            BlockWorldDomain.States.allBlocksAtFloor,
         )
         testExplanation(question)
     }
@@ -99,7 +99,7 @@ class ContrastiveExplanationPresenterTest : AnnotationSpec() {
         val question = QuestionPlanProposal(
             Problems.stackAB,
             Plan.of(listOf(pickA, stackAB)),
-            Plan.of(listOf(pickA))
+            Plan.of(listOf(pickA)),
         )
         testExplanation(question)
     }
@@ -116,7 +116,7 @@ class ContrastiveExplanationPresenterTest : AnnotationSpec() {
     fun `BlockWorld plan not valid`() { // idempotent operators
         val question = QuestionPlanSatisfiability(
             Problems.pickC,
-            Plan.of(listOf(pickC, putdownC))
+            Plan.of(listOf(pickC, putdownC)),
         )
         testExplanation(question)
     }
@@ -127,7 +127,7 @@ class ContrastiveExplanationPresenterTest : AnnotationSpec() {
             Problems.armNotEmpty,
             Plan.of(listOf(BlockWorldDomain.Operators.pickB)),
             pickC,
-            1
+            1,
         )
 
         val explanation = Explainer.of(Planner.strips()).explain(q1)
