@@ -1,11 +1,13 @@
 package dsl
 
+import core.Action
 import core.Effect
 import core.Fluent
 import dsl.provider.PredicateProvider
 
 /**
- * */
+ * Class representing multiple [Effect]s in the DSL.
+*/
 class EffectsDSL(
     predicateProvider: PredicateProvider
 ) : AbstractFluentDSL(predicateProvider) {
