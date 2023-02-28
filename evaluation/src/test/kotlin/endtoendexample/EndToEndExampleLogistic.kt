@@ -126,8 +126,8 @@ class EndToEndExampleLogistic : AnnotationSpec() {
                 LogisticsDomain.Operators.loadC1fromL2onR,
                 LogisticsDomain.Operators.moveRfromL2toL4,
                 LogisticsDomain.Operators.unloadC1fromRtoL4,
-                LogisticsDomain.Operators.moveRfromL4toL5
-            )
+                LogisticsDomain.Operators.moveRfromL4toL5,
+            ),
         )
 
         val question = QuestionReplaceOperator(
@@ -135,7 +135,7 @@ class EndToEndExampleLogistic : AnnotationSpec() {
             formerPlan,
             LogisticsDomain.Operators.moveRfromL4toL6,
             8,
-            LogisticsDomain.States.alternativeState
+            LogisticsDomain.States.alternativeState,
         )
         val explanation = explainer.explain(question)
         println(ContrastiveExplanationPresenter.of(explanation).present())
