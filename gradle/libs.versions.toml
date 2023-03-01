@@ -1,13 +1,13 @@
 [versions]
-kotest = "5.5.5"
-kotlin = "1.8.10"
-mockito = "5.1.1"
+kotest = "5.4.2"
+kotlin = "1.7.10"
+mockito = "4.7.0"
 java-toolchain = "11"
-tuprolog = "0.31.1"
-ktlint-plugin = "11.1.0"
+tuprolog = "0.20.9"
+ktlint-plugin = "11.0.0"
 detekt = "1.21.0"
-kotlinx = "1.6.4"
-kover = "0.6.1"
+kotlinx = "1.5.0"
+kover = "0.4.2"
 dokka-version = "0.10.1"
 
 [libraries]
@@ -39,7 +39,7 @@ kotlin-testing = [ "kotest-junit5-jvm", "kotest-assertions-core-jvm", "mockito-c
 kover-gradle = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 dokka = { id = "org.jetbrains.dokka", version = "1.7.20" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlin-qa = { id = "org.danilopianini.gradle-kotlin-qa", version = "0.29.2" }
+kotlin-qa = { id = "org.danilopianini.gradle-kotlin-qa", version = "0.25.0" }
 
 ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-plugin" }
 detekt-gradle = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
