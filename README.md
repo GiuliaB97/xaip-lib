@@ -126,7 +126,7 @@ To this extent, we design *minimal explanations* for proficient users who may no
 
 ## Benchmark
 We evaluate the performance and execution time of our proposal in generating general and contrastive explanations for the questions. We formulated a set of valid plans of different lengths using ad-hoc scripts, generating over 5000 valid plans for the Block World and Logistics problems.
-%
+
 We then frame a set of questions for each type of explanation to evaluate the system's performance when required to add, remove, or replace operators in different positions on the plan or compare two solutions. We create two datasets (for contrastive and general explanations) containing over 8000 explanations for each question within each domain.
 
 The analysis reveals that the resources needed for the elaboration of the explanations for the various questions in the two domains are barely different from one another.
@@ -137,9 +137,9 @@ There is no appreciable performance difference between the questions that requir
 1. The first step to reproduce the experiments is to generate the benchmark. To do so it is just necessary to open a terminal, move in the root directory of the project and run:
 ``` ./gradlew :evaluation:run ```
 optionally passing as argument the desired maximum length of the plans.
-The benchmarks file will be then be available at:  `evaluation/res/benchmark`
+The benchmarks file will be then be available at `evaluation/res/benchmark`
 2. The second step concern the analysis of the file generated in the previous step; given the previous preconditions the analysis is performed running:  
 ```./gradlew executePython``` 
-Once the script perform the analysis at: `evaluation/res/benchmark/aggregate_data` will be available the aggregate data and `res/benchmark/figures`the diagrams.
-More specifically the first directory will contain four files: two regard provide the average memory occupation and execution time required from each domain (block_world_domain_aggregate.csv, logistics_domain_aggregate.csv) whereas the other provide a similar analysis comparing the performace of the system on the different questions (block_world_question_aggregate.csv, logistics_question_aggregate.csv).
-The second on the other hand will contain 20 images each representing the time and memory variation for a specific question in case a general or a minimal explanation is required.
+Once the script performs the analysis at `evaluation/res/benchmark/aggregate_data` will be available the aggregate data and `res/benchmark/figures`the diagrams.
+More specifically the first directory will contain four files: two regards provide the average memory occupation and execution time required from each domain (block_world_domain_aggregate.csv, logistics_domain_aggregate.csv) whereas the other provides a similar analysis comparing the performance of the system on the different questions (block_world_question_aggregate.csv, logistics_question_aggregate.csv).
+The second on the other hand will contain 20 images each representing the time and memory variation for a specific question in case a general or minimal explanation is required.
