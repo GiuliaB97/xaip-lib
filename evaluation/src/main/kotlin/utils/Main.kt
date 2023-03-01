@@ -1,5 +1,6 @@
 package utils
 
+import BaseBenchmark
 import createPlansList
 import domain.BlockWorldDomain
 import domain.LogisticsDomain

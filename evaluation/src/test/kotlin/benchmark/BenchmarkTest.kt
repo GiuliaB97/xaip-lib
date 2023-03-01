@@ -1,5 +1,6 @@
 package benchmark
 
+import BaseBenchmark
 import cleanDirectory
 import core.Planner
 import createPlansList
