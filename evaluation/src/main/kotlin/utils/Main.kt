@@ -12,7 +12,7 @@ import java.lang.Exception
 @Suppress("NestedBlockDepth")
 fun main(args: Array<String>) {
     val problems = listOf(BlockWorldDomain.Problems.stackAB, LogisticsDomain.Problems.robotFromLoc1ToLoc2)
-    val maxLength = if (args.isNotEmpty()) args[0].toInt() else 50
+    val maxLength = if (args.isNotEmpty()) args[0].toInt() else 5
     val isWorkflow = args.isNotEmpty()
     val explanationTypes = listOf("C", "")
     fun buildBenchmark() {

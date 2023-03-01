@@ -58,7 +58,7 @@ def aggregateResults(time_mean, memory_mean, domain):
   aggregate_domain.to_csv('{}/aggregate_data/{}_domain_aggregate.csv'.format(dir,domain), encoding='utf-8')
 
 os_names = ["linux", "windows"]
-domain_names = ["block_world", "logistic"]
+domain_names = ["block_world", "logistics"]
 explanation_names = ["contrastiveExplanation", "generalExplanation"]
 
 names =[]

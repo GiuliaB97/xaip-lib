@@ -23,7 +23,7 @@ object LogisticsDomain {
         Fluents.connectedL6L2,
         Fluents.connectedL6L5,
         Fluents.connectedL7L5,
-        Fluents.connectedL5L1
+        Fluents.connectedL5L1,
     )
 
     object DomainsDSL {
@@ -164,7 +164,7 @@ object LogisticsDomain {
             }
         }
 
-        val robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1notDSL = problem(Domains.logisticWorld) {
+        val robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1notDSL = problem(Domains.logisticsWorld) {
             objects {
                 +"robots"("r")
                 +"locations"("l1", "l2", "l3", "l4", "l5", "l6", "l7")
@@ -207,73 +207,73 @@ object LogisticsDomain {
             parameters = mapOf(
                 Values.X to Types.robots,
                 Values.Y to Types.locations,
-                Values.Z to Types.locations
+                Values.Z to Types.locations,
             ),
             preconditions = setOf(
                 Fluents.connectedYZ,
-                Fluents.atRobotXlocationY
+                Fluents.atRobotXlocationY,
             ),
             effects = setOf(
                 Effect.of(Fluents.atRobotXlocationZ),
-                Effect.negative(Fluents.atRobotXlocationY)
-            )
+                Effect.negative(Fluents.atRobotXlocationY),
+            ),
         )
         val load = Action.of(
             name = "load",
             parameters = mapOf(
                 Values.Z to Types.locations,
                 Values.Y to Types.containers,
-                Values.X to Types.robots
+                Values.X to Types.robots,
             ),
             preconditions = setOf(
                 Fluents.atRobotXlocationZ,
-                Fluents.inContainerYlocationZ
+                Fluents.inContainerYlocationZ,
             ),
             effects = setOf(
                 Effect.of(Fluents.loadedXY),
-                Effect.negative(Fluents.inContainerYlocationZ)
-            )
+                Effect.negative(Fluents.inContainerYlocationZ),
+            ),
         )
         val unload = Action.of(
             name = "unload",
             parameters = mapOf(
                 Values.Z to Types.locations,
                 Values.Y to Types.containers,
-                Values.X to Types.robots
+                Values.X to Types.robots,
             ),
             preconditions = setOf(
                 Fluents.atRobotXlocationZ,
-                Fluents.loadedXY
+                Fluents.loadedXY,
             ),
             effects = setOf(
                 Effect.of(Fluents.inContainerYlocationZ),
-                Effect.negative(Fluents.loadedXY)
-            )
+                Effect.negative(Fluents.loadedXY),
+            ),
         )
     }
 
     object Domains {
-        val logisticWorld = Domain.of(
+        val logisticsWorld = Domain.of(
             name = "logistics",
             predicates = setOf(
                 Predicates.connected,
                 Predicates.atLocation,
                 Predicates.loaded,
                 Predicates.unloaded,
-                Predicates.inContainerLocation
+                Predicates.inContainerLocation,
             ),
             actions = setOf(
                 Actions.move,
                 Actions.load,
-                Actions.unload
+                Actions.unload,
             ),
             types = setOf(
                 Types.anything,
                 Types.strings,
                 Types.locations,
                 Types.robots,
-                Types.containers
-            )
+                Types.containers,
+            ),
         )
     }
 
@@ -362,17 +362,17 @@ object LogisticsDomain {
         val atRobotAtLocationY = FluentBasedGoal.of(Fluents.atRlocationY)
         val atRobotAtlocation3 = FluentBasedGoal.of(Fluents.atRobotlocation3)
         val inContainerLocation4 = FluentBasedGoal.of(
-            Fluents.inContainer1location4
+            Fluents.inContainer1location4,
         )
         val atRobotAtlocation3InContainer1Location4 = FluentBasedGoal.of(
             Fluents.atRobotlocation4,
-            Fluents.inContainer1location4
+            Fluents.inContainer1location4,
         )
 
         val atRobotAtlocation5inContainer1Location4InContainer2Location1 = FluentBasedGoal.of(
             Fluents.atRobotlocation5,
             Fluents.inContainer1location4,
-            Fluents.inContainer2location1
+            Fluents.inContainer2location1,
         )
     }
 
@@ -380,7 +380,7 @@ object LogisticsDomain {
         val all = ObjectSet.of(
             Types.robots to setOf(Values.r),
             Types.locations to setOf(Values.l1, Values.l2, Values.l3, Values.l4, Values.l5, Values.l6, Values.l7),
-            Types.containers to setOf(Values.c1, Values.c2)
+            Types.containers to setOf(Values.c1, Values.c2),
         )
     }
 
@@ -390,56 +390,56 @@ object LogisticsDomain {
             domain = DomainsDSL.logistics,
             objects = ObjectSets.all,
             initialState = States.initial,
-            goal = Goals.atRobotAtlocation5inContainer1Location4InContainer2Location1
+            goal = Goals.atRobotAtlocation5inContainer1Location4InContainer2Location1,
         )
 
         val rToX = Problem.of(
-            domain = Domains.logisticWorld,
+            domain = Domains.logisticsWorld,
             objects = ObjectSets.all,
             initialState = States.initial,
-            goal = Goals.atRobotAtLocationY
+            goal = Goals.atRobotAtLocationY,
         )
 
         val robotFromLoc1ToLoc2 = Problem.of(
-            domain = Domains.logisticWorld,
+            domain = Domains.logisticsWorld,
             objects = ObjectSets.all,
             initialState = States.initial,
-            goal = Goals.atRobotAtlocation2
+            goal = Goals.atRobotAtlocation2,
         )
 
         val robotFromLoc1ToLoc5C1fromLoc2toLoc4 = Problem.of(
-            domain = Domains.logisticWorld,
+            domain = Domains.logisticsWorld,
             objects = ObjectSets.all,
             initialState = States.initial,
-            goal = Goals.atRobotAtlocation5atC1loc4
+            goal = Goals.atRobotAtlocation5atC1loc4,
         )
 
         val inContainerLocation4 = Problem.of(
-            domain = Domains.logisticWorld,
+            domain = Domains.logisticsWorld,
             objects = ObjectSets.all,
             initialState = States.initial,
-            goal = Goals.inContainerLocation4
+            goal = Goals.inContainerLocation4,
         )
 
         val robotFromLoc1ToLoc2ContainerFromLocation2ToLocation4 = Problem.of(
-            domain = Domains.logisticWorld,
+            domain = Domains.logisticsWorld,
             objects = ObjectSets.all,
             initialState = States.initial,
-            goal = Goals.atRobotAtlocation3InContainer1Location4
+            goal = Goals.atRobotAtlocation3InContainer1Location4,
         )
 
         val robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1 = Problem.of(
-            domain = Domains.logisticWorld,
+            domain = Domains.logisticsWorld,
             objects = ObjectSets.all,
             initialState = States.initial,
-            goal = Goals.atRobotAtlocation5inContainer1Location4InContainer2Location1
+            goal = Goals.atRobotAtlocation5inContainer1Location4InContainer2Location1,
         )
 
         val basicRobotFromLocation1ToLocation2 = Problem.of(
-            domain = Domains.logisticWorld,
+            domain = Domains.logisticsWorld,
             objects = ObjectSets.all,
             initialState = States.robotInLoc1,
-            goal = Goals.atRobotAtlocation2
+            goal = Goals.atRobotAtlocation2,
         )
     }
 
@@ -453,7 +453,7 @@ object LogisticsDomain {
 
     object States {
         val robotInLoc1 = State.of(
-            mutableSetOf(Fluents.atRobotlocation1).also { it.addAll(fluents) }
+            mutableSetOf(Fluents.atRobotlocation1).also { it.addAll(fluents) },
         )
 
         val initial = State.of(
@@ -477,7 +477,7 @@ object LogisticsDomain {
             Fluents.connectedL6L2,
             Fluents.connectedL6L5,
             Fluents.connectedL7L5,
-            Fluents.connectedL5L1
+            Fluents.connectedL5L1,
         )
 
         val alternativeInitialState = State.of(
@@ -500,7 +500,7 @@ object LogisticsDomain {
             Fluents.connectedL7L5,
             Fluents.connectedL5L1,
             Fluents.connectedL6L4,
-            Fluents.connectedL4L6
+            Fluents.connectedL4L6,
         )
 
         val alternativeState = State.of(
@@ -526,7 +526,7 @@ object LogisticsDomain {
             Fluents.connectedL4L6,
             Fluents.atRobotlocation4,
             Fluents.inContainer1location4,
-            Fluents.inContainer2location1
+            Fluents.inContainer2location1,
         )
     }
 
