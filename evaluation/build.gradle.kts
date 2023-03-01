@@ -66,3 +66,14 @@ detekt {
     config = files("${rootDir.path}/config/detekt.yml")
     source = files(kotlin.sourceSets.map { it.kotlin.sourceDirectories })
 }
+
+tasks.register<Exec>("executePython") {
+    workingDir("src/main/python")
+    commandLine("python", "createplots.py")
+    dependsOn("installPythonDependencies")
+}
+
+tasks.register<Exec>("installPythonDependencies") {
+    workingDir(rootDir.path) // directory containing the requirements.txt file
+    commandLine("python", "-m", "pip", "install", "-r", "requirements.txt")
+}
