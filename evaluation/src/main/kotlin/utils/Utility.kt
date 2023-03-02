@@ -136,7 +136,7 @@ fun createPlansList(problem: Problem, maxLength: Int): List<Plan> {
         val plans = mutableListOf(Plan.of(listOf(pickA, stackAB)))
         return create(maxLength, plans, idempotentActionSetBlockWorld)
     } else {
-        val idempotentActionSetLogistic = listOf(
+        val idempotentActionSetLogistics = listOf(
             listOf(moveRfromL1toL2, moveRfromL2toL1),
             listOf(moveRfromL1toL3, moveRfromL3toL1),
             listOf(moveRfromL1toL5, moveRfromL5toL1),
@@ -144,7 +144,7 @@ fun createPlansList(problem: Problem, maxLength: Int): List<Plan> {
             listOf(moveRfromL1toL2, loadC1fromL2onR, moveRfromL2toL1, unloadC1fromRtoL1),
         )
         val plans = mutableListOf(Plan.of(listOf(moveRfromL1toL2)))
-        return create(maxLength, plans, idempotentActionSetLogistic)
+        return create(maxLength, plans, idempotentActionSetLogistics)
     }
 }
 

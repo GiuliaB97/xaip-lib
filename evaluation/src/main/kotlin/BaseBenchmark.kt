@@ -19,11 +19,11 @@ open class BaseBenchmark {
 
     private val blockWorldName by lazy { "block_world" }
 
-    private val logisticName by lazy { "logistic" }
+    private val logisticsName by lazy { "logistics" }
 
     private val resultsTime by lazy { mutableMapOf<Plan, Long>() }
     private val resultsMemory by lazy { mutableMapOf<Plan, Long>() }
-    private fun domainName(name: String) = (name == blockWorldName).then(blockWorldName) ?: logisticName
+    private fun domainName(name: String) = (name == blockWorldName).then(blockWorldName) ?: logisticsName
     private fun explanationType(name: String) = (name.startsWith("c", true))
         .then("contrastiveExplanation") ?: "generalExplanation"
 
