@@ -1,9 +1,11 @@
 import javafx.application.Application
 import javafx.stage.Stage
 
-class Gui : Application() {
+class App : Application() {
 
     override fun start(primaryStage: Stage) {
+        // val model = Model()
+        // val controller = Controller()
         val view = View(primaryStage)
         view.show()
         /*
@@ -27,5 +29,5 @@ class Gui : Application() {
 }
 
 fun main(args: Array<String>) {
-    Application.launch(Gui::class.java, *args)
+    Application.launch(App::class.java, *args)
 }

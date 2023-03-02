@@ -4,6 +4,7 @@ include("planning")
 include("dsl")
 include("domain")
 include("evaluation")
+include("gui")
 
 pluginManagement {
     plugins {
