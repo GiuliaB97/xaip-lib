@@ -1,5 +1,5 @@
 [versions]
-kotest = "5.4.2"
+kotest = "5.5.5"
 kotlin = "1.8.10"
 mockito = "4.7.0"
 java-toolchain = "11"
