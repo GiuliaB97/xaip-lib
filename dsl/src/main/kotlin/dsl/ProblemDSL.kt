@@ -15,6 +15,10 @@ import dsl.provider.TypeProvider
 */
 class ProblemDSL(val domain: Domain) {
     /**
+     * @property name: represents the name of the problem.
+     */
+    var name: String = ""
+    /**
      * @property objects: represents the objects created.
      */
     var objects: ObjectSet = ObjectSet.of(emptyMap())
@@ -63,7 +67,7 @@ class ProblemDSL(val domain: Domain) {
      *  Method responsible that build an instance of [ProblemDSL] and converts it to a [Problem].
      */
     fun buildProblem(): Problem =
-        Problem.of(domain, objects, state, goal)
+        Problem.of(domain, name, objects, state, goal)
 }
 
 /**

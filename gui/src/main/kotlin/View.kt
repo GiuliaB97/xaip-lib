@@ -5,9 +5,11 @@ import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.layout.GridPane
-import javafx.scene.layout.VBox
 import javafx.stage.Stage
 
+/***
+ * .
+ */
 class View(private val primaryStage: Stage) {
     private val question = Label("Question type")
     private val actionToRemove = Label("Action to be removed")
@@ -24,10 +26,10 @@ class View(private val primaryStage: Stage) {
     private val tf6 = TextField()
 
     private val submit = Button("Submit")
-    private val root = GridPane()
 
-    private val vbox = VBox()
-    private val insets = Insets(10.0)
+    /***
+     * .
+     */
     fun show() {
         val grid = GridPane()
         grid.alignment = Pos.CENTER

@@ -86,6 +86,7 @@ abstract class BaseQuestion : Question {
     ) =
         Problem.of(
             domain = hDomain,
+            name = problem.name,
             objects = problem.objects,
             initialState = when (updateState) {
                 true -> State.of(mutableSetOf(newFluent!!).also { it.addAll(problem.initialState.fluents) })

@@ -30,6 +30,7 @@ class QuestionReplaceOperator(
         if (inState != null) {
             Problem.of(
                 domain = problem.domain,
+                name = problem.name,
                 objects = problem.objects,
                 initialState = inState,
                 goal = problem.goal,
@@ -49,6 +50,7 @@ class QuestionReplaceOperator(
             yield(
                 Problem.of(
                     domain = hDomain,
+                    name = newProblem.name,
                     objects = newProblem.objects,
                     initialState = state,
                     goal = newProblem.goal,

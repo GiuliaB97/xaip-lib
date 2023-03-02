@@ -95,6 +95,7 @@ object LogisticsDomain {
 
     object ProblemsDSL {
         val rToX = problem(DomainsDSL.logistics) {
+            name = "rToX"
             objects {
                 +"robots"("r")
                 +"locations"("l1", "l2", "l3", "l4", "l5", "l6", "l7")
@@ -129,6 +130,7 @@ object LogisticsDomain {
         }
 
         val robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1 = problem(DomainsDSL.logistics) {
+            name = "robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1"
             objects {
                 +"robots"("r")
                 +"locations"("l1", "l2", "l3", "l4", "l5", "l6", "l7")
@@ -164,41 +166,43 @@ object LogisticsDomain {
             }
         }
 
-        val robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1notDSL = problem(Domains.logisticsWorld) {
-            objects {
-                +"robots"("r")
-                +"locations"("l1", "l2", "l3", "l4", "l5", "l6", "l7")
-                +"containers"("c1", "c2")
+        val robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1notDSL =
+            problem(Domains.logisticsWorld) {
+                name = "robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1notDSL"
+                objects {
+                    +"robots"("r")
+                    +"locations"("l1", "l2", "l3", "l4", "l5", "l6", "l7")
+                    +"containers"("c1", "c2")
+                }
+                initialState {
+                    +"atLocation"("r", "l1")
+                    +"inContainerLocation"("c1", "l2")
+                    +"inContainerLocation"("c2", "l3")
+                    +"connected"("l1", "l2")
+                    +"connected"("l1", "l3")
+                    +"connected"("l2", "l4")
+                    +"connected"("l3", "l4")
+                    +"connected"("l4", "l5")
+                    +"connected"("l1", "l6")
+                    +"connected"("l5", "l6")
+                    +"connected"("l5", "l7")
+                    +"connected"("l1", "l5")
+                    +"connected"("l2", "l1")
+                    +"connected"("l3", "l1")
+                    +"connected"("l4", "l2")
+                    +"connected"("l4", "l3")
+                    +"connected"("l5", "l4")
+                    +"connected"("l6", "l2")
+                    +"connected"("l6", "l5")
+                    +"connected"("l7", "l5")
+                    +"connected"("l5", "l1")
+                }
+                goals {
+                    +"atLocation"("r", "l5")
+                    +"inContainerLocation"("c1", "l4")
+                    +"inContainerLocation"("c2", "l1")
+                }
             }
-            initialState {
-                +"atLocation"("r", "l1")
-                +"inContainerLocation"("c1", "l2")
-                +"inContainerLocation"("c2", "l3")
-                +"connected"("l1", "l2")
-                +"connected"("l1", "l3")
-                +"connected"("l2", "l4")
-                +"connected"("l3", "l4")
-                +"connected"("l4", "l5")
-                +"connected"("l1", "l6")
-                +"connected"("l5", "l6")
-                +"connected"("l5", "l7")
-                +"connected"("l1", "l5")
-                +"connected"("l2", "l1")
-                +"connected"("l3", "l1")
-                +"connected"("l4", "l2")
-                +"connected"("l4", "l3")
-                +"connected"("l5", "l4")
-                +"connected"("l6", "l2")
-                +"connected"("l6", "l5")
-                +"connected"("l7", "l5")
-                +"connected"("l5", "l1")
-            }
-            goals {
-                +"atLocation"("r", "l5")
-                +"inContainerLocation"("c1", "l4")
-                +"inContainerLocation"("c2", "l1")
-            }
-        }
     }
 
     object Actions {
@@ -388,6 +392,7 @@ object LogisticsDomain {
 
         val rToXdslDomain = Problem.of(
             domain = DomainsDSL.logistics,
+            name = "rToXdslDomain",
             objects = ObjectSets.all,
             initialState = States.initial,
             goal = Goals.atRobotAtlocation5inContainer1Location4InContainer2Location1,
@@ -395,6 +400,7 @@ object LogisticsDomain {
 
         val rToX = Problem.of(
             domain = Domains.logisticsWorld,
+            name = "rToX",
             objects = ObjectSets.all,
             initialState = States.initial,
             goal = Goals.atRobotAtLocationY,
@@ -402,6 +408,7 @@ object LogisticsDomain {
 
         val robotFromLoc1ToLoc2 = Problem.of(
             domain = Domains.logisticsWorld,
+            name = "robotFromLoc1ToLoc2",
             objects = ObjectSets.all,
             initialState = States.initial,
             goal = Goals.atRobotAtlocation2,
@@ -409,6 +416,7 @@ object LogisticsDomain {
 
         val robotFromLoc1ToLoc5C1fromLoc2toLoc4 = Problem.of(
             domain = Domains.logisticsWorld,
+            name = "robotFromLoc1ToLoc5C1fromLoc2toLoc4",
             objects = ObjectSets.all,
             initialState = States.initial,
             goal = Goals.atRobotAtlocation5atC1loc4,
@@ -416,6 +424,7 @@ object LogisticsDomain {
 
         val inContainerLocation4 = Problem.of(
             domain = Domains.logisticsWorld,
+            name = "inContainerLocation4",
             objects = ObjectSets.all,
             initialState = States.initial,
             goal = Goals.inContainerLocation4,
@@ -423,6 +432,7 @@ object LogisticsDomain {
 
         val robotFromLoc1ToLoc2ContainerFromLocation2ToLocation4 = Problem.of(
             domain = Domains.logisticsWorld,
+            name = "robotFromLoc1ToLoc2ContainerFromLocation2ToLocation4",
             objects = ObjectSets.all,
             initialState = States.initial,
             goal = Goals.atRobotAtlocation3InContainer1Location4,
@@ -430,6 +440,7 @@ object LogisticsDomain {
 
         val robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1 = Problem.of(
             domain = Domains.logisticsWorld,
+            name = "robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1",
             objects = ObjectSets.all,
             initialState = States.initial,
             goal = Goals.atRobotAtlocation5inContainer1Location4InContainer2Location1,
@@ -437,6 +448,7 @@ object LogisticsDomain {
 
         val basicRobotFromLocation1ToLocation2 = Problem.of(
             domain = Domains.logisticsWorld,
+            name = "basicRobotFromLocation1ToLocation2",
             objects = ObjectSets.all,
             initialState = States.robotInLoc1,
             goal = Goals.atRobotAtlocation2,

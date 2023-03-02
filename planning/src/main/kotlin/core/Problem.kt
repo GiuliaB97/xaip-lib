@@ -16,6 +16,11 @@ interface Problem {
     val domain: Domain
 
     /**
+     * @property name of the [Problem].
+     */
+    val name: String
+
+    /**
      * @property objects: entities present in the [Problem].
      */
     val objects: ObjectSet
@@ -36,9 +41,10 @@ interface Problem {
          */
         fun of(
             domain: Domain,
+            name: String,
             objects: ObjectSet,
             initialState: State,
             goal: Goal,
-        ): Problem = ProblemImpl(domain, objects, initialState, goal)
+        ): Problem = ProblemImpl(domain, name, objects, initialState, goal)
     }
 }

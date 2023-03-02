@@ -166,6 +166,7 @@ class QuestionAddOperatorTest : AnnotationSpec() {
                 ).also { it.addAll(Problems.stackAB.domain.actions) }.also { it.remove(Actions.pick) },
                 Problems.stackAB.domain.types,
             ),
+            Problems.stackAB.name,
             Problems.stackAB.objects,
             Problems.stackAB.initialState,
             FluentBasedGoal.of(

@@ -122,6 +122,7 @@ class QuestionRemoveOperatorTest : AnnotationSpec() {
                 ).also { it.addAll(Problems.stackAB.domain.actions) }.also { it.remove(BlockWorldDomain.Actions.pick) },
                 Problems.stackAB.domain.types,
             ),
+            Problems.stackAB.name,
             Problems.stackAB.objects,
             State.of(mutableSetOf(groundFluent).also { it.addAll(Problems.stackAB.initialState.fluents) }),
             FluentBasedGoal.of(

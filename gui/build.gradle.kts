@@ -1,7 +1,7 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.qa)
+    // alias(libs.plugins.kotlin.qa)
     alias(libs.plugins.kover.gradle)
     id("org.jetbrains.dokka")
     application
