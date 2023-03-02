@@ -18,7 +18,7 @@ object BlockWorldDomain {
         Operators.unstackAB,
         Operators.putdownA,
         Operators.putdownB,
-        Operators.unstackBA
+        Operators.unstackBA,
     )
     val variables = arrayOf(Values.W, Values.X, Values.Y, Values.Z)
     val types = arrayOf(Types.blocks, Types.locations, Types.numbers, Types.strings, Types.anything)
@@ -32,7 +32,25 @@ object BlockWorldDomain {
         Object.of("arm"),
         Object.of(0),
         Object.of(1),
-        Object.of(2)
+        Object.of(2),
+    )
+
+    val problems = arrayOf(
+        Problems.armNotEmpty,
+        Problems.unstackABunstackCDstackBDCA,
+        Problems.unstackABunstackCDstackDCApickB,
+        Problems.unstackAB,
+        Problems.unstackABpickB,
+        Problems.unstackABunstackCDstackDCA,
+        Problems.unstackABstackDCB,
+        Problems.unstackABstackBCstackAD,
+        Problems.unstackABstackBC,
+        Problems.stackBAstackDC,
+        Problems.stackCAB,
+        Problems.stackBC,
+        Problems.stackCB,
+        Problems.stackAB,
+        Problems.pickC
     )
 
     object DomainsDSL {
@@ -160,35 +178,35 @@ object BlockWorldDomain {
         val pick = Action.of(
             name = "pick",
             parameters = mapOf(
-                Values.X to Types.blocks
+                Values.X to Types.blocks,
             ),
             preconditions = setOf(Fluents.armEmpty, Fluents.clearX, Fluents.atXFloor),
             effects = setOf(
                 Effect.of(Fluents.atXArm),
                 Effect.negative(Fluents.armEmpty),
                 Effect.negative(Fluents.clearX),
-                Effect.negative(Fluents.atXFloor)
-            )
+                Effect.negative(Fluents.atXFloor),
+            ),
         )
 
         val putdown = Action.of(
             name = "putdown",
             parameters = mapOf(
-                Values.X to Types.blocks
+                Values.X to Types.blocks,
             ),
             preconditions = setOf(Fluents.atXArm),
             effects = setOf(
                 Effect.negative(Fluents.atXArm),
                 Effect.of(Fluents.clearX),
                 Effect.of(Fluents.armEmpty),
-                Effect.of(Fluents.atXFloor)
-            )
+                Effect.of(Fluents.atXFloor),
+            ),
         )
         val stack = Action.of(
             name = "stack",
             parameters = mapOf(
                 Values.X to Types.blocks,
-                Values.Y to Types.locations
+                Values.Y to Types.locations,
             ),
             preconditions = setOf(Fluents.atXArm, Fluents.clearY),
             effects = setOf(
@@ -196,28 +214,28 @@ object BlockWorldDomain {
                 Effect.of(Fluents.clearX),
                 Effect.of(Fluents.armEmpty),
                 Effect.negative(Fluents.atXArm),
-                Effect.negative(Fluents.clearY)
-            )
+                Effect.negative(Fluents.clearY),
+            ),
         )
 
         val unstack = Action.of(
             name = "unstack",
             parameters = mapOf(
                 Values.X to Types.blocks,
-                Values.Y to Types.locations
+                Values.Y to Types.locations,
             ),
             preconditions = setOf(
                 Fluents.onXY,
                 Fluents.clearX,
-                Fluents.armEmpty
+                Fluents.armEmpty,
             ),
             effects = setOf(
                 Effect.negative(Fluents.clearX),
                 Effect.negative(Fluents.onXY),
                 Effect.negative(Fluents.armEmpty),
                 Effect.of(Fluents.atXArm),
-                Effect.of(Fluents.clearY)
-            )
+                Effect.of(Fluents.clearY),
+            ),
         )
     }
 
@@ -228,12 +246,12 @@ object BlockWorldDomain {
         val binaryExpression1 = BinaryExpression.of(
             Fluents.atBFloor,
             unaryExpressionNotAFloor,
-            "and"
+            "and",
         )
         val binaryExpression2 = BinaryExpression.of(
             Fluents.atBFloor,
             unaryExpressionNotAFloor,
-            "or"
+            "or",
         )
     }
 
@@ -241,12 +259,12 @@ object BlockWorldDomain {
         val axiom1 = Axiom.of(
             mapOf(Values.Y to Types.blocks, Values.X to Types.blocks), // variabili che possono apparire nella regola
             Fluents.atXArm, // cosa dice della regola
-            Fluents.onXY
+            Fluents.onXY,
         ) // conseguenze sempre vere della regola sopra
         val axiom2 = Axiom.of(
             mapOf(Values.Y to Types.blocks, Values.X to Types.blocks), // variabili che possono apparire nella regola
             Fluents.atYFloor, // cosa dice della regola
-            Fluents.onXY
+            Fluents.onXY,
         ) // conseguenze sempre vere della regola sopra
     } // es XY si muovo sempre assieme-> se Xè sul braccio allora Y è sotto a X
 
@@ -255,21 +273,21 @@ object BlockWorldDomain {
             name = "block_world",
             predicates = setOf(Predicates.at, Predicates.on, Predicates.armEmpty, Predicates.clear),
             actions = setOf(Actions.pick, Actions.stack, Actions.unstack, Actions.putdown),
-            types = setOf(Types.blocks, Types.locations, Types.anything, Types.strings)
+            types = setOf(Types.blocks, Types.locations, Types.anything, Types.strings),
         )
         val blockWorldAxiomException = Domain.of(
             name = "block_world_axiom_exception",
             predicates = setOf(Predicates.at, Predicates.on, Predicates.armEmpty),
             actions = setOf(Actions.pick, Actions.stack),
             types = setOf(Types.blocks, Types.locations),
-            axioms = Axioms.axiom1
+            axioms = Axioms.axiom1,
         )
 
         val blockWorldWithoutIdempotentActions = Domain.of(
             name = "block_world_without_idempotent_actions",
             predicates = setOf(Predicates.at, Predicates.on, Predicates.armEmpty, Predicates.clear),
             actions = setOf(Actions.pick, Actions.stack),
-            types = setOf(Types.blocks, Types.locations, Types.anything, Types.strings)
+            types = setOf(Types.blocks, Types.locations, Types.anything, Types.strings),
         )
     }
 
@@ -342,11 +360,11 @@ object BlockWorldDomain {
         val atXatYarm = FluentBasedGoal.of(
             Fluents.atYArm,
             Fluents.atXArm,
-            Fluents.atXFloor
+            Fluents.atXFloor,
         )
         val onZWatXarm = FluentBasedGoal.of(
             Fluents.atXArm,
-            Fluents.onZW
+            Fluents.onZW,
         )
 
         val onBDCA = FluentBasedGoal.of(
@@ -354,7 +372,7 @@ object BlockWorldDomain {
             Fluents.onBD,
             Fluents.onDC,
             Fluents.onCA,
-            Fluents.atAFloor
+            Fluents.atAFloor,
         )
 
         val onDCAatBarm = FluentBasedGoal.of(
@@ -362,7 +380,7 @@ object BlockWorldDomain {
             Fluents.clearD,
             Fluents.onDC,
             Fluents.onCA,
-            Fluents.atAFloor
+            Fluents.atAFloor,
         )
 
         val onDCA = FluentBasedGoal.of(Fluents.onDC, Fluents.onCA, Fluents.atAFloor)
@@ -375,7 +393,7 @@ object BlockWorldDomain {
                 Fluents.atAFloor,
                 Fluents.atCFloor,
                 Fluents.atDFloor,
-                Fluents.atBFloor
+                Fluents.atBFloor,
             )
         val onDXonXA = FluentBasedGoal.of(Fluents.onDX, Fluents.onXA)
         val onCB = FluentBasedGoal.of(Fluents.atAFloor, Fluents.atBFloor, Fluents.atDFloor, Fluents.onCB)
@@ -400,11 +418,11 @@ object BlockWorldDomain {
         val all = ObjectSet.of(
             Types.blocks to setOf(Values.a, Values.b, Values.c, Values.d),
             Types.locations to setOf(Values.floor, Values.arm),
-            Types.numbers to setOf(Values.one, Values.two, Values.zero)
+            Types.numbers to setOf(Values.one, Values.two, Values.zero),
         )
         val objects = ObjectSet.of(
             Types.blocks to setOf(Values.a, Values.b, Values.c, Values.d),
-            Types.locations to setOf(Values.floor, Values.arm)
+            Types.locations to setOf(Values.floor, Values.arm),
         )
     }
 
@@ -523,7 +541,7 @@ object BlockWorldDomain {
             name = "unstackABunstackCDstackBDCA",
             objects = ObjectSets.all,
             initialState = States.onABonCD,
-            goal = Goals.onBDCA
+            goal = Goals.onBDCA,
         )
 
         val unstackABunstackCDstackDCApickB = Problem.of(
@@ -531,7 +549,7 @@ object BlockWorldDomain {
             name = "unstackABunstackCDstackDCApickB",
             objects = ObjectSets.all,
             initialState = States.onABonCD,
-            goal = Goals.onDCAatBarm
+            goal = Goals.onDCAatBarm,
         )
 
         val unstackABpickB = Problem.of(
@@ -539,7 +557,7 @@ object BlockWorldDomain {
             name = "unstackABpickB",
             objects = ObjectSets.all,
             initialState = States.onAB,
-            goal = Goals.atBarm
+            goal = Goals.atBarm,
         )
 
         val unstackABunstackCDstackDCA = Problem.of(
@@ -547,7 +565,7 @@ object BlockWorldDomain {
             name = "unstackABunstackCDstackDCA",
             objects = ObjectSets.all,
             initialState = States.onABonCD,
-            goal = Goals.onDCA
+            goal = Goals.onDCA,
         )
 
         val unstackABstackDCB = Problem.of(
@@ -555,7 +573,7 @@ object BlockWorldDomain {
             name = "unstackABstackDCB",
             objects = ObjectSets.all,
             initialState = States.onAB,
-            goal = Goals.onDCB
+            goal = Goals.onDCB,
         )
 
         val unstackABstackBCstackAD = Problem.of(
@@ -563,7 +581,7 @@ object BlockWorldDomain {
             name = "unstackABstackBCstackAD",
             objects = ObjectSets.all,
             initialState = States.onAB,
-            goal = Goals.onBConAD
+            goal = Goals.onBConAD,
         )
 
         val unstackABstackBC = Problem.of(
@@ -571,21 +589,21 @@ object BlockWorldDomain {
             name = "unstackABstackBC",
             objects = ObjectSets.all,
             initialState = States.onAB,
-            goal = Goals.onBC
+            goal = Goals.onBC,
         )
         val pickXpickY = Problem.of(
             domain = Domains.blockWorld,
             name = "pickXpickY",
             objects = ObjectSets.all,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.atXatYarm
+            goal = Goals.atXatYarm,
         )
         val stackZWpickX = Problem.of(
             domain = Domains.blockWorld,
             name = "stackZWpickX",
             objects = ObjectSets.all,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.onZWatXarm
+            goal = Goals.onZWatXarm,
         )
 
         val stackBAstackDC = Problem.of(
@@ -593,7 +611,7 @@ object BlockWorldDomain {
             name = "stackBAstackDC",
             objects = ObjectSets.all,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.onBConAD
+            goal = Goals.onBConAD,
         )
 
         val armNotEmpty = Problem.of(
@@ -601,14 +619,14 @@ object BlockWorldDomain {
             name = "armNotEmpty",
             objects = ObjectSets.all,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.armNotEmpty
+            goal = Goals.armNotEmpty,
         )
         val unstackAB = Problem.of(
             domain = Domains.blockWorld,
             name = "unstackAB",
             objects = ObjectSets.all,
             initialState = States.onAB,
-            goal = Goals.atAfloorAtBfloorAtCfloorAtDfloor
+            goal = Goals.atAfloorAtBfloorAtCfloorAtDfloor,
         )
 
         val stackCB = Problem.of(
@@ -616,21 +634,23 @@ object BlockWorldDomain {
             name = "stackCB",
             objects = ObjectSets.all,
             initialState = States.onBAonCD,
-            goal = Goals.onCB
+            goal = Goals.onCB,
         )
+
         val stackCAstackBY = Problem.of(
             domain = Domains.blockWorld,
             name = "stackCAstackBY",
             objects = ObjectSets.all,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.onCAonBY
+            goal = Goals.onCAonBY,
         )
+
         val stackBC = Problem.of(
             domain = Domains.blockWorld,
             name = "stackBC",
             objects = ObjectSets.all,
             initialState = States.onBAonCD,
-            goal = Goals.onBC
+            goal = Goals.onBC,
         )
 
         val stackAny = Problem.of(
@@ -638,7 +658,7 @@ object BlockWorldDomain {
             name = "stackAny",
             objects = ObjectSets.all,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.atXArmAndAtYFloorAndOnWZ
+            goal = Goals.atXArmAndAtYFloorAndOnWZ,
         )
 
         val pickC = Problem.of(
@@ -646,7 +666,7 @@ object BlockWorldDomain {
             name = "pickC",
             objects = ObjectSets.all,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.atCarm
+            goal = Goals.atCarm,
         )
 
         val stackAB = Problem.of(
@@ -654,7 +674,7 @@ object BlockWorldDomain {
             name = "stackAB",
             objects = ObjectSets.objects,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.onAatBandBonFloor
+            goal = Goals.onAatBandBonFloor,
         )
 
         val stackAX = Problem.of(
@@ -662,7 +682,7 @@ object BlockWorldDomain {
             name = "stackAX",
             objects = ObjectSets.objects,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.onAX
+            goal = Goals.onAX,
         )
 
         val pickX = Problem.of(
@@ -670,7 +690,7 @@ object BlockWorldDomain {
             name = "pickX",
             objects = ObjectSets.all,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.pickX
+            goal = Goals.pickX,
         )
 
         val pickXfloorY = Problem.of(
@@ -678,7 +698,7 @@ object BlockWorldDomain {
             name = "pickXfloorY",
             objects = ObjectSets.all,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.pickXfloorY
+            goal = Goals.pickXfloorY,
         )
 
         val stackXY = Problem.of(
@@ -686,7 +706,7 @@ object BlockWorldDomain {
             name = "stackXY",
             objects = ObjectSets.all,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.onXY
+            goal = Goals.onXY,
         )
 
         val stackCAB = Problem.of(
@@ -694,7 +714,7 @@ object BlockWorldDomain {
             name = "stackCAB",
             objects = ObjectSets.all,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.onABC
+            goal = Goals.onABC,
         )
 
         val stackXYpickW = Problem.of(
@@ -702,7 +722,7 @@ object BlockWorldDomain {
             name = "stackXYpickW",
             objects = ObjectSets.all,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.onXYatW
+            goal = Goals.onXYatW,
         )
 
         val axiomException = Problem.of(
@@ -710,7 +730,7 @@ object BlockWorldDomain {
             name = "axiomException",
             objects = ObjectSets.all,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.onXYatW
+            goal = Goals.onXYatW,
         )
 
         val stackDXA = Problem.of(
@@ -718,7 +738,7 @@ object BlockWorldDomain {
             name = "stackDXA",
             objects = ObjectSets.all,
             initialState = States.allBlocksAtFloor,
-            goal = Goals.onDXonXA
+            goal = Goals.onDXonXA,
         )
     }
 
@@ -730,7 +750,7 @@ object BlockWorldDomain {
             Fluents.clearA,
             Fluents.armEmpty,
             Fluents.atBFloor,
-            Fluents.atDFloor
+            Fluents.atDFloor,
         )
 
         val onAB = State.of(
@@ -741,7 +761,7 @@ object BlockWorldDomain {
             Fluents.clearA,
             Fluents.clearC,
             Fluents.clearD,
-            Fluents.armEmpty
+            Fluents.armEmpty,
         )
 
         val allBlocksAtFloor = State.of(
@@ -753,7 +773,7 @@ object BlockWorldDomain {
             Fluents.clearA,
             Fluents.clearB,
             Fluents.clearC,
-            Fluents.clearD
+            Fluents.clearD,
         )
 
         val atAArm = State.of(
@@ -763,7 +783,7 @@ object BlockWorldDomain {
             Fluents.atDFloor,
             Fluents.clearB,
             Fluents.clearC,
-            Fluents.clearD
+            Fluents.clearD,
         )
 
         val atBArm = State.of(
@@ -773,7 +793,7 @@ object BlockWorldDomain {
             Fluents.atDFloor,
             Fluents.clearA,
             Fluents.clearC,
-            Fluents.clearD
+            Fluents.clearD,
         )
 
         val atCArm = State.of(
@@ -783,7 +803,7 @@ object BlockWorldDomain {
             Fluents.atDFloor,
             Fluents.clearA,
             Fluents.clearB,
-            Fluents.clearD
+            Fluents.clearD,
         )
 
         val atDArm = State.of(
@@ -793,7 +813,7 @@ object BlockWorldDomain {
             Fluents.atDArm,
             Fluents.clearA,
             Fluents.clearB,
-            Fluents.clearC
+            Fluents.clearC,
         )
 
         val onBAonCD = State.of(
@@ -803,7 +823,7 @@ object BlockWorldDomain {
             Fluents.clearB,
             Fluents.armEmpty,
             Fluents.atAFloor,
-            Fluents.atDFloor
+            Fluents.atDFloor,
         )
 
         val onBAonDC = State.of(
@@ -813,7 +833,7 @@ object BlockWorldDomain {
             Fluents.clearB,
             Fluents.armEmpty,
             Fluents.atAFloor,
-            Fluents.atCFloor
+            Fluents.atCFloor,
         )
 
         val onCAatBfloorDfloor = State.of(
@@ -824,7 +844,7 @@ object BlockWorldDomain {
             Fluents.atBFloor,
             Fluents.atAFloor,
             Fluents.onCA,
-            Fluents.armEmpty
+            Fluents.armEmpty,
         )
     }
 

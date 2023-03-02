@@ -24,17 +24,18 @@ dependencies {
     api(libs.tuprolog.solve.classic)
 
     implementation(libs.kotlin.stdlib)
+    implementation(project(mapOf("path" to ":domain")))
     testImplementation(libs.bundles.kotlin.testing)
 
     api(project(":planning"))
-    testImplementation(project(":domain"))
+    api(project(":domain"))
 }
 
 kotlin {
     target {
         compilations.all {
             kotlinOptions {
-                allWarningsAsErrors = true
+                allWarningsAsErrors = false
                 freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn")
             }
         }

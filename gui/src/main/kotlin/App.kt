@@ -8,8 +8,8 @@ class App : Application() {
 
     override fun start(primaryStage: Stage) {
         // val model = Model()
-        // val controller = Controller()
-        val view = View(primaryStage)
+        val controller = Controller()
+        val view = View(primaryStage, controller)
         view.show()
         /*
         val btn = Button()

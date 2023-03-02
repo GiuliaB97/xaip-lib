@@ -26,6 +26,15 @@ object LogisticsDomain {
         Fluents.connectedL5L1,
     )
 
+    val problems = arrayOf(
+        LogisticsDomain.Problems.basicRobotFromLocation1ToLocation2,
+        LogisticsDomain.Problems.inContainerLocation4,
+        LogisticsDomain.Problems.robotFromLoc1ToLoc2,
+        LogisticsDomain.Problems.robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1,
+        LogisticsDomain.Problems.robotFromLoc1ToLoc5C1fromLoc2toLoc4,
+        LogisticsDomain.Problems.robotFromLoc1ToLoc2ContainerFromLocation2ToLocation4
+    )
+
     object DomainsDSL {
         val logistics = domain {
             name = "logistics"
