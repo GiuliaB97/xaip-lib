@@ -1,4 +1,25 @@
-import core.Problem
+import Components.actionComboBox
+import Components.actionParameter1ComboBox
+import Components.actionParameter2ComboBox
+import Components.actionParameter3ComboBox
+import Components.actionPositionTextField
+import Components.domainComboBox
+import Components.formerPlanTextField
+import Components.newPlanTextField
+import Components.problemComboBox
+import Components.questionComboBox
+import Components.submit
+import GuiGrid.initGrid
+import Label.actionLabel
+import Label.actionParameterLabel
+import Label.domainLabel
+import Label.formerPlanLabel
+import Label.positionLabel
+import Label.problemLabel
+import Label.questionLabel
+import Value.domain
+import Value.problemList
+import Value.values
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.event.EventHandler
@@ -8,59 +29,26 @@ import javafx.scene.Scene
 import javafx.scene.control.* // ktlint-disable no-wildcard-imports
 import javafx.scene.layout.GridPane
 import javafx.stage.Stage
+import java.awt.Component
 
 class View(private val primaryStage: Stage, private val controller: Controller) {
-    private val domainLabel = Label("Domain")
-    private val problemLabel = Label("Problem")
-    private val questionLabel = Label("Question type")
-    private val actionToRemoveLabel = Label("Action to remove")
-    private val actionToAddLabel = Label("Action to add")
-    private val positionLabel = Label("Position new action")
-    private val formerPlanLabel = Label("Former plan")
-    private val newPlanLabel = Label("New plan")
-
-    private var problemList = emptyList<Problem>()
-
-    private var domainList: ObservableList<String> = FXCollections.observableArrayList(
-        "Block world",
-        "Logistics",
+    private val controlList = listOf(
+        // domainLabel, domainComboBox,
+        problemLabel, questionLabel, actionLabel, positionLabel, formerPlanLabel, actionParameterLabel,
+        problemComboBox, questionComboBox, actionComboBox, actionParameter3ComboBox,
+        actionParameter2ComboBox, actionParameter1ComboBox,
+        formerPlanTextField, newPlanTextField, actionPositionTextField,
+        // submit
     )
 
-    private var questionList: ObservableList<String> = FXCollections.observableArrayList(
-        "Question 1",
-        "Question 2",
-        "Question 3",
-        "Question 4",
-        "Question 5",
-    )
+    private fun reset(list: List<Control>) {
+        for (elem in list) {
+            elem.isVisible = false
+        }
+    }
 
-    private val comboBoxDomain = ComboBox(domainList)
-    private var comboBoxProblem = ComboBox(FXCollections.observableArrayList("                  ")) // by lazy { problems.forEach { emptyObservableList.add(it.name) }; ComboBox(emptyObservableList) }
-    private val comboBoxQuestion = ComboBox(questionList)
-    private val formerPlanTextField = TextField()
-    private val actionToRemoveTextField = TextField()
-    private val actionToAddTextField = TextField()
-    private val positionTextField = TextField()
-    private val newPlanTextField = TextField()
-
-    private var domainError = TextField()
-    private var problemError = TextField()
-    private var questionError = TextField()
-    private var formerPlanError = TextField()
-    private var actionToRemoveError = TextField()
-    private var actionToAddError = TextField()
-    private var positionTextError = TextField()
-    private var newPlanError = TextField()
-
-    private val submit = Button("Submit")
-
-    /***
-     * .
-     */
-
-    private val grid = GridPane()
-    private fun createGrid() {
-        comboBoxDomain.setCellFactory {
+    private fun listeners() {
+        domainComboBox.setCellFactory {
             val cell: ListCell<String?> = object : ListCell<String?>() {
                 override fun updateItem(item: String?, empty: Boolean) {
                     super.updateItem(item, empty)
@@ -71,110 +59,159 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                 if (!cell.isEmpty) {
                     println("Click on " + cell.item)
                     problemList = cell.item?.let { it1 -> controller.getDomain(it1) }!!
-                    val emptyObservableList: ObservableList<String> = FXCollections.observableArrayList<String?>().also { it.addAll(problemList.map { it.name }) }
+                    domain = problemList.first().domain
+                    val emptyObservableList: ObservableList<String> = FXCollections.observableArrayList<String?>()
+                        .also { it.addAll(problemList.map { it.name }) }
                     println("list:$emptyObservableList")
-                    comboBoxProblem = ComboBox(emptyObservableList)
-                    grid.add(comboBoxProblem, 1, 2)
+                    problemComboBox.items = emptyObservableList
+                    actionComboBox.items = FXCollections.observableArrayList<String?>()
+                        .also { it.addAll(domain.actions.map { it.name }) }
+                    values = problemList.first().objects.map.values.map { it.map { it.representation } }.flatten()
+                    actionParameter1ComboBox.items = FXCollections.observableArrayList<String?>()
+                        .also { it.addAll(values) }
+                    actionParameter2ComboBox.items = FXCollections.observableArrayList<String?>()
+                        .also { it.addAll(values) }
+                    actionParameter3ComboBox.items = FXCollections.observableArrayList<String?>()
+                        .also { it.addAll(values) }
+                    problemComboBox.isVisible = true
+                    problemLabel.isVisible = true
                 }
             }
             cell
         }
 
-        problemError.isVisible = false
-        questionError.isVisible = false
-        formerPlanError.isVisible = false
-        actionToRemoveError.isVisible = false
-        actionToAddError.isVisible = false
-        positionTextError.isVisible = false
-        newPlanError.isVisible = false
+        problemComboBox.setCellFactory {
+            val cell: ListCell<String?> = object : ListCell<String?>() {
+                override fun updateItem(item: String?, empty: Boolean) {
+                    super.updateItem(item, empty)
+                    text = if (empty) null else item
+                }
+            }
+            cell.setOnMousePressed {
+                if (!cell.isEmpty) {
+                    println("Click on " + cell.item)
+                    questionComboBox.isVisible = true
+                    questionLabel.isVisible = true
+                }
+            }
+            cell
+        }
 
-        problemError.isEditable = false
-        questionError.isEditable = false
-        formerPlanError.isEditable = false
-        actionToRemoveError.isEditable = false
-        actionToAddError.isEditable = false
-        positionTextError.isEditable = false
-        newPlanError.isEditable = false
+        questionComboBox.setCellFactory {
+            val cell: ListCell<String?> = object : ListCell<String?>() {
+                override fun updateItem(item: String?, empty: Boolean) {
+                    super.updateItem(item, empty)
+                    text = if (empty) null else item
+                }
+            }
+            cell.setOnMousePressed {
+                if (!cell.isEmpty) {
+                    println("Click on " + cell.item)
+                    cell.item?.let {
+                        initAction(it)
+                    }!!
+                }
+            }
+            cell
+        }
 
-        grid.add(problemLabel, 0, 2)
-        grid.add(comboBoxProblem, 1, 2)
-        grid.add(problemError, 2, 2)
+        actionComboBox.setCellFactory {
+            val cell: ListCell<String?> = object : ListCell<String?>() {
+                override fun updateItem(item: String?, empty: Boolean) {
+                    super.updateItem(item, empty)
+                    text = if (empty) null else item
+                }
+            }
+            cell.setOnMousePressed {
+                if (!cell.isEmpty) {
+                    println("Click on " + cell.item)
+                    cell.item?.let {
+                        val action = domain.actions.first { action -> action.name == it }
 
-        grid.add(questionLabel, 0, 3)
-        grid.add(comboBoxQuestion, 1, 3)
-        grid.add(questionError, 2, 3)
+                        val size = action.parameters.size
+                        actionParameterLabel.isVisible = false
+                        actionParameter1ComboBox.isVisible = false
+                        actionParameter2ComboBox.isVisible = false
+                        actionParameter3ComboBox.isVisible = false
 
-        grid.add(formerPlanLabel, 0, 4)
-        grid.add(formerPlanTextField, 1, 4)
-        grid.add(formerPlanError, 2, 4)
-
-        grid.add(actionToRemoveLabel, 0, 5)
-        grid.add(actionToRemoveTextField, 1, 5)
-        grid.add(actionToRemoveError, 2, 5)
-
-        grid.add(actionToAddLabel, 0, 6)
-        grid.add(actionToAddTextField, 1, 6)
-        grid.add(actionToAddError, 2, 6)
-
-        grid.add(positionLabel, 0, 7)
-        grid.add(positionTextField, 1, 7)
-        grid.add(positionTextError, 2, 7)
-
-        grid.add(newPlanLabel, 0, 8)
-        grid.add(newPlanTextField, 1, 8)
-        grid.add(newPlanError, 2, 8)
-
-        grid.add(submit, 1, 9)
-
-        val scene = Scene(grid, 700.0, 350.0)
-        primaryStage.scene = scene
+                        if (size > 0) {
+                            actionParameterLabel.isVisible = true
+                            actionParameter1ComboBox.isVisible = true
+                        }
+                        if (size > 1) {
+                            actionParameter2ComboBox.isVisible = true
+                        }
+                        if (size > 2) {
+                            actionParameter3ComboBox.isVisible = true
+                        }
+                        submit.isDisable = false
+                    }!!
+                }
+            }
+            cell
+        }
 
         submit.onAction = EventHandler {
-            if (comboBoxDomain.value == null) {
-                domainError.isVisible = true
-                domainError.text = "Error, select an item"
-            }
-            if (comboBoxProblem.value == null) {
-                problemError.isVisible = true
-                problemError.text = "Error, select an item"
-            }
-            if (comboBoxQuestion.value == null) {
-                problemError.isVisible = true
-                questionError.text = "Error, select an item"
-            }
-            if (comboBoxQuestion.value != null &&
-                comboBoxProblem.value != null &&
-                comboBoxDomain.value != null
+            if (questionComboBox.value != null &&
+                problemComboBox.value != null &&
+                domainComboBox.value != null
             ) {
                 controller.checkQuestion(
-                    comboBoxDomain.value,
-                    comboBoxProblem.value,
-                    comboBoxQuestion.value,
+                    domainComboBox.value,
+                    problemComboBox.value,
+                    questionComboBox.value,
                     formerPlanTextField.characters,
-                    actionToRemoveTextField.characters,
-                    actionToAddTextField.characters,
-                    positionTextField.characters,
+                    actionComboBox.value,
                     newPlanTextField.characters,
                 )
             }
         }
     }
 
-    private fun createDomain() {
-        grid.alignment = Pos.CENTER
-        grid.hgap = 10.0
-        grid.vgap = 10.0
-        grid.padding = Insets(25.0, 25.0, 25.0, 25.0)
-
-        primaryStage.title = "xaip-lib-app"
-
-        grid.add(domainLabel, 0, 1)
-        grid.add(comboBoxDomain, 1, 1)
+    /***
+     * .
+     */
+    private fun createGui() {
+        val grid = initGrid(primaryStage)
+        val scene = Scene(grid, 700.0, 350.0)
+        listeners()
+        primaryStage.scene = scene
+        primaryStage.show()
     }
 
     fun show() {
-        createDomain()
-        createGrid()
-        primaryStage.show()
+        reset(controlList)
+        createGui()
+
+    }
+
+    private fun initAction(questionType: String) {
+        if (questionType == "Question 1") {
+            actionLabel.text = "Action to remove"
+            actionLabel.isVisible = true
+            actionComboBox.isVisible = true
+            newPlanTextField.isVisible = false
+        } else if (questionType == "Question 2") {
+            actionLabel.text = "Action to add"
+            actionLabel.isVisible = true
+            actionComboBox.isVisible = true
+            positionLabel.isVisible = true
+            actionPositionTextField.isVisible = true
+            newPlanTextField.isVisible = false
+        } else if (questionType == "Question 3") {
+            actionLabel.text = "Action to replace"
+            actionLabel.isVisible = true
+            actionComboBox.isVisible = true
+            positionLabel.isVisible = true
+            actionPositionTextField.isVisible = true
+            newPlanTextField.isVisible = false
+        } else if (questionType == "Question 4") {
+            actionLabel.text = "Plan comparison"
+            actionLabel.isVisible = true
+            actionComboBox.isVisible = false
+            newPlanTextField.isVisible = true
+            actionPositionTextField.isVisible = false
+            positionLabel.isVisible = false
+        }
     }
 }

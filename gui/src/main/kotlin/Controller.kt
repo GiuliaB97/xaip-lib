@@ -12,9 +12,7 @@ class Controller {
         comboBoxQuestion: CharSequence?,
         formerPlanTextField: CharSequence?,
         actionToRemoveTextField: CharSequence?,
-        actionToAddTextField: CharSequence?,
         positionTextField: CharSequence,
-        newPlanTextField: CharSequence,
     ) {
         println("arrivato $comboBoxDomain")
         when (comboBoxQuestion) {
