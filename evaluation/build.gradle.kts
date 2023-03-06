@@ -67,10 +67,11 @@ detekt {
     source = files(kotlin.sourceSets.map { it.kotlin.sourceDirectories })
 }
 
-tasks.register<Exec>("executePython") {
+tasks.register<Exec>("generateCharts") {
     workingDir("src/main/python")
     commandLine("python", "createplots.py")
     dependsOn("installPythonDependencies")
+    dependsOn("run")
 }
 
 tasks.register<Exec>("installPythonDependencies") {

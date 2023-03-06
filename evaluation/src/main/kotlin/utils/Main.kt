@@ -13,7 +13,6 @@ import java.lang.Exception
 fun main(args: Array<String>) {
     val problems = listOf(BlockWorldDomain.Problems.stackAB, LogisticsDomain.Problems.robotFromLoc1ToLoc2)
     val maxLength = if (args.isNotEmpty()) args[0].toInt() else 50
-    val isWorkflow = args.isNotEmpty()
     val explanationTypes = listOf("C", "")
     fun buildBenchmark() {
         val b = BaseBenchmark()
@@ -23,7 +22,7 @@ fun main(args: Array<String>) {
             for (j in explanationTypes) {
                 for (i in 1..5) {
                     try {
-                        b.writeBenchmark("", problem, j, i, plans, isWorkflow)
+                        b.writeBenchmark("", problem, j, i, plans)
                     } catch (_: Exception) { }
                 }
             }
