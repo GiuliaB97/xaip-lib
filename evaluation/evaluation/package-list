@@ -9,7 +9,7 @@ $dokka.location://measureTimeMillis/#explanation.Question#kotlin.String/Pointing
 $dokka.location:/BaseBenchmark.Companion///PointingToDeclaration/evaluation/[root]/-base-benchmark/-companion/index.html
 $dokka.location:/BaseBenchmark///PointingToDeclaration/evaluation/[root]/-base-benchmark/index.html
 $dokka.location:/BaseBenchmark/BaseBenchmark/#/PointingToDeclaration/evaluation/[root]/-base-benchmark/-base-benchmark.html
-$dokka.location:/BaseBenchmark/writeBenchmark/#kotlin.String#core.Problem#kotlin.String#kotlin.Int#kotlin.collections.List[core.Plan]#kotlin.Boolean/PointingToDeclaration/evaluation/[root]/-base-benchmark/write-benchmark.html
+$dokka.location:/BaseBenchmark/writeBenchmark/#kotlin.String#core.Problem#kotlin.String#kotlin.Int#kotlin.collections.List[core.Plan]/PointingToDeclaration/evaluation/[root]/-base-benchmark/write-benchmark.html
 $dokka.location:utils////PointingToDeclaration/evaluation/utils/index.html
 $dokka.location:utils//main/#kotlin.Array[kotlin.String]/PointingToDeclaration/evaluation/utils/main.html
 $dokka.location:utils/MemorySampler.Stats///PointingToDeclaration/evaluation/utils/-memory-sampler/-stats/index.html
