@@ -134,12 +134,17 @@ The analysis reveals that the resources needed for the elaboration of the explan
 There is no appreciable performance difference between the questions that require the compilation process and those that do not, or between the general explanation and the contrastive explanation.
 
 ### Step to reproduce
-1. The first step to reproduce the experiments is to generate the benchmark. To do so it is just necessary to open a terminal, move in the root directory of the project and run:
-``` ./gradlew :evaluation:run ```
-optionally passing as argument the desired maximum length of the plans.
-The benchmarks file will be then be available at `evaluation/res/benchmark`
-2. The second step concern the analysis of the file generated in the previous step; given the previous preconditions the analysis is performed running:  
-```./gradlew executePython``` 
-Once the script performs the analysis at `evaluation/res/benchmark/aggregate_data` will be available the aggregate data and `res/benchmark/figures`the diagrams.
+1. The first step to reproduce the experiments is to generate the benchmark. To do so it is just necessary to open a terminal, move to the root directory of the project and run:
+```  ./gradlew :evaluation:generateCharts```
+The command generates both the benchmark and its analysis.
+
+The benchmarks file will be then available at `evaluation/res/benchmark`. The benchmark files will then be available at `evaluation/res/benchmark`. In total, there are 20 files in the benchmarks; they are organized as follows.
+There are ten files relating to explanations of Block World problems; more precisely, we create a file for each type of question (remove action, add action, etc.) and explanation (contrastive, or general).
+Following the same pattern as the previous lines, the second set of files analyzes problems in the Logistics domain.
+Each file is organized as follows: 
+ ```Domain, PlanLength, QuestionType, Time, Memory ```
+The first column contains the name of the domain analyzed, the second the length of the plan considered, the third is the type of question, and the last two columns indicate respectively the amount of time (in ms) and memory (in bytes) required to calculate an explanation for a given question.
+
+The benchmark analysis consists of two kinds of files: at `evaluation/res/benchmark/aggregate_data` will be available the aggregate data and at `res/benchmark/figures` the diagrams.
 More specifically the first directory will contain four files: two regards provide the average memory occupation and execution time required from each domain (block_world_domain_aggregate.csv, logistics_domain_aggregate.csv) whereas the other provides a similar analysis comparing the performance of the system on the different questions (block_world_question_aggregate.csv, logistics_question_aggregate.csv).
 The second on the other hand will contain 20 images each representing the time and memory variation for a specific question in case a general or minimal explanation is required.
