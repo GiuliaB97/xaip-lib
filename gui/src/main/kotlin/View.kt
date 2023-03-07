@@ -22,13 +22,9 @@ import Value.values
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.event.EventHandler
-import javafx.geometry.Insets
-import javafx.geometry.Pos
 import javafx.scene.Scene
 import javafx.scene.control.* // ktlint-disable no-wildcard-imports
-import javafx.scene.layout.GridPane
 import javafx.stage.Stage
-import java.awt.Component
 
 class View(private val primaryStage: Stage, private val controller: Controller) {
     private val controlList = listOf(
@@ -57,6 +53,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
             cell.setOnMousePressed {
                 if (!cell.isEmpty) {
                     println("Click on " + cell.item)
+                    reset(controlList)
                     problemList = cell.item?.let { it1 -> controller.getDomain(it1) }!!
                     domain = problemList.first().domain
                     val emptyObservableList: ObservableList<String> = FXCollections.observableArrayList<String?>()
@@ -181,7 +178,6 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
     fun show() {
         reset(controlList)
         createGui()
-
     }
 
     private fun initAction(questionType: String) {
