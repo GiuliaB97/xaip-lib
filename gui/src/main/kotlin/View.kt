@@ -12,7 +12,6 @@ import Components.submit
 import GuiGrid.initGrid
 import Label.actionLabel
 import Label.actionParameterLabel
-import Label.domainLabel
 import Label.formerPlanLabel
 import Label.positionLabel
 import Label.problemLabel

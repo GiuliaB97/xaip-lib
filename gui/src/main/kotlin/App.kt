@@ -11,23 +11,6 @@ class App : Application() {
         val controller = Controller()
         val view = View(primaryStage, controller)
         view.show()
-        /*
-        val btn = Button()
-        btn.text = "Say 'Hello World'"
-        btn.onAction = EventHandler<ActionEvent> { println("Hello World!") }
-
-        val root = StackPane()
-        root.children.add(btn)
-
-        val scene = Scene(root, 300.0, 250.0)
-
-        if (primaryStage != null) {
-            primaryStage.title = "Hello World!"
-            primaryStage.scene = scene
-            primaryStage.show()
-        }
-
-         */
     }
 }
 
