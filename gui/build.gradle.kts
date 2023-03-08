@@ -25,6 +25,7 @@ dependencies {
 
     implementation(libs.kotlin.stdlib)
     implementation(project(mapOf("path" to ":domain")))
+    implementation(project(mapOf("path" to ":explanation")))
     testImplementation(libs.bundles.kotlin.testing)
 
     api(project(":planning"))

@@ -104,15 +104,13 @@ object GuiGrid {
         grid.add(actionParameter1ComboBox, 1, 6)
         grid.add(actionParameter2ComboBox, 2, 6)
         grid.add(actionParameter3ComboBox, 3, 6)
+        grid.add(newPlanTextField, 1, 5)
 
         grid.add(positionLabel, 0, 7)
         grid.add(actionPositionTextField, 1, 7)
-
-        grid.add(newPlanTextField, 1, 5)
 
         grid.add(submit, 1, 9)
 
         return grid
     }
 }
-

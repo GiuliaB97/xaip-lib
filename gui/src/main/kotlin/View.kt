@@ -29,7 +29,8 @@ import javafx.stage.Stage
 class View(private val primaryStage: Stage, private val controller: Controller) {
     private val controlList = listOf(
         // domainLabel, domainComboBox,
-        problemLabel, questionLabel, actionLabel, positionLabel, formerPlanLabel, actionParameterLabel,
+        problemLabel, questionLabel, actionLabel, positionLabel, formerPlanLabel,
+        actionParameterLabel,
         problemComboBox, questionComboBox, actionComboBox, actionParameter3ComboBox,
         actionParameter2ComboBox, actionParameter1ComboBox,
         formerPlanTextField, newPlanTextField, actionPositionTextField,
@@ -106,6 +107,8 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                     cell.item?.let {
                         initAction(it)
                     }!!
+                    formerPlanLabel.isVisible = true
+                    formerPlanTextField.isVisible = true
                 }
             }
             cell
@@ -201,7 +204,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
             actionPositionTextField.isVisible = true
             newPlanTextField.isVisible = false
         } else if (questionType == "Question 4") {
-            actionLabel.text = "Plan comparison"
+            actionLabel.text = "New plan"
             actionLabel.isVisible = true
             actionComboBox.isVisible = false
             newPlanTextField.isVisible = true
