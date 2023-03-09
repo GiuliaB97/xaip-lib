@@ -4,6 +4,7 @@ import Components.actionParameter2ComboBox
 import Components.actionParameter3ComboBox
 import Components.actionPositionTextField
 import Components.domainComboBox
+import Components.explanationTypeComboBox
 import Components.formerPlanTextField
 import Components.newPlanTextField
 import Components.problemComboBox
@@ -12,6 +13,8 @@ import Components.submit
 import GuiGrid.initGrid
 import Label.actionLabel
 import Label.actionParameterLabel
+import Label.domainLabel
+import Label.explanationTypeLabel
 import Label.formerPlanLabel
 import Label.positionLabel
 import Label.problemLabel
@@ -27,23 +30,45 @@ import javafx.scene.control.* // ktlint-disable no-wildcard-imports
 import javafx.stage.Stage
 
 class View(private val primaryStage: Stage, private val controller: Controller) {
-    private val controlList = listOf(
+    private val controlList: List<Control> = listOf(
         // domainLabel, domainComboBox,
         problemLabel, questionLabel, actionLabel, positionLabel, formerPlanLabel,
         actionParameterLabel,
+        // explanationTypeLabel, explanationTypeComboBox,
         problemComboBox, questionComboBox, actionComboBox, actionParameter3ComboBox,
         actionParameter2ComboBox, actionParameter1ComboBox,
-        formerPlanTextField, newPlanTextField, actionPositionTextField,
+        formerPlanTextField, newPlanTextField,
+        actionPositionTextField,
+
         // submit
     )
 
     private fun reset(list: List<Control>) {
+        explanationTypeLabel.isVisible = true
+        explanationTypeComboBox.isVisible = true
         for (elem in list) {
             elem.isVisible = false
         }
     }
 
     private fun listeners() {
+        explanationTypeComboBox.setCellFactory {
+            val cell: ListCell<String?> = object : ListCell<String?>() {
+                override fun updateItem(item: String?, empty: Boolean) {
+                    super.updateItem(item, empty)
+                    text = if (empty) null else item
+                }
+            }
+            cell.setOnMousePressed {
+                if (!cell.isEmpty) {
+                    println("Click on " + cell.item)
+                    domainLabel.isVisible = true
+                    domainComboBox.isVisible = true
+                }
+            }
+            cell
+        }
+
         domainComboBox.setCellFactory {
             val cell: ListCell<String?> = object : ListCell<String?>() {
                 override fun updateItem(item: String?, empty: Boolean) {

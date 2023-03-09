@@ -4,6 +4,7 @@ import Components.actionParameter2ComboBox
 import Components.actionParameter3ComboBox
 import Components.actionPositionTextField
 import Components.domainComboBox
+import Components.explanationTypeComboBox
 import Components.formerPlanTextField
 import Components.newPlanTextField
 import Components.problemComboBox
@@ -12,11 +13,13 @@ import Components.submit
 import Label.actionLabel
 import Label.actionParameterLabel
 import Label.domainLabel
+import Label.explanationTypeLabel
 import Label.formerPlanLabel
 import Label.positionLabel
 import Label.problemLabel
 import Label.questionLabel
 import Value.domainList
+import Value.explanationTypeList
 import Value.questionList
 import core.Domain // ktlint-disable filename
 import core.Problem
@@ -24,10 +27,8 @@ import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.geometry.Insets
 import javafx.geometry.Pos
-import javafx.scene.control.Button
-import javafx.scene.control.ComboBox
+import javafx.scene.control.*
 import javafx.scene.control.Label
-import javafx.scene.control.TextField
 import javafx.scene.layout.GridPane
 import javafx.stage.Stage
 
@@ -39,12 +40,17 @@ object Label {
     val positionLabel = Label("Position action")
     val formerPlanLabel = Label("Former plan")
     val actionParameterLabel = Label("Parameter")
+    val explanationTypeLabel = Label("Explanation type")
 }
 
 object Value {
     lateinit var domain: Domain
     var problemList = emptyList<Problem>()
     lateinit var values: List<String>
+    val explanationTypeList: ObservableList<String> = FXCollections.observableArrayList(
+        "General",
+        "Minimal",
+    )
     var domainList: ObservableList<String> = FXCollections.observableArrayList(
         "Block world",
         "Logistics",
@@ -60,6 +66,7 @@ object Value {
 
 object Components {
     val domainComboBox = ComboBox(domainList)
+    val explanationTypeComboBox = ComboBox(explanationTypeList)
     var problemComboBox = ComboBox(FXCollections.observableArrayList("                  ")) // by lazy { problems.forEach { emptyObservableList.add(it.name) }; ComboBox(emptyObservableList) }
     val questionComboBox = ComboBox(questionList)
     var actionComboBox = ComboBox(FXCollections.observableArrayList(""))
@@ -69,7 +76,7 @@ object Components {
 
     val formerPlanTextField = TextField()
     val newPlanTextField = TextField()
-    val actionPositionTextField = TextField()
+    val actionPositionTextField: Spinner<Int> = Spinner(0, 100, 0)
 
     val submit = Button("Submit")
 }
@@ -85,31 +92,34 @@ object GuiGrid {
 
         primaryStage.title = "xaip-lib-app"
 
-        grid.add(domainLabel, 0, 1)
-        grid.add(domainComboBox, 1, 1)
+        grid.add(explanationTypeLabel, 0, 1)
+        grid.add(explanationTypeComboBox, 1, 1)
 
-        grid.add(problemLabel, 0, 2)
-        grid.add(problemComboBox, 1, 2)
+        grid.add(domainLabel, 0, 2)
+        grid.add(domainComboBox, 1, 2)
 
-        grid.add(questionLabel, 0, 3)
-        grid.add(questionComboBox, 1, 3)
+        grid.add(problemLabel, 0, 3)
+        grid.add(problemComboBox, 1, 3)
 
-        grid.add(formerPlanLabel, 0, 4)
-        grid.add(formerPlanTextField, 1, 4)
+        grid.add(questionLabel, 0, 4)
+        grid.add(questionComboBox, 1, 4)
 
-        grid.add(actionLabel, 0, 5)
-        grid.add(actionComboBox, 1, 5)
+        grid.add(formerPlanLabel, 0, 5)
+        grid.add(formerPlanTextField, 1, 5)
 
-        grid.add(actionParameterLabel, 0, 6)
-        grid.add(actionParameter1ComboBox, 1, 6)
-        grid.add(actionParameter2ComboBox, 2, 6)
-        grid.add(actionParameter3ComboBox, 3, 6)
-        grid.add(newPlanTextField, 1, 5)
+        grid.add(actionLabel, 0, 6)
+        grid.add(actionComboBox, 1, 6)
 
-        grid.add(positionLabel, 0, 7)
-        grid.add(actionPositionTextField, 1, 7)
+        grid.add(actionParameterLabel, 0, 7)
+        grid.add(actionParameter1ComboBox, 1, 7)
+        grid.add(actionParameter2ComboBox, 2, 7)
+        grid.add(actionParameter3ComboBox, 3, 7)
+        grid.add(newPlanTextField, 1, 6)
 
-        grid.add(submit, 1, 9)
+        grid.add(positionLabel, 0, 8)
+        grid.add(actionPositionTextField, 1, 8)
+
+        grid.add(submit, 1, 10)
 
         return grid
     }
