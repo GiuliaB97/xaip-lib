@@ -1,4 +1,4 @@
-import Components.actionComboBox
+import Components.actionNameComboBox
 import Components.actionParameter1ComboBox
 import Components.actionParameter2ComboBox
 import Components.actionParameter3ComboBox
@@ -7,7 +7,7 @@ import Components.domainComboBox
 import Components.explanationTypeComboBox
 import Components.formerPlanTextField
 import Components.newPlanTextField
-import Components.problemComboBox
+import Components.problemNameComboBox
 import Components.questionComboBox
 import Components.submit
 import Label.actionLabel
@@ -27,7 +27,7 @@ import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.geometry.Insets
 import javafx.geometry.Pos
-import javafx.scene.control.*
+import javafx.scene.control.* // ktlint-disable no-wildcard-imports
 import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
 import javafx.stage.Stage
@@ -67,9 +67,9 @@ object Value {
 object Components {
     val domainComboBox = ComboBox(domainList)
     val explanationTypeComboBox = ComboBox(explanationTypeList)
-    var problemComboBox = ComboBox(FXCollections.observableArrayList("                  ")) // by lazy { problems.forEach { emptyObservableList.add(it.name) }; ComboBox(emptyObservableList) }
+    var problemNameComboBox = ComboBox(FXCollections.observableArrayList("                  ")) // by lazy { problems.forEach { emptyObservableList.add(it.name) }; ComboBox(emptyObservableList) }
     val questionComboBox = ComboBox(questionList)
-    var actionComboBox = ComboBox(FXCollections.observableArrayList(""))
+    var actionNameComboBox = ComboBox(FXCollections.observableArrayList(""))
     var actionParameter1ComboBox = ComboBox(FXCollections.observableArrayList(""))
     var actionParameter2ComboBox = ComboBox(FXCollections.observableArrayList(""))
     var actionParameter3ComboBox = ComboBox(FXCollections.observableArrayList(""))
@@ -99,7 +99,7 @@ object GuiGrid {
         grid.add(domainComboBox, 1, 2)
 
         grid.add(problemLabel, 0, 3)
-        grid.add(problemComboBox, 1, 3)
+        grid.add(problemNameComboBox, 1, 3)
 
         grid.add(questionLabel, 0, 4)
         grid.add(questionComboBox, 1, 4)
@@ -108,7 +108,7 @@ object GuiGrid {
         grid.add(formerPlanTextField, 1, 5)
 
         grid.add(actionLabel, 0, 6)
-        grid.add(actionComboBox, 1, 6)
+        grid.add(actionNameComboBox, 1, 6)
 
         grid.add(actionParameterLabel, 0, 7)
         grid.add(actionParameter1ComboBox, 1, 7)

@@ -1,4 +1,4 @@
-import Components.actionComboBox
+import Components.actionNameComboBox
 import Components.actionParameter1ComboBox
 import Components.actionParameter2ComboBox
 import Components.actionParameter3ComboBox
@@ -7,7 +7,7 @@ import Components.domainComboBox
 import Components.explanationTypeComboBox
 import Components.formerPlanTextField
 import Components.newPlanTextField
-import Components.problemComboBox
+import Components.problemNameComboBox
 import Components.questionComboBox
 import Components.submit
 import GuiGrid.initGrid
@@ -35,7 +35,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
         problemLabel, questionLabel, actionLabel, positionLabel, formerPlanLabel,
         actionParameterLabel,
         // explanationTypeLabel, explanationTypeComboBox,
-        problemComboBox, questionComboBox, actionComboBox, actionParameter3ComboBox,
+        problemNameComboBox, questionComboBox, actionNameComboBox, actionParameter3ComboBox,
         actionParameter2ComboBox, actionParameter1ComboBox,
         formerPlanTextField, newPlanTextField,
         actionPositionTextField,
@@ -80,13 +80,11 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                 if (!cell.isEmpty) {
                     println("Click on " + cell.item)
                     reset(controlList)
-                    problemList = cell.item?.let { it1 -> controller.getDomain(it1) }!!
+                    problemList = cell.item?.let { it1 -> controller.getProblems(it1) }!!
                     domain = problemList.first().domain
-                    val emptyObservableList: ObservableList<String> = FXCollections.observableArrayList<String?>()
+                    problemNameComboBox.items = FXCollections.observableArrayList<String?>()
                         .also { it.addAll(problemList.map { it.name }) }
-                    println("list:$emptyObservableList")
-                    problemComboBox.items = emptyObservableList
-                    actionComboBox.items = FXCollections.observableArrayList<String?>()
+                    actionNameComboBox.items = FXCollections.observableArrayList<String?>()
                         .also { it.addAll(domain.actions.map { it.name }) }
                     values = problemList.first().objects.map.values.map { it.map { it.representation } }.flatten()
                     actionParameter1ComboBox.items = FXCollections.observableArrayList<String?>()
@@ -95,14 +93,14 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                         .also { it.addAll(values) }
                     actionParameter3ComboBox.items = FXCollections.observableArrayList<String?>()
                         .also { it.addAll(values) }
-                    problemComboBox.isVisible = true
+                    problemNameComboBox.isVisible = true
                     problemLabel.isVisible = true
                 }
             }
             cell
         }
 
-        problemComboBox.setCellFactory {
+        problemNameComboBox.setCellFactory {
             val cell: ListCell<String?> = object : ListCell<String?>() {
                 override fun updateItem(item: String?, empty: Boolean) {
                     super.updateItem(item, empty)
@@ -139,7 +137,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
             cell
         }
 
-        actionComboBox.setCellFactory {
+        actionNameComboBox.setCellFactory {
             val cell: ListCell<String?> = object : ListCell<String?>() {
                 override fun updateItem(item: String?, empty: Boolean) {
                     super.updateItem(item, empty)
@@ -177,16 +175,18 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
 
         submit.onAction = EventHandler {
             if (questionComboBox.value != null &&
-                problemComboBox.value != null &&
+                problemNameComboBox.value != null &&
                 domainComboBox.value != null
             ) {
                 controller.checkQuestion(
                     domainComboBox.value,
-                    problemComboBox.value,
+                    problemNameComboBox.value,
                     questionComboBox.value,
                     formerPlanTextField.characters,
-                    actionComboBox.value,
+                    actionNameComboBox.value,
+                    actionPositionTextField.value,
                     newPlanTextField.characters,
+                    explanationTypeComboBox.value,
                 )
             }
         }
@@ -212,26 +212,26 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
         if (questionType == "Question 1") {
             actionLabel.text = "Action to remove"
             actionLabel.isVisible = true
-            actionComboBox.isVisible = true
+            actionNameComboBox.isVisible = true
             newPlanTextField.isVisible = false
         } else if (questionType == "Question 2") {
             actionLabel.text = "Action to add"
             actionLabel.isVisible = true
-            actionComboBox.isVisible = true
+            actionNameComboBox.isVisible = true
             positionLabel.isVisible = true
             actionPositionTextField.isVisible = true
             newPlanTextField.isVisible = false
         } else if (questionType == "Question 3") {
             actionLabel.text = "Action to replace"
             actionLabel.isVisible = true
-            actionComboBox.isVisible = true
+            actionNameComboBox.isVisible = true
             positionLabel.isVisible = true
             actionPositionTextField.isVisible = true
             newPlanTextField.isVisible = false
         } else if (questionType == "Question 4") {
             actionLabel.text = "New plan"
             actionLabel.isVisible = true
-            actionComboBox.isVisible = false
+            actionNameComboBox.isVisible = false
             newPlanTextField.isVisible = true
             actionPositionTextField.isVisible = false
             positionLabel.isVisible = false
