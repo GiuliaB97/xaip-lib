@@ -1,7 +1,7 @@
 /***
  * .
  */
-import core.*
+import core.* // ktlint-disable no-wildcard-imports
 import domain.BlockWorldDomain as BlockWorld
 import domain.LogisticsDomain as Logistics
 
@@ -47,8 +47,7 @@ class Controller {
                 }
             "Question 2" -> if (
                 formerPlanTextField!!.isEmpty() ||
-                actionName!!.isEmpty() ||
-                formerPlanTextField.isEmpty()
+                actionName!!.isEmpty()
             ) {
                 error("checkQuestion: Question 2: missing fields")
             } else {
@@ -65,8 +64,7 @@ class Controller {
             }
             "Question 4" -> if (
                 formerPlanTextField!!.isEmpty() ||
-                actionName!!.isEmpty() ||
-                formerPlanTextField.isEmpty()
+                alternativePlan!!.isEmpty()
             ) {
                 error("checkQuestion: Question 4: missing fields")
             } else {
@@ -146,4 +144,6 @@ class Controller {
         log { "getPlan: list $list" }
         return Plan.of(list)
     }
+
+    // TODO(Handle input state question 3)
 }
