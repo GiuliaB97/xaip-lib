@@ -91,7 +91,7 @@ class Controller {
     private fun getProblem(domainName: String, problemName: String) =
         getProblems(domainName).first { it.name == problemName }
 
-    fun getAction(operator: String): Action {
+    private fun getAction(operator: String): Action {
         log { "getAction: string operator: $operator" }
         val operatorName = problem.domain.actions.first { act -> act.name == operator.dropLastWhile { it == '(' } }
         log { "getAction: operator name from input string: $operatorName" }
@@ -104,7 +104,7 @@ class Controller {
         return operatorNameMatched
     }
 
-    fun getParameterType(parameterName: String): Any =
+    private fun getParameterType(parameterName: String): Any =
         problem.objects.map.forEach { (type, objectSet) ->
             if (
                 objectSet.any { it.representation == parameterName }
@@ -127,7 +127,7 @@ class Controller {
         return operator
     }
 
-    fun getPlan(plan: String): Plan {
+    private fun getPlan(plan: String): Plan {
         val init = plan.indexOf("[")
         val last = plan.indexOf("]")
         log { "getPlan: indexes $init $last \t string plan:" }
