@@ -2,6 +2,9 @@
  * .
  */
 import core.* // ktlint-disable no-wildcard-imports
+import explanation.Question
+import explanation.impl.*
+import javafx.scene.control.ComboBox
 import domain.BlockWorldDomain as BlockWorld
 import domain.LogisticsDomain as Logistics
 
@@ -16,65 +19,98 @@ class Controller {
             }
         }
     }
+
     private lateinit var problem: Problem
-    private lateinit var arguments: List<String>
+    private lateinit var parameters: List<String>
+    private lateinit var action: Action
+    private lateinit var plan: Plan
+    private lateinit var alternativePlan: Plan
+    private lateinit var operator: Operator
+    private lateinit var question: Question
+
     fun checkQuestion(
         domainName: CharSequence?,
         problemName: CharSequence?,
-        formerPlanTextField: CharSequence?,
         questionType: CharSequence?,
+        formerPlanTextField: CharSequence?,
         actionName: CharSequence?,
         actionPosition: Int,
-        alternativePlan: CharSequence?,
+        alternativePlanTextField: CharSequence?,
         explanationType: CharSequence?,
+        actionParametersComboBox: List<ComboBox<String>>,
     ) {
+        println("checkQuestion: $domainName \t question: $questionType")
         log { "checkQuestion: $domainName" }
-        when (questionType) {
-            "Question 1" ->
-                if (
-                    formerPlanTextField!!.isEmpty() ||
-                    actionName!!.isEmpty() ||
-                    formerPlanTextField.isEmpty()
-                ) {
-                    error("checkQuestion: Question 1: missing fields")
-                } else {
-                    log { "checkQuestion: Question 1" }
-                    /*QuestionRemoveOperator(
-
-                    )
-
-                     */
-                }
-            "Question 2" -> if (
-                formerPlanTextField!!.isEmpty() ||
-                actionName!!.isEmpty()
-            ) {
-                error("checkQuestion: Question 2: missing fields")
-            } else {
-                log { "checkQuestion: Question 2" }
+        if (
+            formerPlanTextField!!.isEmpty() ||
+            actionName!!.isEmpty() ||
+            formerPlanTextField.isEmpty()
+        ) {
+            error("checkQuestion: Question 1: missing fields")
+        } else {
+            problem = getProblem(domainName.toString(), problemName.toString())
+            plan = getPlan(formerPlanTextField.toString())
+            if (parameters.isNotEmpty()) {
+                action = getAction(actionName.toString())
+                parameters = actionParametersComboBox.map { it.value }.filter { !it.isNullOrBlank() }
+                log { "parameters: $parameters" }
+                operator = getOperator(action, parameters)
             }
-            "Question 3" -> if (
-                formerPlanTextField!!.isEmpty() ||
-                actionName!!.isEmpty() ||
-                formerPlanTextField.isEmpty()
-            ) {
-                error("checkQuestion: Question 3: missing fields")
-            } else {
+        }
+        if (!alternativePlanTextField.isNullOrBlank()) {
+            alternativePlan = getPlan(alternativePlanTextField.toString())
+        }
+        when (questionType) {
+            "Question 1" -> {
+                log { "checkQuestion: Question 1" }
+                question = QuestionRemoveOperator(
+                    problem,
+                    plan,
+                    operator,
+                )
+                log { "question: $question" }
+            }
+            "Question 2" -> {
+                log { "checkQuestion: Question 2" }
+                question = QuestionAddOperator(
+                    problem,
+                    plan,
+                    operator,
+                    actionPosition,
+                )
+                log { "question: $question" }
+            }
+            "Question 3" -> {
                 log { "checkQuestion: Question 3" }
+                question = QuestionReplaceOperator(
+                    problem,
+                    plan,
+                    operator,
+                    actionPosition,
+                )
             }
             "Question 4" -> if (
-                formerPlanTextField!!.isEmpty() ||
-                alternativePlan!!.isEmpty()
+                alternativePlanTextField!!.isEmpty()
             ) {
                 error("checkQuestion: Question 4: missing fields")
             } else {
                 log { "checkQuestion: Question 4" }
+                question = QuestionPlanProposal(
+                    problem,
+                    plan,
+                    alternativePlan
+                )
             }
-            "Question 5" -> log { "checkQuestion: Question 5" }
+            "Question 5" -> {
+                log { "checkQuestion: Question 5" }
+                question = QuestionPlanSatisfiability(
+                    problem,
+                    plan,
+                )
+            }
 
             else -> error("Question not recognized")
         }
-        problem = getProblem(domainName.toString(), problemName.toString())
     }
 
     /**
@@ -91,17 +127,20 @@ class Controller {
     private fun getProblem(domainName: String, problemName: String) =
         getProblems(domainName).first { it.name == problemName }
 
-    private fun getAction(operator: String): Action {
-        log { "getAction: string operator: $operator" }
-        val operatorName = problem.domain.actions.first { act -> act.name == operator.dropLastWhile { it == '(' } }
-        log { "getAction: operator name from input string: $operatorName" }
+    private fun getAction(operatorName: String): Action {
+        println("getAction: string operator: $operatorName")
+        val actionMatched = problem.domain.actions.first { act -> act.name == operatorName }
+        println("getAction: operator name from input string: $actionMatched")
+        /*
         val init = operator.indexOf("(")
-        log { "getAction: index of (: $init" }
+        println("getAction: index of (: $init")
         val arguments = operator.drop(init).filter { it.isLetterOrDigit() }.toList()
         log { "operators: $arguments \n actionName: $operatorName" }
         val operatorNameMatched = problem.domain.actions.first { it.name == operator }
         log { "getAction: operatorNameMatched: $operatorNameMatched" }
         return operatorNameMatched
+         */
+        return actionMatched
     }
 
     private fun getParameterType(parameterName: String): Any =
@@ -114,14 +153,17 @@ class Controller {
             }
         }
 
-    private fun getOperator(action: Action): Operator {
+    private fun getOperator(action: Action, parameters: List<String>): Operator {
         val operator = Operator.of(action)
+        var variableList = listOf(Variable.of("X"), Variable.of("Y"), Variable.of("Z"))
         log { "getOperator: operator $operator" }
-        for (arg in arguments) {
-            val entry = action.parameters.toList()[arguments.indexOf(arg)]
-            val substitution = VariableAssignment.of(Variable.of(entry.first.name), Object.of(arg))
+        for (arg in parameters) {
+            println("arg: $arg")
+            var i = 0
+            val substitution = VariableAssignment.of(variableList[i], Object.of(arg))
             operator.apply(substitution)
-            log { "getOperator: entry $entry \t substitution $substitution" }
+            log { "substitution $substitution" }
+            i++
         }
         log { "getOperator: operator: $operator" }
         return operator
@@ -130,14 +172,14 @@ class Controller {
     private fun getPlan(plan: String): Plan {
         val init = plan.indexOf("[")
         val last = plan.indexOf("]")
-        log { "getPlan: indexes $init $last \t string plan:" }
+        println("getPlan: indexes $init $last \t string plan: $plan")
         val arguments = plan.drop(init).dropLast(last)
-        log { "getPlan: arguments $arguments" }
+        println("getPlan: arguments $arguments")
         val index = 0
         val list = mutableListOf<Operator>()
         for (letter in arguments) {
             if (letter == ',') {
-                list.add(getOperator(getAction(arguments.drop(index).dropLast(arguments.indexOf(letter)))))
+                list.add(getOperator(getAction(arguments.drop(index).dropLast(arguments.indexOf(letter))), parameters))
                 log { "getPlan: indexes $init $last" }
             }
         }

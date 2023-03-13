@@ -23,7 +23,6 @@ import Value.domain
 import Value.problemList
 import Value.values
 import javafx.collections.FXCollections
-import javafx.collections.ObservableList
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.control.* // ktlint-disable no-wildcard-imports
@@ -39,8 +38,12 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
         actionParameter2ComboBox, actionParameter1ComboBox,
         formerPlanTextField, newPlanTextField,
         actionPositionTextField,
-
         // submit
+    )
+    private val parameterList: List<Control> = listOf(
+        actionParameter1ComboBox,
+        actionParameter2ComboBox,
+        actionParameter3ComboBox,
     )
 
     private fun reset(list: List<Control>) {
@@ -178,6 +181,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                 problemNameComboBox.value != null &&
                 domainComboBox.value != null
             ) {
+                println("submit question: ${questionComboBox.value}")
                 controller.checkQuestion(
                     domainComboBox.value,
                     problemNameComboBox.value,
@@ -187,6 +191,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                     actionPositionTextField.value,
                     newPlanTextField.characters,
                     explanationTypeComboBox.value,
+                    parameterList as List<ComboBox<String>>,
                 )
             }
         }
