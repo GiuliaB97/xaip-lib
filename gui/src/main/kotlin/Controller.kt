@@ -190,7 +190,7 @@ class Controller {
     }
 
     private fun getState(state: String): State {
-        // retrive predicate by name
+        // retrieve predicate by name
         val newState = state.substring(1, state.length - 1)
         println("getState: newState: $newState")
         var index = 0
