@@ -18,6 +18,7 @@ class ProblemDSL(val domain: Domain) {
      * @property name: represents the name of the problem.
      */
     var name: String = ""
+
     /**
      * @property objects: represents the objects created.
      */

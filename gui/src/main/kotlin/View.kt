@@ -9,6 +9,7 @@ import Components.formerPlanTextField
 import Components.newPlanTextField
 import Components.problemNameComboBox
 import Components.questionComboBox
+import Components.stateTextField
 import Components.submit
 import GuiGrid.initGrid
 import Label.actionLabel
@@ -19,6 +20,7 @@ import Label.formerPlanLabel
 import Label.positionLabel
 import Label.problemLabel
 import Label.questionLabel
+import Label.stateLabel
 import Value.domain
 import Value.problemList
 import Value.values
@@ -32,12 +34,12 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
     private val controlList: List<Control> = listOf(
         // domainLabel, domainComboBox,
         problemLabel, questionLabel, actionLabel, positionLabel, formerPlanLabel,
-        actionParameterLabel,
+        actionParameterLabel, stateLabel,
         // explanationTypeLabel, explanationTypeComboBox,
         problemNameComboBox, questionComboBox, actionNameComboBox, actionParameter3ComboBox,
         actionParameter2ComboBox, actionParameter1ComboBox,
         formerPlanTextField, newPlanTextField,
-        actionPositionTextField,
+        actionPositionTextField, stateTextField,
         // submit
     )
     private val parameterList: List<Control> = listOf(
@@ -192,6 +194,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                     newPlanTextField.characters,
                     explanationTypeComboBox.value,
                     parameterList as List<ComboBox<String>>,
+                    stateTextField.characters,
                 )
             }
         }
@@ -214,32 +217,37 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
     }
 
     private fun initAction(questionType: String) {
-        if (questionType == "Question 1") {
-            actionLabel.text = "Action to remove"
-            actionLabel.isVisible = true
-            actionNameComboBox.isVisible = true
-            newPlanTextField.isVisible = false
-        } else if (questionType == "Question 2") {
-            actionLabel.text = "Action to add"
-            actionLabel.isVisible = true
-            actionNameComboBox.isVisible = true
-            positionLabel.isVisible = true
-            actionPositionTextField.isVisible = true
-            newPlanTextField.isVisible = false
-        } else if (questionType == "Question 3") {
-            actionLabel.text = "Action to replace"
-            actionLabel.isVisible = true
-            actionNameComboBox.isVisible = true
-            positionLabel.isVisible = true
-            actionPositionTextField.isVisible = true
-            newPlanTextField.isVisible = false
-        } else if (questionType == "Question 4") {
-            actionLabel.text = "New plan"
-            actionLabel.isVisible = true
-            actionNameComboBox.isVisible = false
-            newPlanTextField.isVisible = true
-            actionPositionTextField.isVisible = false
-            positionLabel.isVisible = false
+        when (questionType) {
+            "Question 1" -> {
+                actionLabel.text = "Action to remove"
+                actionLabel.isVisible = true
+                actionNameComboBox.isVisible = true
+                newPlanTextField.isVisible = false
+            }
+            "Question 2" -> {
+                actionLabel.text = "Action to add"
+                actionLabel.isVisible = true
+                actionNameComboBox.isVisible = true
+                positionLabel.isVisible = true
+                actionPositionTextField.isVisible = true
+                newPlanTextField.isVisible = false
+            } "Question 3" -> {
+                actionLabel.text = "Action to replace"
+                actionLabel.isVisible = true
+                actionNameComboBox.isVisible = true
+                positionLabel.isVisible = true
+                actionPositionTextField.isVisible = true
+                newPlanTextField.isVisible = false
+                stateLabel.isVisible = true
+                stateTextField.isVisible = true
+            } "Question 4" -> {
+                actionLabel.text = "New plan"
+                actionLabel.isVisible = true
+                actionNameComboBox.isVisible = false
+                newPlanTextField.isVisible = true
+                actionPositionTextField.isVisible = false
+                positionLabel.isVisible = false
+            }
         }
     }
 }

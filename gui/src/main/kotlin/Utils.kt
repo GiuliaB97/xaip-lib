@@ -7,6 +7,7 @@ import Components.domainComboBox
 import Components.explanationTypeComboBox
 import Components.formerPlanTextField
 import Components.newPlanTextField
+import Components.stateTextField
 import Components.problemNameComboBox
 import Components.questionComboBox
 import Components.submit
@@ -18,6 +19,7 @@ import Label.formerPlanLabel
 import Label.positionLabel
 import Label.problemLabel
 import Label.questionLabel
+import Label.stateLabel
 import Value.domainList
 import Value.explanationTypeList
 import Value.questionList
@@ -41,6 +43,7 @@ object Label {
     val formerPlanLabel = Label("Former plan")
     val actionParameterLabel = Label("Parameter")
     val explanationTypeLabel = Label("Explanation type")
+    val stateLabel = Label("State")
 }
 
 object Value {
@@ -76,6 +79,7 @@ object Components {
 
     val formerPlanTextField = TextField()
     val newPlanTextField = TextField()
+    val stateTextField = TextField()
     val actionPositionTextField: Spinner<Int> = Spinner(0, 100, 0)
 
     val submit = Button("Submit")
@@ -118,6 +122,9 @@ object GuiGrid {
 
         grid.add(positionLabel, 0, 8)
         grid.add(actionPositionTextField, 1, 8)
+
+        grid.add(stateLabel, 0, 9)
+        grid.add(stateTextField, 1, 9)
 
         grid.add(submit, 1, 10)
 

@@ -50,7 +50,7 @@ object BlockWorldDomain {
         Problems.stackBC,
         Problems.stackCB,
         Problems.stackAB,
-        Problems.pickC
+        Problems.pickC,
     )
 
     object DomainsDSL {

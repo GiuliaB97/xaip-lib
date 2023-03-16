@@ -38,6 +38,7 @@ class Controller {
         alternativePlanTextField: CharSequence?,
         explanationType: CharSequence?,
         actionParametersComboBox: List<ComboBox<String>>,
+        stateTextField: CharSequence,
     ) {
         println("checkQuestion: $domainName \t question: $questionType")
         log { "checkQuestion: $domainName" }
@@ -50,12 +51,12 @@ class Controller {
         } else {
             problem = getProblem(domainName.toString(), problemName.toString())
             plan = getPlan(formerPlanTextField.toString())
-            if (parameters.isNotEmpty()) {
-                action = getAction(actionName.toString())
-                parameters = actionParametersComboBox.map { it.value }.filter { !it.isNullOrBlank() }
-                log { "parameters: $parameters" }
-                operator = getOperator(action, parameters)
-            }
+            // if (parameters.isNotEmpty()) {
+            action = getAction(actionName.toString())
+            parameters = actionParametersComboBox.map { it.value }.filter { !it.isNullOrBlank() }
+            log { "parameters: $parameters" }
+            operator = getOperator(action, parameters)
+            // }
         }
         if (!alternativePlanTextField.isNullOrBlank()) {
             alternativePlan = getPlan(alternativePlanTextField.toString())
@@ -82,12 +83,15 @@ class Controller {
             }
             "Question 3" -> {
                 log { "checkQuestion: Question 3" }
+                val state = getState(stateTextField.toString())
                 question = QuestionReplaceOperator(
                     problem,
                     plan,
                     operator,
                     actionPosition,
+                    state,
                 )
+                println("checkQuestion: Question 3: $question")
             }
             "Question 4" -> if (
                 alternativePlanTextField!!.isEmpty()
@@ -98,7 +102,7 @@ class Controller {
                 question = QuestionPlanProposal(
                     problem,
                     plan,
-                    alternativePlan
+                    alternativePlan,
                 )
             }
             "Question 5" -> {
@@ -155,15 +159,13 @@ class Controller {
 
     private fun getOperator(action: Action, parameters: List<String>): Operator {
         val operator = Operator.of(action)
-        var variableList = listOf(Variable.of("X"), Variable.of("Y"), Variable.of("Z"))
+        val variableList = listOf(Variable.of("X"), Variable.of("Y"), Variable.of("Z"))
         log { "getOperator: operator $operator" }
-        for (arg in parameters) {
+        for ((i, arg) in parameters.withIndex()) {
             println("arg: $arg")
-            var i = 0
             val substitution = VariableAssignment.of(variableList[i], Object.of(arg))
             operator.apply(substitution)
             log { "substitution $substitution" }
-            i++
         }
         log { "getOperator: operator: $operator" }
         return operator
@@ -187,5 +189,48 @@ class Controller {
         return Plan.of(list)
     }
 
+    private fun getState(state: String): State {
+        // retrive predicate by name
+        val newState = state.substring(1, state.length - 1)
+        println("getState: newState: $newState")
+        var index = 0
+        val list = mutableSetOf<Fluent>()
+        val listParams = mutableListOf<Object>()
+        var string = ""
+        val iterator = newState.iterator()
+
+        for (tmp in newState) {
+            // while (iterator.hasNext()) {
+            // val tmp = iterator.next()
+            if (tmp == '(') {
+                println("getState: indexOf('$tmp'): ${newState.indexOf(tmp)}")
+                val predicateName = newState.substring(index, newState.indexOf(tmp))
+                println("getState: predicateName from substring: $predicateName")
+                val predicate = problem.domain.predicates.first { it.name == predicateName }
+                println("getState: predicateName matched: $predicate")
+                for (params in newState.substring(predicateName.length, newState.length)) {
+                    if (params == ',' || params == ')') {
+                        listParams.add(Object.of(string))
+                        println("getState: param list: $listParams")
+                        string = ""
+                        index = newState.indexOf(params)
+                        println("getState: index value: $index")
+                    } else {
+                        if (params != '(') {
+                            println("getState: char to add: $params \t previous param: $string")
+                            string = string.plus(params)
+                            println("getState: new param: $string")
+                        }
+                    }
+                }
+                val fluent = Fluent.of(predicate, false, listParams)
+                println("getState: fluent: $fluent")
+                list.add(fluent)
+            }
+        }
+        return State.of(list)
+        // create fluent applying args
+        // create state with fluent list
+    }
     // TODO(Handle input state question 3)
 }
