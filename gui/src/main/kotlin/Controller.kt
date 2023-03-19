@@ -2,12 +2,18 @@
  * .
  */
 import core.* // ktlint-disable no-wildcard-imports
+import explanation.Explainer
+import explanation.ExplanationPresenter
 import explanation.Question
 import explanation.impl.*
 import javafx.scene.control.ComboBox
 import domain.BlockWorldDomain as BlockWorld
 import domain.LogisticsDomain as Logistics
 
+/**
+ * TODO 1: fix on change value question; it seems like even if update the former value stays unchanged.
+ * TODO 2: fix property when change question value.
+ */
 class Controller {
     companion object {
         private const val DEBUG = false
@@ -27,8 +33,10 @@ class Controller {
     private lateinit var alternativePlan: Plan
     private lateinit var operator: Operator
     private lateinit var question: Question
+    private lateinit var view: View
 
     fun checkQuestion(
+        viewRef: View,
         domainName: CharSequence?,
         problemName: CharSequence?,
         questionType: CharSequence?,
@@ -40,11 +48,12 @@ class Controller {
         actionParametersComboBox: List<ComboBox<String>>,
         stateTextField: CharSequence,
     ) {
+        view = viewRef
         println("checkQuestion: $domainName \t question: $questionType")
         log { "checkQuestion: $domainName" }
         if (
             formerPlanTextField!!.isEmpty() ||
-            actionName!!.isEmpty() ||
+            // actionName!!.isEmpty() ||
             formerPlanTextField.isEmpty()
         ) {
             error("checkQuestion: Question 1: missing fields")
@@ -115,6 +124,15 @@ class Controller {
 
             else -> error("Question not recognized")
         }
+        val explanation = Explainer.of(Planner.strips()).explain(question)
+        val explanationPresenter = ExplanationPresenter.of(explanation)
+        val explanationString = ""
+        if (explanationType?.startsWith("General")!!) {
+            explanationPresenter.present()
+        } else {
+            explanationPresenter.presentMinimalExplanation()
+        }
+        view.showExplanation(explanationString)
     }
 
     /**
@@ -197,11 +215,8 @@ class Controller {
         val list = mutableSetOf<Fluent>()
         val listParams = mutableListOf<Object>()
         var string = ""
-        val iterator = newState.iterator()
 
         for (tmp in newState) {
-            // while (iterator.hasNext()) {
-            // val tmp = iterator.next()
             if (tmp == '(') {
                 println("getState: indexOf('$tmp'): ${newState.indexOf(tmp)}")
                 val predicateName = newState.substring(index, newState.indexOf(tmp))
@@ -229,8 +244,5 @@ class Controller {
             }
         }
         return State.of(list)
-        // create fluent applying args
-        // create state with fluent list
     }
-    // TODO(Handle input state question 3)
 }

@@ -4,16 +4,18 @@ import Components.actionParameter2ComboBox
 import Components.actionParameter3ComboBox
 import Components.actionPositionTextField
 import Components.domainComboBox
+import Components.explanationTextArea
 import Components.explanationTypeComboBox
 import Components.formerPlanTextField
 import Components.newPlanTextField
-import Components.stateTextField
 import Components.problemNameComboBox
 import Components.questionComboBox
+import Components.stateTextField
 import Components.submit
 import Label.actionLabel
 import Label.actionParameterLabel
 import Label.domainLabel
+import Label.explanationLabel
 import Label.explanationTypeLabel
 import Label.formerPlanLabel
 import Label.positionLabel
@@ -44,6 +46,7 @@ object Label {
     val actionParameterLabel = Label("Parameter")
     val explanationTypeLabel = Label("Explanation type")
     val stateLabel = Label("State")
+    val explanationLabel = Label("Explanation")
 }
 
 object Value {
@@ -81,6 +84,8 @@ object Components {
     val newPlanTextField = TextField()
     val stateTextField = TextField()
     val actionPositionTextField: Spinner<Int> = Spinner(0, 100, 0)
+
+    var explanationTextArea = TextArea()
 
     val submit = Button("Submit")
 }
@@ -127,6 +132,9 @@ object GuiGrid {
         grid.add(stateTextField, 1, 9)
 
         grid.add(submit, 1, 10)
+
+        grid.add(explanationLabel, 0, 11)
+        grid.add(explanationTextArea, 1, 11)
 
         return grid
     }

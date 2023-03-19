@@ -4,6 +4,7 @@ import Components.actionParameter2ComboBox
 import Components.actionParameter3ComboBox
 import Components.actionPositionTextField
 import Components.domainComboBox
+import Components.explanationTextArea
 import Components.explanationTypeComboBox
 import Components.formerPlanTextField
 import Components.newPlanTextField
@@ -15,6 +16,7 @@ import GuiGrid.initGrid
 import Label.actionLabel
 import Label.actionParameterLabel
 import Label.domainLabel
+import Label.explanationLabel
 import Label.explanationTypeLabel
 import Label.formerPlanLabel
 import Label.positionLabel
@@ -34,13 +36,13 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
     private val controlList: List<Control> = listOf(
         // domainLabel, domainComboBox,
         problemLabel, questionLabel, actionLabel, positionLabel, formerPlanLabel,
-        actionParameterLabel, stateLabel,
+        actionParameterLabel, stateLabel, explanationLabel,
         // explanationTypeLabel, explanationTypeComboBox,
         problemNameComboBox, questionComboBox, actionNameComboBox, actionParameter3ComboBox,
         actionParameter2ComboBox, actionParameter1ComboBox,
-        formerPlanTextField, newPlanTextField,
-        actionPositionTextField, stateTextField,
-        // submit
+        formerPlanTextField, newPlanTextField, actionPositionTextField, stateTextField,
+        explanationTextArea,
+        submit
     )
     private val parameterList: List<Control> = listOf(
         actionParameter1ComboBox,
@@ -137,6 +139,8 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                     }!!
                     formerPlanLabel.isVisible = true
                     formerPlanTextField.isVisible = true
+                    submit.isVisible = true
+                    println("submit value: ${submit.isVisible}")
                 }
             }
             cell
@@ -185,6 +189,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
             ) {
                 println("submit question: ${questionComboBox.value}")
                 controller.checkQuestion(
+                    this,
                     domainComboBox.value,
                     problemNameComboBox.value,
                     questionComboBox.value,
@@ -205,7 +210,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
      */
     private fun createGui() {
         val grid = initGrid(primaryStage)
-        val scene = Scene(grid, 700.0, 750.0)
+        val scene = Scene(grid, 700.0, 550.0)
         listeners()
         primaryStage.scene = scene
         primaryStage.show()
@@ -214,6 +219,12 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
     fun show() {
         reset(controlList)
         createGui()
+    }
+
+    fun showExplanation(explanation: String) {
+        explanationLabel.isVisible
+        explanationTextArea.text = explanation
+        explanationTextArea.isVisible
     }
 
     private fun initAction(questionType: String) {
