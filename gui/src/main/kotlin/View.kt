@@ -205,7 +205,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
      */
     private fun createGui() {
         val grid = initGrid(primaryStage)
-        val scene = Scene(grid, 700.0, 550.0)
+        val scene = Scene(grid, 700.0, 750.0)
         listeners()
         primaryStage.scene = scene
         primaryStage.show()
