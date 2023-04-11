@@ -8,8 +8,8 @@ import dsl.provider.PredicateProvider
  * Class representing a [FluentBasedGoal] in the DSL.
  */
 class GoalDSL(
-    predicateProvider: PredicateProvider
-) : dsl.AbstractFluentDSL(predicateProvider) {
+    predicateProvider: PredicateProvider,
+) : AbstractFluentDSL(predicateProvider) {
     /**
      * @property fluents: set of [Fluent] that compose the goal.
      */

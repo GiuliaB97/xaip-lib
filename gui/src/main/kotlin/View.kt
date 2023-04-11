@@ -32,9 +32,12 @@ import javafx.scene.Scene
 import javafx.scene.control.* // ktlint-disable no-wildcard-imports
 import javafx.stage.Stage
 
+/**
+ * Class representing the View of the application.
+ */
 class View(private val primaryStage: Stage, private val controller: Controller) {
     private val controlList: List<Control> = listOf(
-        // domainLabel, domainComboBox,
+        domainLabel, domainComboBox,
         problemLabel, questionLabel, actionLabel, positionLabel, formerPlanLabel,
         actionParameterLabel, stateLabel, explanationLabel,
         // explanationTypeLabel, explanationTypeComboBox,
@@ -42,8 +45,9 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
         actionParameter2ComboBox, actionParameter1ComboBox,
         formerPlanTextField, newPlanTextField, actionPositionTextField, stateTextField,
         explanationTextArea,
-        submit
+        submit,
     )
+
     private val parameterList: List<Control> = listOf(
         actionParameter1ComboBox,
         actionParameter2ComboBox,
@@ -68,7 +72,8 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
             }
             cell.setOnMousePressed {
                 if (!cell.isEmpty) {
-                    println("Click on " + cell.item)
+                    println("Click on:  ${cell.item}")
+                    reset(controlList)
                     domainLabel.isVisible = true
                     domainComboBox.isVisible = true
                 }
@@ -86,7 +91,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
             cell.setOnMousePressed {
                 if (!cell.isEmpty) {
                     println("Click on " + cell.item)
-                    reset(controlList)
+                    reset(controlList.subList(2, controlList.size))
                     problemList = cell.item?.let { it1 -> controller.getProblems(it1) }!!
                     domain = problemList.first().domain
                     problemNameComboBox.items = FXCollections.observableArrayList<String?>()
@@ -116,7 +121,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
             }
             cell.setOnMousePressed {
                 if (!cell.isEmpty) {
-                    println("Click on " + cell.item)
+                    println("Click on ${cell.item}")
                     questionComboBox.isVisible = true
                     questionLabel.isVisible = true
                 }
@@ -133,7 +138,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
             }
             cell.setOnMousePressed {
                 if (!cell.isEmpty) {
-                    println("Click on " + cell.item)
+                    println("Click on ${cell.item}")
                     cell.item?.let {
                         initAction(it)
                     }!!
@@ -155,7 +160,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
             }
             cell.setOnMousePressed {
                 if (!cell.isEmpty) {
-                    println("Click on " + cell.item)
+                    println("Click on ${cell.item}")
                     cell.item?.let {
                         val action = domain.actions.first { action -> action.name == it }
 
@@ -187,7 +192,10 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                 problemNameComboBox.value != null &&
                 domainComboBox.value != null
             ) {
-                println("submit question: ${questionComboBox.value}")
+                println(
+                    "submit \t question: ${questionComboBox.value}" +
+                        "\t ${actionParameter1ComboBox.value}",
+                )
                 controller.checkQuestion(
                     this,
                     domainComboBox.value,
@@ -222,9 +230,10 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
     }
 
     fun showExplanation(explanation: String) {
-        explanationLabel.isVisible
+        println("Explanation: $explanation")
+        explanationLabel.isVisible = true
         explanationTextArea.text = explanation
-        explanationTextArea.isVisible
+        explanationTextArea.isVisible = true
     }
 
     private fun initAction(questionType: String) {

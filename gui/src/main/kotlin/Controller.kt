@@ -1,7 +1,5 @@
-/***
- * .
- */
 import core.* // ktlint-disable no-wildcard-imports
+import domain.BlockWorldDomain.variables
 import explanation.Explainer
 import explanation.ExplanationPresenter
 import explanation.Question
@@ -11,6 +9,7 @@ import domain.BlockWorldDomain as BlockWorld
 import domain.LogisticsDomain as Logistics
 
 /**
+ * Class representing the View of the application.
  * TODO 1: fix on change value question; it seems like even if update the former value stays unchanged.
  * TODO 2: fix property when change question value.
  */
@@ -52,20 +51,19 @@ class Controller {
         println("checkQuestion: $domainName \t question: $questionType")
         log { "checkQuestion: $domainName" }
         if (
-            formerPlanTextField!!.isEmpty() ||
-            // actionName!!.isEmpty() ||
-            formerPlanTextField.isEmpty()
+            formerPlanTextField!!.isEmpty()
+            // || actionName!!.isEmpty() ||
         ) {
             error("checkQuestion: Question 1: missing fields")
         } else {
             problem = getProblem(domainName.toString(), problemName.toString())
             plan = getPlan(formerPlanTextField.toString())
-            // if (parameters.isNotEmpty()) {
-            action = getAction(actionName.toString())
-            parameters = actionParametersComboBox.map { it.value }.filter { !it.isNullOrBlank() }
-            log { "parameters: $parameters" }
-            operator = getOperator(action, parameters)
-            // }
+            if (!actionName.isNullOrBlank()) {
+                action = getAction(actionName.toString())!!
+                parameters = actionParametersComboBox.map { it.value }.filter { !it.isNullOrBlank() }
+                log { "action parameters: $parameters" }
+                operator = getOperator(action, parameters)
+            }
         }
         if (!alternativePlanTextField.isNullOrBlank()) {
             alternativePlan = getPlan(alternativePlanTextField.toString())
@@ -126,10 +124,12 @@ class Controller {
         }
         val explanation = Explainer.of(Planner.strips()).explain(question)
         val explanationPresenter = ExplanationPresenter.of(explanation)
-        val explanationString = ""
-        if (explanationType?.startsWith("General")!!) {
+        var explanationString = ""
+        explanationString = if (explanationType?.startsWith("General")!!) {
+            println(explanationType)
             explanationPresenter.present()
         } else {
+            println(explanationType)
             explanationPresenter.presentMinimalExplanation()
         }
         view.showExplanation(explanationString)
@@ -149,19 +149,10 @@ class Controller {
     private fun getProblem(domainName: String, problemName: String) =
         getProblems(domainName).first { it.name == problemName }
 
-    private fun getAction(operatorName: String): Action {
+    private fun getAction(operatorName: String): Action? {
         println("getAction: string operator: $operatorName")
-        val actionMatched = problem.domain.actions.first { act -> act.name == operatorName }
+        val actionMatched = try { problem.domain.actions.first { act -> act.name == operatorName } } catch (e: NoSuchElementException) { null }
         println("getAction: operator name from input string: $actionMatched")
-        /*
-        val init = operator.indexOf("(")
-        println("getAction: index of (: $init")
-        val arguments = operator.drop(init).filter { it.isLetterOrDigit() }.toList()
-        log { "operators: $arguments \n actionName: $operatorName" }
-        val operatorNameMatched = problem.domain.actions.first { it.name == operator }
-        log { "getAction: operatorNameMatched: $operatorNameMatched" }
-        return operatorNameMatched
-         */
         return actionMatched
     }
 
@@ -176,31 +167,53 @@ class Controller {
         }
 
     private fun getOperator(action: Action, parameters: List<String>): Operator {
-        val operator = Operator.of(action)
-        val variableList = listOf(Variable.of("X"), Variable.of("Y"), Variable.of("Z"))
-        log { "getOperator: operator $operator" }
+        println("///////////////////////////////////")
+        var operator = Operator.of(action)
+        val variableList = variables // listOf(Variable.of("X"), Variable.of("Y"), Variable.of("Z"))
+        println("getOperator: operator $operator parameters $parameters")
         for ((i, arg) in parameters.withIndex()) {
-            println("arg: $arg")
+            println("arg: $arg variableList: ${variableList[i] } object ${Object.of(arg)}")
             val substitution = VariableAssignment.of(variableList[i], Object.of(arg))
-            operator.apply(substitution)
-            log { "substitution $substitution" }
+            println("substitution $substitution")
+            operator = operator.apply(substitution)
+            println("operator after substitution: $operator")
         }
-        log { "getOperator: operator: $operator" }
+        println("getOperator: operator: $operator")
+        println("///////////////////////////////////")
         return operator
     }
 
     private fun getPlan(plan: String): Plan {
-        val init = plan.indexOf("[")
-        val last = plan.indexOf("]")
-        println("getPlan: indexes $init $last \t string plan: $plan")
-        val arguments = plan.drop(init).dropLast(last)
-        println("getPlan: arguments $arguments")
+        println("getPlan: plan $plan")
         val index = 0
         val list = mutableListOf<Operator>()
-        for (letter in arguments) {
-            if (letter == ',') {
-                list.add(getOperator(getAction(arguments.drop(index).dropLast(arguments.indexOf(letter))), parameters))
-                log { "getPlan: indexes $init $last" }
+        val argsList = mutableListOf<String>()
+        var string = ""
+        lateinit var action: Action
+        for (letter in plan) {
+            if (letter == '(') {
+                action = getAction(plan.substring(index, plan.indexOf(letter)))!!
+                println("getPlan: action ${action.name}")
+                println("getPlan: plan $plan start index ${plan.indexOf(letter)}, end index ${plan.indexOf(')')}")
+                val args = plan.substring(plan.indexOf(letter) + 1, plan.length)
+                println("getPlan: args from substring $args")
+                for (argument in args) {
+                    println("getPlan: char in args: $argument")
+                    if (argument == ',') {
+                        argsList.add(string)
+                        println("getPlan: arg added: $string")
+                    } else if (argument == ')') {
+                        argsList.add(string)
+                        println("getPlan: end of the operator")
+                        break
+                    } else {
+                        println("getPlan: arg string: $argument until char: $argument")
+                        string = string.plus(argument)
+                    }
+                    println("getPlan: next action")
+                }
+            } else if (letter == ')') {
+                list.add(getOperator(action, argsList))
             }
         }
         log { "getPlan: list $list" }

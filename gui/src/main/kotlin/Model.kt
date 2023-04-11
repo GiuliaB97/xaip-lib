@@ -3,19 +3,19 @@ import core.Plan
 import core.Problem
 import core.State
 import explanation.Question
-import explanation.impl.*
+import explanation.impl.* // ktlint-disable no-wildcard-imports
 
 /***
- * .
+ * Class representing the Model of the application.
  */
 
 class Model(
-    val problem: Problem,
-    val questionType: Int,
-    val action: Operator?,
-    val plan: Plan,
-    val alternativePlan: Plan?,
-    val position: Int?,
+    private val problem: Problem,
+    private val questionType: Int,
+    private val action: Operator?,
+    private val plan: Plan,
+    private val alternativePlan: Plan?,
+    private val position: Int?,
     val inState: State?,
 ) {
     private lateinit var question: Question

@@ -41,7 +41,10 @@ internal open class BaseExplanationPresenter(
 
     private val minimalPlan by lazy { "The minimal solution is: ${minimalSolution.operators}\n" }
 
-    private val isPlanMinimalSolution by lazy { "The plan is ${not(isProposedPlanMinimalPlan)}the minimal solution" }
+    private val isPlanMinimalSolution by lazy {
+        "The plan is ${if (!isProposedPlanMinimalPlan) "not" else ""} " +
+            "the minimal solution"
+    }
 
     private val areThereAdditionalOperators by lazy {
         (additionalOperators.isNotEmpty()).then(
@@ -60,7 +63,7 @@ internal open class BaseExplanationPresenter(
 
     private val isPlanValid by lazy {
         "\nThe novel plan is: ${explanation.novelPlan.operators}." +
-            "\nThe novel plan is ${not(!explanation.isPlanValid())}a valid solution for the problem.\n"
+            "\nThe novel plan is ${if (!explanation.isPlanValid()){"not"}else {""}}a valid solution for the problem.\n"
     }
 
     private fun areAllGroundFluents(targets: Set<Fluent>) = targets.all { it.isGround }

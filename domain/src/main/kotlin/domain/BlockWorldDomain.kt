@@ -20,7 +20,7 @@ object BlockWorldDomain {
         Operators.putdownB,
         Operators.unstackBA,
     )
-    val variables = arrayOf(Values.W, Values.X, Values.Y, Values.Z)
+    val variables = arrayOf(Values.X, Values.Y, Values.Z, Values.W)
     val types = arrayOf(Types.blocks, Types.locations, Types.numbers, Types.strings, Types.anything)
     val predicates = arrayOf(Predicates.at, Predicates.on, Predicates.clear, Predicates.armEmpty)
     val objects = arrayOf(

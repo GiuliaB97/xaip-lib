@@ -73,7 +73,7 @@ object Value {
 object Components {
     val domainComboBox = ComboBox(domainList)
     val explanationTypeComboBox = ComboBox(explanationTypeList)
-    var problemNameComboBox = ComboBox(FXCollections.observableArrayList("                  ")) // by lazy { problems.forEach { emptyObservableList.add(it.name) }; ComboBox(emptyObservableList) }
+    var problemNameComboBox = ComboBox(FXCollections.observableArrayList("                  "))
     val questionComboBox = ComboBox(questionList)
     var actionNameComboBox = ComboBox(FXCollections.observableArrayList(""))
     var actionParameter1ComboBox = ComboBox(FXCollections.observableArrayList(""))
@@ -91,13 +91,15 @@ object Components {
 }
 
 object GuiGrid {
-    val grid = GridPane()
+    private val grid = GridPane()
 
     fun initGrid(primaryStage: Stage): GridPane {
         grid.alignment = Pos.BASELINE_LEFT
         grid.hgap = 10.0
         grid.vgap = 10.0
         grid.padding = Insets(25.0, 25.0, 25.0, 25.0)
+
+        explanationTextArea.setPrefSize(900.0, 800.0)
 
         primaryStage.title = "xaip-lib-app"
 
@@ -134,7 +136,7 @@ object GuiGrid {
         grid.add(submit, 1, 10)
 
         grid.add(explanationLabel, 0, 11)
-        grid.add(explanationTextArea, 1, 11)
+        grid.add(explanationTextArea, 0, 12)
 
         return grid
     }

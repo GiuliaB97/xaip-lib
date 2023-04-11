@@ -23,7 +23,7 @@ class ParametersDSL(
     infix fun String.ofType(type: String) {
         val variable = Variable.of(this)
         variableProvider.addVariable(variable)
-        val t = typeProvider.findType(type) ?: error("core.Type non found: $type")
+        val t = typeProvider.findType(type) ?: error("Type non found: $type")
         parameters[variable] = t
     }
 }
