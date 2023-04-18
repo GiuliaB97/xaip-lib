@@ -25,7 +25,7 @@ dependencies {
     api(libs.tuprolog.solve.classic)
 
     implementation(libs.kotlin.stdlib)
-    implementation("io.kotest:kotest-runner-junit5-jvm:5.6.0")
+    implementation("io.kotest:kotest-runner-junit5-jvm:5.6.1")
     implementation("junit:junit:4.13.2")
     testImplementation(libs.bundles.kotlin.testing)
     api(project(":planning"))
