@@ -103,6 +103,15 @@ object GuiGrid {
 
         primaryStage.title = "xaip-lib-app"
 
+        explanationTypeComboBox.minWidth = 120.0
+        domainComboBox.minWidth = 120.0
+        questionComboBox.minWidth = 120.0
+        actionNameComboBox.minWidth = 120.0
+        problemNameComboBox.minWidth = 120.0
+        actionParameter1ComboBox.minWidth = 5.0
+        actionParameter2ComboBox.minWidth = 5.0
+        actionParameter3ComboBox.minWidth = 5.0
+
         grid.add(explanationTypeLabel, 0, 1)
         grid.add(explanationTypeComboBox, 1, 1)
 
