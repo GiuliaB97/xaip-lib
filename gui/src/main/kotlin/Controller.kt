@@ -5,23 +5,14 @@ import explanation.ExplanationPresenter
 import explanation.Question
 import explanation.impl.*
 import javafx.scene.control.ComboBox
+import utils.BaseClass
 import domain.BlockWorldDomain as BlockWorld
 import domain.LogisticsDomain as Logistics
 
 /**
  * Class representing the View of the application.
  */
-class Controller {
-    companion object {
-        private const val DEBUG = false
-
-        private fun log(msg: () -> String) {
-            if (DEBUG) {
-                println(msg())
-                System.out.flush()
-            }
-        }
-    }
+class Controller : BaseClass() {
 
     private lateinit var problem: Problem
     private lateinit var parameters: List<String>
@@ -46,7 +37,7 @@ class Controller {
         stateTextField: CharSequence,
     ) {
         view = viewRef
-        println("checkQuestion: $domainName \t question: $questionType")
+        log { "checkQuestion: $domainName \t question: $questionType" }
         log { "checkQuestion: $domainName" }
         if (
             formerPlanTextField!!.isEmpty()
@@ -95,7 +86,7 @@ class Controller {
                     actionPosition,
                     state,
                 )
-                println("checkQuestion: Question 3: $question")
+                log { "checkQuestion: Question 3: $question" }
             }
             "Question 4" -> if (
                 alternativePlanTextField!!.isEmpty()
@@ -123,10 +114,10 @@ class Controller {
         val explanationPresenter = ExplanationPresenter.of(explanation)
         var explanationString = ""
         explanationString = if (explanationType?.startsWith("General")!!) {
-            println(explanationType)
+            log { explanationType.toString() }
             explanationPresenter.present()
         } else {
-            println(explanationType)
+            log { explanationType.toString() }
             explanationPresenter.presentMinimalExplanation()
         }
         view.showExplanation(explanationString)
@@ -147,9 +138,9 @@ class Controller {
         getProblems(domainName).first { it.name == problemName }
 
     private fun getAction(operatorName: String): Action? {
-        println("getAction: string operator: $operatorName")
+        log { "getAction: string operator: $operatorName" }
         val actionMatched = try { problem.domain.actions.first { act -> act.name == operatorName } } catch (e: NoSuchElementException) { null }
-        println("getAction: operator name from input string: $actionMatched")
+        log { "getAction: operator name from input string: $actionMatched" }
         return actionMatched
     }
 
@@ -164,24 +155,22 @@ class Controller {
         }
 
     private fun getOperator(action: Action, parameters: List<String>): Operator {
-        println("///////////////////////////////////")
         var operator = Operator.of(action)
         val variableList = variables // listOf(Variable.of("X"), Variable.of("Y"), Variable.of("Z"))
-        println("getOperator: operator $operator parameters $parameters")
+        log { "getOperator: operator $operator parameters $parameters" }
         for ((i, arg) in parameters.withIndex()) {
-            println("arg: $arg variableList: ${variableList[i] } object ${Object.of(arg)}")
+            log { "arg: $arg variableList: ${variableList[i] } object ${Object.of(arg)}" }
             val substitution = VariableAssignment.of(variableList[i], Object.of(arg))
-            println("substitution $substitution")
+            log { "substitution $substitution" }
             operator = operator.apply(substitution)
-            println("operator after substitution: $operator")
+            log { "operator after substitution: $operator" }
         }
-        println("getOperator: operator: $operator")
-        println("///////////////////////////////////")
+        log { "getOperator: operator: $operator" }
         return operator
     }
 
     private fun getPlan(plan: String): Plan {
-        println("getPlan: plan $plan")
+        log { "getPlan: plan $plan" }
         val index = 0
         val list = mutableListOf<Operator>()
         val argsList = mutableListOf<String>()
@@ -190,24 +179,24 @@ class Controller {
         for (letter in plan) {
             if (letter == '(') {
                 action = getAction(plan.substring(index, plan.indexOf(letter)))!!
-                println("getPlan: action ${action.name}")
-                println("getPlan: plan $plan start index ${plan.indexOf(letter)}, end index ${plan.indexOf(')')}")
+                log { "getPlan: action ${action.name}" }
+                log { "getPlan: plan $plan start index ${plan.indexOf(letter)}, end index ${plan.indexOf(')')}" }
                 val args = plan.substring(plan.indexOf(letter) + 1, plan.length)
-                println("getPlan: args from substring $args")
+                log { "getPlan: args from substring $args" }
                 for (argument in args) {
-                    println("getPlan: char in args: $argument")
+                    log { "getPlan: char in args: $argument" }
                     if (argument == ',') {
                         argsList.add(string)
-                        println("getPlan: arg added: $string")
+                        log { "getPlan: arg added: $string" }
                     } else if (argument == ')') {
                         argsList.add(string)
-                        println("getPlan: end of the operator")
+                        log { "getPlan: end of the operator" }
                         break
                     } else {
-                        println("getPlan: arg string: $argument until char: $argument")
+                        log { "getPlan: arg string: $argument until char: $argument" }
                         string = string.plus(argument)
                     }
-                    println("getPlan: next action")
+                    log { "getPlan: next action" }
                 }
             } else if (letter == ')') {
                 list.add(getOperator(action, argsList))
@@ -220,7 +209,7 @@ class Controller {
     private fun getState(state: String): State {
         // retrieve predicate by name
         val newState = state.substring(1, state.length - 1)
-        println("getState: newState: $newState")
+        log { "getState: newState: $newState" }
         var index = 0
         val list = mutableSetOf<Fluent>()
         val listParams = mutableListOf<Object>()
@@ -228,28 +217,28 @@ class Controller {
 
         for (tmp in newState) {
             if (tmp == '(') {
-                println("getState: indexOf('$tmp'): ${newState.indexOf(tmp)}")
+                log { "getState: indexOf('$tmp'): ${newState.indexOf(tmp)}" }
                 val predicateName = newState.substring(index, newState.indexOf(tmp))
-                println("getState: predicateName from substring: $predicateName")
+                log { "getState: predicateName from substring: $predicateName" }
                 val predicate = problem.domain.predicates.first { it.name == predicateName }
-                println("getState: predicateName matched: $predicate")
+                log { "getState: predicateName matched: $predicate" }
                 for (params in newState.substring(predicateName.length, newState.length)) {
                     if (params == ',' || params == ')') {
                         listParams.add(Object.of(string))
-                        println("getState: param list: $listParams")
+                        log { "getState: param list: $listParams" }
                         string = ""
                         index = newState.indexOf(params)
-                        println("getState: index value: $index")
+                        log { "getState: index value: $index" }
                     } else {
                         if (params != '(') {
-                            println("getState: char to add: $params \t previous param: $string")
+                            log { "getState: char to add: $params \t previous param: $string" }
                             string = string.plus(params)
-                            println("getState: new param: $string")
+                            log { "getState: new param: $string" }
                         }
                     }
                 }
                 val fluent = Fluent.of(predicate, false, listParams)
-                println("getState: fluent: $fluent")
+                log { "getState: fluent: $fluent" }
                 list.add(fluent)
             }
         }
