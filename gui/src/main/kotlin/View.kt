@@ -243,6 +243,15 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
     }
 
     private fun initAction(questionType: String) {
+        val actionElementsList: List<Control> = listOf(
+            actionLabel, positionLabel, formerPlanLabel,
+            actionParameterLabel, stateLabel, explanationLabel,
+            actionNameComboBox, actionParameter3ComboBox, actionParameter2ComboBox,
+            actionParameter1ComboBox, formerPlanTextField, newPlanTextField,
+            actionPositionTextField, stateTextField, explanationTextArea,
+            submit,
+        )
+        reset(actionElementsList)
         when (questionType) {
             "Question 1" -> {
                 actionLabel.text = "Action to remove"
