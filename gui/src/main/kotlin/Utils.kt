@@ -34,6 +34,8 @@ import javafx.geometry.Pos
 import javafx.scene.control.* // ktlint-disable no-wildcard-imports
 import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
+import javafx.scene.layout.HBox
+import javafx.scene.layout.VBox
 import javafx.stage.Stage
 
 object Label {
@@ -73,7 +75,7 @@ object Value {
 object Components {
     val domainComboBox = ComboBox(domainList)
     val explanationTypeComboBox = ComboBox(explanationTypeList)
-    var problemNameComboBox = ComboBox(FXCollections.observableArrayList("                  "))
+    var problemNameComboBox = ComboBox(FXCollections.observableArrayList(""))
     val questionComboBox = ComboBox(questionList)
     var actionNameComboBox = ComboBox(FXCollections.observableArrayList(""))
     var actionParameter1ComboBox = ComboBox(FXCollections.observableArrayList(""))
@@ -92,25 +94,26 @@ object Components {
 
 object GuiGrid {
     private val grid = GridPane()
+    private const val bigComboBoxMinDimension = 220.0
 
-    fun initGrid(primaryStage: Stage): GridPane {
-        grid.alignment = Pos.BASELINE_LEFT
-        grid.hgap = 10.0
-        grid.vgap = 10.0
+    private val hboxParameters = HBox()
+    private val hboxExplanation = HBox()
+    private val hboxMain = VBox()
+
+    fun initGrid(primaryStage: Stage): VBox {
+        grid.alignment = Pos.CENTER_LEFT
+        grid.hgap = 5.0
+        grid.vgap = 7.0
         grid.padding = Insets(25.0, 25.0, 25.0, 25.0)
 
-        explanationTextArea.setPrefSize(900.0, 800.0)
+        explanationTextArea.setPrefSize(650.0, 200.0)
 
         primaryStage.title = "xaip-lib-app"
 
-        explanationTypeComboBox.minWidth = 120.0
-        domainComboBox.minWidth = 120.0
-        questionComboBox.minWidth = 120.0
-        actionNameComboBox.minWidth = 120.0
-        problemNameComboBox.minWidth = 120.0
-        actionParameter1ComboBox.minWidth = 5.0
-        actionParameter2ComboBox.minWidth = 5.0
-        actionParameter3ComboBox.minWidth = 5.0
+        explanationTypeComboBox.maxWidth = bigComboBoxMinDimension
+        domainComboBox.maxWidth = bigComboBoxMinDimension
+        questionComboBox.maxWidth = bigComboBoxMinDimension
+        actionNameComboBox.maxWidth = bigComboBoxMinDimension
 
         grid.add(explanationTypeLabel, 0, 1)
         grid.add(explanationTypeComboBox, 1, 1)
@@ -124,29 +127,41 @@ object GuiGrid {
         grid.add(questionLabel, 0, 4)
         grid.add(questionComboBox, 1, 4)
 
+        formerPlanTextField.maxWidth(bigComboBoxMinDimension)
         grid.add(formerPlanLabel, 0, 5)
         grid.add(formerPlanTextField, 1, 5)
 
+        newPlanTextField.maxWidth(bigComboBoxMinDimension)
         grid.add(actionLabel, 0, 6)
         grid.add(actionNameComboBox, 1, 6)
-
-        grid.add(actionParameterLabel, 0, 7)
-        grid.add(actionParameter1ComboBox, 1, 7)
-        grid.add(actionParameter2ComboBox, 2, 7)
-        grid.add(actionParameter3ComboBox, 3, 7)
         grid.add(newPlanTextField, 1, 6)
 
+        grid.add(actionParameterLabel, 0, 7)
+        hboxParameters.children.addAll(
+            actionParameter1ComboBox,
+            actionParameter2ComboBox,
+            actionParameter3ComboBox,
+        )
+        hboxParameters.alignment = Pos.TOP_LEFT
+        hboxParameters.spacing = 5.0
+
+        grid.add(hboxParameters, 1, 7)
         grid.add(positionLabel, 0, 8)
         grid.add(actionPositionTextField, 1, 8)
 
+        stateTextField.maxWidth(bigComboBoxMinDimension)
         grid.add(stateLabel, 0, 9)
         grid.add(stateTextField, 1, 9)
 
         grid.add(submit, 1, 10)
 
         grid.add(explanationLabel, 0, 11)
-        grid.add(explanationTextArea, 0, 12)
+        hboxExplanation.children.addAll(explanationTextArea)
+        hboxExplanation.alignment = Pos.CENTER
+        hboxExplanation.spacing = 5.0
+        // grid.add(hboxExplanation, 0, 12)
+        hboxMain.children.addAll(grid, hboxExplanation)
 
-        return grid
+        return hboxMain
     }
 }

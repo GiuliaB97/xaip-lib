@@ -196,6 +196,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                     "submit \t question: ${questionComboBox.value}" +
                         "\t ${actionParameter1ComboBox.value}",
                 )
+                try{
                 controller.checkQuestion(
                     this,
                     domainComboBox.value,
@@ -208,7 +209,9 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                     explanationTypeComboBox.value,
                     parameterList as List<ComboBox<String>>,
                     stateTextField.characters,
-                )
+                )} catch(e:Exception){
+                    showExplanation(e.message!!)
+                }
             }
         }
     }
@@ -218,7 +221,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
      */
     private fun createGui() {
         val grid = initGrid(primaryStage)
-        val scene = Scene(grid, 700.0, 550.0)
+        val scene = Scene(grid, 700.0, 700.0)
         listeners()
         primaryStage.scene = scene
         primaryStage.show()
