@@ -10,8 +10,6 @@ import domain.LogisticsDomain as Logistics
 
 /**
  * Class representing the View of the application.
- * TODO 1: fix on change value question; it seems like even if update the former value stays unchanged.
- * TODO 2: fix property when change question value.
  */
 class Controller {
     companion object {
@@ -52,7 +50,6 @@ class Controller {
         log { "checkQuestion: $domainName" }
         if (
             formerPlanTextField!!.isEmpty()
-            // || actionName!!.isEmpty() ||
         ) {
             error("checkQuestion: Question 1: missing fields")
         } else {
