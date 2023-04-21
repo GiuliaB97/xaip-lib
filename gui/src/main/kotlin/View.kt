@@ -59,6 +59,9 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
         explanationTypeComboBox.isVisible = true
         for (elem in list) {
             elem.isVisible = false
+            if (elem is ComboBox<*>) {
+                elem.selectionModel.clearSelection()
+            }
         }
     }
 
