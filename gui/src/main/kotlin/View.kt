@@ -196,20 +196,20 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                     "submit \t question: ${questionComboBox.value}" +
                         "\t ${actionParameter1ComboBox.value}",
                 )
-                try{
-                controller.checkQuestion(
-                    this,
-                    domainComboBox.value,
-                    problemNameComboBox.value,
-                    questionComboBox.value,
-                    formerPlanTextField.characters,
-                    actionNameComboBox.value,
-                    actionPositionTextField.value,
-                    newPlanTextField.characters,
-                    explanationTypeComboBox.value,
-                    parameterList as List<ComboBox<String>>,
-                    stateTextField.characters,
-                )} catch(e:Exception){
+                try {
+                    controller.checkQuestion(
+                        this,
+                        domainComboBox.value,
+                        problemNameComboBox.value,
+                        questionComboBox.value,
+                        formerPlanTextField.characters,
+                        actionNameComboBox.value,
+                        actionPositionTextField.value,
+                        newPlanTextField.characters,
+                        explanationTypeComboBox.value,
+                        parameterList as List<ComboBox<String>>,
+                        stateTextField.characters,
+                    ) } catch (e: Exception) {
                     showExplanation(e.message!!)
                 }
             }
