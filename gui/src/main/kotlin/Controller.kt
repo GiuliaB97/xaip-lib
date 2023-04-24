@@ -120,7 +120,7 @@ class Controller : BaseClass() {
             log { explanationType.toString() }
             explanationPresenter.presentMinimalExplanation()
         }
-        view.showExplanation(explanationString)
+        view.showResult(explanationString)
     }
 
     /**

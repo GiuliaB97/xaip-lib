@@ -1,3 +1,8 @@
+import javafx.collections.FXCollections
+import javafx.event.EventHandler
+import javafx.scene.Scene
+import javafx.scene.control.* // ktlint-disable no-wildcard-imports
+import javafx.stage.Stage
 import utils.Components.actionNameComboBox
 import utils.Components.actionParameter1ComboBox
 import utils.Components.actionParameter2ComboBox
@@ -26,11 +31,6 @@ import utils.Label.stateLabel
 import utils.Value.domain
 import utils.Value.problemList
 import utils.Value.values
-import javafx.collections.FXCollections
-import javafx.event.EventHandler
-import javafx.scene.Scene
-import javafx.scene.control.* // ktlint-disable no-wildcard-imports
-import javafx.stage.Stage
 
 /**
  * Class representing the View of the application.
@@ -54,6 +54,10 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
         actionParameter3ComboBox,
     )
 
+    /***
+     * Method responsible for reset elements when a change happens.
+     * It hides all the components and reset the "comboboxes".
+     */
     private fun reset(list: List<Control>) {
         explanationTypeLabel.isVisible = true
         explanationTypeComboBox.isVisible = true
@@ -213,29 +217,38 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                         parameterList as List<ComboBox<String>>,
                         stateTextField.characters,
                     ) } catch (e: Exception) {
-                    showExplanation(e.message!!)
+                    showResult(e.message!!)
                 }
             }
         }
     }
 
     /***
-     * .
+     * Internal method responsible for the gui creation
      */
-    private fun createGui() {
+    private fun createGui(width: Double, height: Double) {
         val grid = initGrid(primaryStage)
-        val scene = Scene(grid, 700.0, 700.0)
+        val scene = Scene(grid, width, height)
         listeners()
         primaryStage.scene = scene
         primaryStage.show()
     }
 
+    /**
+     * Method use to show Graphical Interface to the user.
+     */
     fun show() {
         reset(controlList)
-        createGui()
+        createGui(700.0, 700.0)
     }
 
-    fun showExplanation(explanation: String) {
+    /**
+     * Method responsible for showing the computation results;
+     * it can either show an explanation if no errors are detected, or a message error
+     * if the user not fill all the required parameters or, the user do not use
+     * an appropriate combination of them.
+     */
+    fun showResult(explanation: String) {
         println("Explanation: $explanation")
         explanationLabel.isVisible = true
         explanationTextArea.text = explanation

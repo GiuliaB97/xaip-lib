@@ -11,6 +11,9 @@ import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
+import javafx.scene.text.Font
+import javafx.scene.text.FontPosture
+import javafx.scene.text.FontWeight
 import javafx.stage.Stage
 import utils.Components.actionNameComboBox
 import utils.Components.actionParameter1ComboBox
@@ -31,6 +34,7 @@ import utils.Label.actionParameterLabel
 import utils.Label.domainLabel
 import utils.Label.explanationLabel
 import utils.Label.explanationTypeLabel
+import utils.Label.fontLabel
 import utils.Label.formerPlanLabel
 import utils.Label.positionLabel
 import utils.Label.problemLabel
@@ -41,6 +45,7 @@ import utils.Value.explanationTypeList
 import utils.Value.questionList
 
 object Label {
+    val fontLabel: Font = Font.font(/*"verdana",*/null, FontWeight.SEMI_BOLD, FontPosture.REGULAR, 12.5)
     val domainLabel = Label("Domain")
     val problemLabel = Label("Problem")
     val questionLabel = Label("Question type")
@@ -102,12 +107,21 @@ object GuiGrid {
     private val hboxExplanation = HBox()
     private val hboxMain = VBox()
 
+    private var labelsList = listOf(
+        actionLabel, explanationLabel, explanationTypeLabel,
+        domainLabel, problemLabel, actionParameterLabel,
+        formerPlanLabel, positionLabel, questionLabel,
+        stateLabel,
+    )
+
     fun initGrid(primaryStage: Stage): VBox {
+        labelsList = initLabel(labelsList, fontLabel)
         grid.alignment = Pos.CENTER_LEFT
         grid.hgap = 5.0
         grid.vgap = 7.0
         grid.padding = Insets(25.0, 25.0, 25.0, 25.0)
 
+        explanationTypeLabel.font = fontLabel
         explanationTextArea.setPrefSize(650.0, 200.0)
 
         primaryStage.title = "xaip-lib-app"
@@ -166,4 +180,8 @@ object GuiGrid {
 
         return hboxMain
     }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun initLabel(labels: List<Label>, font: Font): List<Label> =
+        labels.map { it.font = font } as List<Label>
 }
