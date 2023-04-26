@@ -6,6 +6,7 @@ import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.geometry.Insets
 import javafx.geometry.Pos
+import javafx.scene.Node
 import javafx.scene.control.* // ktlint-disable no-wildcard-imports
 import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
@@ -14,7 +15,6 @@ import javafx.scene.layout.VBox
 import javafx.scene.text.Font
 import javafx.scene.text.FontPosture
 import javafx.scene.text.FontWeight
-import javafx.stage.Stage
 import utils.Components.actionNameComboBox
 import utils.Components.actionParameter1ComboBox
 import utils.Components.actionParameter2ComboBox
@@ -102,10 +102,14 @@ object Components {
 object GuiGrid {
     private val grid = GridPane()
     private const val bigComboBoxMinDimension = 220.0
+    private const val spacingHBox = 5.0
+    private const val insectsBorderGrid = 25.0
+    private const val vGapGrid = 7.0
+    private const val hGapGrid = 5.0
+    private const val prefHeightGrid = 650.0
+    private const val prefWidthGrid = 200.0
 
-    private val hboxParameters = HBox()
-    private val hboxExplanation = HBox()
-    private val hboxMain = VBox()
+    private val posGrid = Pos.CENTER_LEFT
 
     private var labelsList = listOf(
         actionLabel, explanationLabel, explanationTypeLabel,
@@ -114,17 +118,29 @@ object GuiGrid {
         stateLabel,
     )
 
-    fun initGrid(primaryStage: Stage): VBox {
+    fun getGrid() = initGrid(posGrid, prefWidthGrid, prefHeightGrid, hGapGrid, vGapGrid, insectsBorderGrid)
+
+    private fun initHBox(pos: Pos, spacing: Double, children: List<Node>): HBox {
+        val hbox = HBox()
+        hbox.alignment = pos
+        hbox.spacing = spacing
+        for (child in children) {
+            hbox.children.add(
+                child,
+            )
+        }
+        return hbox
+    }
+
+    private fun initGrid(pos: Pos, prefWidth: Double, prefHeight: Double, hGap: Double, vGap: Double, insectsBorderGrid: Double): VBox {
         labelsList = initLabel(labelsList, fontLabel)
-        grid.alignment = Pos.CENTER_LEFT
-        grid.hgap = 5.0
-        grid.vgap = 7.0
-        grid.padding = Insets(25.0, 25.0, 25.0, 25.0)
+        grid.alignment = pos
+        grid.hgap = hGap
+        grid.vgap = vGap
+        grid.padding = Insets(insectsBorderGrid, insectsBorderGrid, insectsBorderGrid, insectsBorderGrid)
 
         explanationTypeLabel.font = fontLabel
-        explanationTextArea.setPrefSize(650.0, 200.0)
-
-        primaryStage.title = "xaip-lib-app"
+        explanationTextArea.setPrefSize(prefHeight, prefWidth)
 
         explanationTypeComboBox.maxWidth = bigComboBoxMinDimension
         domainComboBox.maxWidth = bigComboBoxMinDimension
@@ -153,15 +169,14 @@ object GuiGrid {
         grid.add(newPlanTextField, 1, 6)
 
         grid.add(actionParameterLabel, 0, 7)
-        hboxParameters.children.addAll(
-            actionParameter1ComboBox,
-            actionParameter2ComboBox,
-            actionParameter3ComboBox,
-        )
-        hboxParameters.alignment = Pos.TOP_LEFT
-        hboxParameters.spacing = 5.0
 
-        grid.add(hboxParameters, 1, 7)
+        val hBoxParameters = initHBox(
+            Pos.TOP_LEFT,
+            spacingHBox,
+            listOf(actionParameter1ComboBox, actionParameter2ComboBox, actionParameter3ComboBox),
+        )
+
+        grid.add(hBoxParameters, 1, 7)
         grid.add(positionLabel, 0, 8)
         grid.add(actionPositionTextField, 1, 8)
 
@@ -172,16 +187,18 @@ object GuiGrid {
         grid.add(submit, 1, 10)
 
         grid.add(explanationLabel, 0, 11)
-        hboxExplanation.children.addAll(explanationTextArea)
-        hboxExplanation.alignment = Pos.CENTER
-        hboxExplanation.spacing = 5.0
-        // grid.add(hboxExplanation, 0, 12)
-        hboxMain.children.addAll(grid, hboxExplanation)
+        val hBoxExplanation = initHBox(Pos.CENTER, spacingHBox, listOf(explanationTextArea))
+        val hBoxMain = VBox()
+        hBoxMain.children.addAll(grid, hBoxExplanation)
 
-        return hboxMain
+        return hBoxMain
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun initLabel(labels: List<Label>, font: Font): List<Label> =
-        labels.map { it.font = font } as List<Label>
+    private fun initLabel(labels: List<Label>, font: Font): List<Label> {
+        for (label in labels) {
+            label.font = font
+        }
+        return labels
+    }
 }

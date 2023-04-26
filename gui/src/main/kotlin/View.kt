@@ -3,6 +3,7 @@ import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.control.* // ktlint-disable no-wildcard-imports
 import javafx.stage.Stage
+import utils.BaseClass.Companion.log
 import utils.Components.actionNameComboBox
 import utils.Components.actionParameter1ComboBox
 import utils.Components.actionParameter2ComboBox
@@ -17,7 +18,7 @@ import utils.Components.problemNameComboBox
 import utils.Components.questionComboBox
 import utils.Components.stateTextField
 import utils.Components.submit
-import utils.GuiGrid.initGrid
+import utils.GuiGrid.getGrid
 import utils.Label.actionLabel
 import utils.Label.actionParameterLabel
 import utils.Label.domainLabel
@@ -226,11 +227,12 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
     /***
      * Internal method responsible for the gui creation
      */
-    private fun createGui(width: Double, height: Double) {
-        val grid = initGrid(primaryStage)
+    private fun createGui(width: Double, height: Double, appName: String) {
+        val grid = getGrid()
         val scene = Scene(grid, width, height)
         listeners()
         primaryStage.scene = scene
+        primaryStage.title = appName
         primaryStage.show()
     }
 
@@ -239,7 +241,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
      */
     fun show() {
         reset(controlList)
-        createGui(700.0, 700.0)
+        createGui(700.0, 700.0, "xaip-lib")
     }
 
     /**
@@ -249,7 +251,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
      * an appropriate combination of them.
      */
     fun showResult(explanation: String) {
-        println("Explanation: $explanation")
+        log { "Explanation: $explanation" }
         explanationLabel.isVisible = true
         explanationTextArea.text = explanation
         explanationTextArea.isVisible = true
