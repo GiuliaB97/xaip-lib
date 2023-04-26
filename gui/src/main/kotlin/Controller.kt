@@ -112,8 +112,7 @@ class Controller : BaseClass() {
         }
         val explanation = Explainer.of(Planner.strips()).explain(question)
         val explanationPresenter = ExplanationPresenter.of(explanation)
-        var explanationString = ""
-        explanationString = if (explanationType?.startsWith("General")!!) {
+        var explanationString = if (explanationType?.startsWith("General")!!) {
             log { explanationType.toString() }
             explanationPresenter.present()
         } else {
