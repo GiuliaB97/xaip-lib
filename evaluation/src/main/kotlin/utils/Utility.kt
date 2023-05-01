@@ -72,11 +72,14 @@ fun measureTimeMillis(question: Question, explanationType: String): Long {
 /**
  * Method responsible for measuring the memory (heap) required to calculate an [Explanation] for a [Question].
  */
+// @Suppress("UNCHECKED_CAST")
+// @SuppressWarnings("unused")
+
 fun measureMemory(question: Question, explanationType: String): Long {
     val mbean = ManagementFactory.getMemoryMXBean()
     val beforeHeapMemoryUsage = mbean.heapMemoryUsage
     if (explanationType.startsWith("c", true)) {
-        val instance = ContrastiveExplanationPresenter.of(
+        ContrastiveExplanationPresenter.of(
             Explainer.of(Planner.strips()).explain(question),
         ).presentContrastiveExplanation()
     } else {
@@ -90,13 +93,14 @@ fun measureMemory(question: Question, explanationType: String): Long {
 /**
  * Method responsible for measuring the memory required to calculate an [Explanation] for a [Question].
 */
+// @SuppressWarnings("unused")
 fun measureMemory2(question: Question, explanationType: String): Long {
     val sampler = MemorySampler(0)
 
     sampler.start()
 
     if (explanationType.startsWith("c", true)) {
-        val instance = ContrastiveExplanationPresenter.of(
+        ContrastiveExplanationPresenter.of(
             Explainer.of(Planner.strips()).explain(question),
         ).presentContrastiveExplanation()
     } else {

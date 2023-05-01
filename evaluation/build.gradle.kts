@@ -1,4 +1,4 @@
-@Suppress("DSL_SCOPE_VIOLATION")
+@Suppress("DSL_SCOPE_VIOLATION", "UNCHECKED_CAST")
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktlint.gradle)

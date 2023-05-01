@@ -70,6 +70,8 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
+
     private fun listeners() {
         explanationTypeComboBox.setCellFactory {
             val cell: ListCell<String?> = object : ListCell<String?>() {
