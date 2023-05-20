@@ -35,7 +35,7 @@ internal data class OperatorImpl(
      */
     override fun refresh(scope: Context): Operator {
         return copy(
-            // parameters = parameters.mapKeys { (k,_)-> k.refresh(scope) },
+            // parameters = parameters.mapKeys { (k, _) -> k.refresh(scope) },
             preconditions = preconditions.map { it.refresh(scope) }.toSet(),
             effects = effects.map { it.refresh(scope) }.toSet(),
             args = args.map { it.refresh(scope) },

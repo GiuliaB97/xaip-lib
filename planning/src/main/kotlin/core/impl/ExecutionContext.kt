@@ -17,7 +17,7 @@ internal data class ExecutionContext(
     var choicePoints: Deque<ChoicePoint> = LinkedList(),
     var plan: MutableList<Operator> = mutableListOf(),
 ) {
-    var counter = 0
+    private var counter = 0
     constructor(
         currentState: State,
         goal: FluentBasedGoal,

@@ -22,7 +22,7 @@ tasks.withType<org.jetbrains.dokka.gradle.DokkaTaskPartial>().configureEach {
 
 dependencies {
     implementation(libs.kotlin.stdlib)
-    implementation(libs.kotlix.coroutines)
+    //implementation(libs.kotlix.coroutines)
     api(libs.tuprolog.solve.classic)
     api(libs.tuprolog.unify)
 

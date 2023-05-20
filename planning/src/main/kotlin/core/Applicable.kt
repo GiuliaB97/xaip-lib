@@ -13,7 +13,7 @@ interface Applicable<Self : Applicable<Self>> {
 
     /**
      * Method responsible for the refreshing of variables.
-     * Mainly used to avoid spurrious substitutions.
+     * Mainly used to avoid spurious substitutions.
      */
     fun refresh(scope: Context = Context.empty()): Self
 }

@@ -1,9 +1,9 @@
 import core.* // ktlint-disable no-wildcard-imports
-import domain.BlockWorldDomain.variables
+import domain.BlockWorldDomain
 import explanation.Explainer
 import explanation.ExplanationPresenter
 import explanation.Question
-import explanation.impl.*
+import explanation.impl.* // ktlint-disable no-wildcard-imports
 import javafx.scene.control.ComboBox
 import utils.BaseClass
 import domain.BlockWorldDomain as BlockWorld
@@ -22,6 +22,7 @@ class Controller : BaseClass() {
     private lateinit var operator: Operator
     private lateinit var question: Question
     private lateinit var view: View
+    var variableList = BlockWorldDomain.variables
 
     fun checkQuestion(
         viewRef: View,
@@ -45,16 +46,16 @@ class Controller : BaseClass() {
             error("checkQuestion: Question 1: missing fields")
         } else {
             problem = getProblem(domainName.toString(), problemName.toString())
-            plan = getPlan(formerPlanTextField.toString())
+            plan = getPlan(formerPlanTextField.toString(), problem)
             if (!actionName.isNullOrBlank()) {
-                action = getAction(actionName.toString())!!
+                action = getAction(actionName.toString(), problem)!!
                 parameters = actionParametersComboBox.map { it.value }.filter { !it.isNullOrBlank() }
                 log { "action parameters: $parameters" }
                 operator = getOperator(action, parameters)
             }
         }
         if (!alternativePlanTextField.isNullOrBlank()) {
-            alternativePlan = getPlan(alternativePlanTextField.toString())
+            alternativePlan = getPlan(alternativePlanTextField.toString(), problem)
         }
         when (questionType) {
             "Question 1" -> {
@@ -66,6 +67,7 @@ class Controller : BaseClass() {
                 )
                 log { "question: $question" }
             }
+
             "Question 2" -> {
                 log { "checkQuestion: Question 2" }
                 question = QuestionAddOperator(
@@ -76,6 +78,7 @@ class Controller : BaseClass() {
                 )
                 log { "question: $question" }
             }
+
             "Question 3" -> {
                 log { "checkQuestion: Question 3" }
                 val state = getState(stateTextField.toString())
@@ -88,6 +91,7 @@ class Controller : BaseClass() {
                 )
                 log { "checkQuestion: Question 3: $question" }
             }
+
             "Question 4" -> if (
                 alternativePlanTextField!!.isEmpty()
             ) {
@@ -100,6 +104,7 @@ class Controller : BaseClass() {
                     alternativePlan,
                 )
             }
+
             "Question 5" -> {
                 log { "checkQuestion: Question 5" }
                 question = QuestionPlanSatisfiability(
@@ -126,24 +131,28 @@ class Controller : BaseClass() {
      * Method responsible for retrieving the list of the problems corresponding to input [Domain].
      */
     fun getProblems(domain: String): List<Problem> {
-        return if (domain.startsWith("b").or(domain.startsWith("B"))) {
-            BlockWorld.problems.toList()
-        } else {
+        return if (domain.startsWith("l").or(domain.startsWith("L"))) {
             Logistics.problems.toList()
+        } else {
+            BlockWorld.problems.toList()
         }
     }
 
-    private fun getProblem(domainName: String, problemName: String) =
+    internal fun getProblem(domainName: String, problemName: String) =
         getProblems(domainName).first { it.name == problemName }
 
-    private fun getAction(operatorName: String): Action? {
-        log { "getAction: string operator: $operatorName" }
-        val actionMatched = try { problem.domain.actions.first { act -> act.name == operatorName } } catch (e: NoSuchElementException) { null }
+    internal fun getAction(actionName: String, problem: Problem): Action? {
+        log { "getAction: string action: $actionName" }
+        val actionMatched = try {
+            problem.domain.actions.first { act -> act.name == actionName }
+        } catch (e: NoSuchElementException) {
+            null
+        }
         log { "getAction: operator name from input string: $actionMatched" }
         return actionMatched
     }
 
-    private fun getParameterType(parameterName: String): Any =
+    internal fun getObjectType(parameterName: String, problem: Problem): Any =
         problem.objects.map.forEach { (type, objectSet) ->
             if (
                 objectSet.any { it.representation == parameterName }
@@ -153,13 +162,13 @@ class Controller : BaseClass() {
             }
         }
 
-    private fun getOperator(action: Action, parameters: List<String>): Operator {
+    internal fun getOperator(action: Action, parameters: List<String>): Operator {
         var operator = Operator.of(action)
-        val variableList = variables // listOf(Variable.of("X"), Variable.of("Y"), Variable.of("Z"))
-        log { "getOperator: operator $operator parameters $parameters" }
+        log { "getOperator: action $action operator $operator parameters $parameters" }
         for ((i, arg) in parameters.withIndex()) {
-            log { "arg: $arg variableList: ${variableList[i] } object ${Object.of(arg)}" }
-            val substitution = VariableAssignment.of(variableList[i], Object.of(arg))
+            val obj = Object.of(arg)
+            log { "arg: $arg variableList: ${variableList[i]} object ${obj.representation} " }
+            val substitution = VariableAssignment.of(operator.parameters.keys.toList()[i], obj)
             log { "substitution $substitution" }
             operator = operator.apply(substitution)
             log { "operator after substitution: $operator" }
@@ -168,7 +177,7 @@ class Controller : BaseClass() {
         return operator
     }
 
-    private fun getPlan(plan: String): Plan {
+    private fun getPlan(plan: String, problem: Problem): Plan {
         log { "getPlan: plan $plan" }
         val index = 0
         val list = mutableListOf<Operator>()
@@ -177,7 +186,7 @@ class Controller : BaseClass() {
         lateinit var action: Action
         for (letter in plan) {
             if (letter == '(') {
-                action = getAction(plan.substring(index, plan.indexOf(letter)))!!
+                action = getAction(plan.substring(index, plan.indexOf(letter)), problem)!!
                 log { "getPlan: action ${action.name}" }
                 log { "getPlan: plan $plan start index ${plan.indexOf(letter)}, end index ${plan.indexOf(')')}" }
                 val args = plan.substring(plan.indexOf(letter) + 1, plan.length)
