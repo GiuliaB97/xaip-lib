@@ -1,7 +1,7 @@
 package utils // ktlint-disable filename
-open class BaseClass() {
+open class BaseClass {
     companion object {
-        private const val DEBUG = true
+        private const val DEBUG = false
 
         internal fun log(msg: () -> String) {
             if (DEBUG) {
