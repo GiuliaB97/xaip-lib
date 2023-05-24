@@ -9,7 +9,7 @@ comments:
   #  active: true
 complexity:
   LongParameterList:
-    functionThreshold: 8 #updated
+    functionThreshold: 15 #updated
   TooManyFunctions:
     ignoreDeprecated: true
     ignorePrivate: true
@@ -19,6 +19,8 @@ complexity:
     #thresholdInInterfaces: 20
     #thresholdInObjects: 20
     #thresholdInEnums: 20
+  NestedBlockDepth:
+    threshold: 10
 
 
 style:

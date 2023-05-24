@@ -1,9 +1,10 @@
+@file:Suppress("UNCHECKED_CAST")
+
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.control.* // ktlint-disable no-wildcard-imports
 import javafx.stage.Stage
-import utils.BaseClass.Companion.log
 import utils.Components.actionNameComboBox
 import utils.Components.actionParameter1ComboBox
 import utils.Components.actionParameter2ComboBox
@@ -18,6 +19,7 @@ import utils.Components.problemNameComboBox
 import utils.Components.questionComboBox
 import utils.Components.stateTextField
 import utils.Components.submit
+import utils.Debugger.log
 import utils.GuiGrid.getGrid
 import utils.Label.actionLabel
 import utils.Label.actionParameterLabel
@@ -72,7 +74,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
 
     @Suppress("UNCHECKED_CAST")
 
-    private fun listeners() {
+    private fun explanationTypeComboBoxListeners() {
         explanationTypeComboBox.setCellFactory {
             val cell: ListCell<String?> = object : ListCell<String?>() {
                 override fun updateItem(item: String?, empty: Boolean) {
@@ -90,7 +92,9 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
             }
             cell
         }
+    }
 
+    private fun domainComboBoxListeners() {
         domainComboBox.setCellFactory {
             val cell: ListCell<String?> = object : ListCell<String?>() {
                 override fun updateItem(item: String?, empty: Boolean) {
@@ -121,7 +125,9 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
             }
             cell
         }
+    }
 
+    private fun problemNameComboBoxListeners() {
         problemNameComboBox.setCellFactory {
             val cell: ListCell<String?> = object : ListCell<String?>() {
                 override fun updateItem(item: String?, empty: Boolean) {
@@ -138,7 +144,9 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
             }
             cell
         }
+    }
 
+    private fun questionComboBoxListeners() {
         questionComboBox.setCellFactory {
             val cell: ListCell<String?> = object : ListCell<String?>() {
                 override fun updateItem(item: String?, empty: Boolean) {
@@ -160,7 +168,9 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
             }
             cell
         }
+    }
 
+    private fun actionNameBoxListeners() {
         actionNameComboBox.setCellFactory {
             val cell: ListCell<String?> = object : ListCell<String?>() {
                 override fun updateItem(item: String?, empty: Boolean) {
@@ -196,7 +206,9 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
             }
             cell
         }
+    }
 
+    private fun submitListeners() {
         submit.onAction = EventHandler {
             if (questionComboBox.value != null &&
                 problemNameComboBox.value != null &&
@@ -219,7 +231,8 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                         explanationTypeComboBox.value,
                         parameterList as List<ComboBox<String>>,
                         stateTextField.characters,
-                    ) } catch (e: Exception) {
+                    )
+                } catch (e: Exception) {
                     showResult(e.message!!)
                 }
             }
@@ -227,12 +240,17 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
     }
 
     /***
-     * Internal method responsible for the gui creation
+     * Internal method responsible for the gui creation.
      */
     private fun createGui(width: Double, height: Double, appName: String) {
         val grid = getGrid()
         val scene = Scene(grid, width, height)
-        listeners()
+        explanationTypeComboBoxListeners()
+        domainComboBoxListeners()
+        problemNameComboBoxListeners()
+        questionComboBoxListeners()
+        actionNameBoxListeners()
+        submitListeners()
         primaryStage.scene = scene
         primaryStage.title = appName
         primaryStage.show()
@@ -276,6 +294,7 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                 actionNameComboBox.isVisible = true
                 newPlanTextField.isVisible = false
             }
+
             "Question 2" -> {
                 actionLabel.text = "Action to add"
                 actionLabel.isVisible = true
@@ -283,7 +302,9 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                 positionLabel.isVisible = true
                 actionPositionTextField.isVisible = true
                 newPlanTextField.isVisible = false
-            } "Question 3" -> {
+            }
+
+            "Question 3" -> {
                 actionLabel.text = "Action to replace"
                 actionLabel.isVisible = true
                 actionNameComboBox.isVisible = true
@@ -292,7 +313,9 @@ class View(private val primaryStage: Stage, private val controller: Controller) 
                 newPlanTextField.isVisible = false
                 stateLabel.isVisible = true
                 stateTextField.isVisible = true
-            } "Question 4" -> {
+            }
+
+            "Question 4" -> {
                 actionLabel.text = "New plan"
                 actionLabel.isVisible = true
                 actionNameComboBox.isVisible = false

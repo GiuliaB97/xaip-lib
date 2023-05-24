@@ -5,15 +5,14 @@ import explanation.ExplanationPresenter
 import explanation.Question
 import explanation.impl.* // ktlint-disable no-wildcard-imports
 import javafx.scene.control.ComboBox
-import utils.BaseClass
+import utils.Debugger.log
 import domain.BlockWorldDomain as BlockWorld
 import domain.LogisticsDomain as Logistics
 
 /**
  * Class representing the View of the application.
  */
-class Controller : BaseClass() {
-
+class Controller {
     private lateinit var problem: Problem
     private lateinit var parameters: List<String>
     private lateinit var action: Action
@@ -24,6 +23,9 @@ class Controller : BaseClass() {
     private lateinit var view: View
     var variableList = BlockWorldDomain.variables
 
+    /**
+     * triggers the computation of the [Question] chosen by the user.
+     */
     fun checkQuestion(
         viewRef: View,
         domainName: CharSequence?,
@@ -57,6 +59,17 @@ class Controller : BaseClass() {
         if (!alternativePlanTextField.isNullOrBlank()) {
             alternativePlan = getPlan(alternativePlanTextField.toString(), problem)
         }
+        initializeQuestion(questionType, actionPosition, stateTextField, alternativePlanTextField)
+        val explanation = getExplanation(explanationType)
+        view.showResult(explanation)
+    }
+
+    private fun initializeQuestion(
+        questionType: CharSequence?,
+        actionPosition: Int,
+        stateTextField: CharSequence,
+        alternativePlanTextField: CharSequence?,
+    ) {
         when (questionType) {
             "Question 1" -> {
                 log { "checkQuestion: Question 1" }
@@ -115,6 +128,9 @@ class Controller : BaseClass() {
 
             else -> error("Question not recognized")
         }
+    }
+
+    private fun getExplanation(explanationType: CharSequence?): String {
         val explanation = Explainer.of(Planner.strips()).explain(question)
         val explanationPresenter = ExplanationPresenter.of(explanation)
         var explanationString = if (explanationType?.startsWith("General")!!) {
@@ -124,7 +140,7 @@ class Controller : BaseClass() {
             log { explanationType.toString() }
             explanationPresenter.presentMinimalExplanation()
         }
-        view.showResult(explanationString)
+        return explanationString
     }
 
     /**

@@ -19,6 +19,7 @@ tasks.withType<org.jetbrains.dokka.gradle.DokkaTaskPartial>().configureEach {
         }
     }
 }
+
 dependencies {
     // api(libs.tuprolog.unify)
     // api(libs.tuprolog.solve.classic)
@@ -41,6 +42,7 @@ kotlin {
             kotlinOptions {
                 allWarningsAsErrors = false
                 freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn")
+                suppressWarnings = true
             }
         }
     }

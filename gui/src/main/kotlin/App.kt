@@ -19,6 +19,7 @@ class App : Application() {
 /***
  * Entry point for the application.
  */
+@Suppress("SpreadOperator")
 fun main(args: Array<String>) {
     Application.launch(App::class.java, *args)
 }

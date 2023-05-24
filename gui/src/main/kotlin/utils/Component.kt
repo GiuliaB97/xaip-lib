@@ -118,6 +118,9 @@ object GuiGrid {
         stateLabel,
     )
 
+    /**
+     * returns a grid initialize with provided values.
+     */
     fun getGrid() = initGrid(posGrid, prefWidthGrid, prefHeightGrid, hGapGrid, vGapGrid, insectsBorderGrid)
 
     private fun initHBox(pos: Pos, spacing: Double, children: List<Node>): HBox {
@@ -132,7 +135,14 @@ object GuiGrid {
         return hbox
     }
 
-    private fun initGrid(pos: Pos, prefWidth: Double, prefHeight: Double, hGap: Double, vGap: Double, insectsBorderGrid: Double): VBox {
+    private fun initGrid(
+        pos: Pos,
+        prefWidth: Double,
+        prefHeight: Double,
+        hGap: Double,
+        vGap: Double,
+        insectsBorderGrid: Double,
+    ): VBox {
         labelsList = initLabel(labelsList, fontLabel)
         grid.alignment = pos
         grid.hgap = hGap
