@@ -153,6 +153,7 @@ object BlockWorldDomain {
 
     object ProblemsDSL {
         val problemOnAB = problem(DomainsDSL.blockWorld) {
+            name = "problemOnAB"
             objects {
                 +"blocks"("a", "b", "c", "d")
             }

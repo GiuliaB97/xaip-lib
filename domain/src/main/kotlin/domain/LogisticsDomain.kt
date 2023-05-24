@@ -107,6 +107,7 @@ object LogisticsDomain {
 
     object ProblemsDSL {
         val rToX = problem(DomainsDSL.logistics) {
+            name = "rToX"
             objects {
                 +"robots"("r")
                 +"locations"("l1", "l2", "l3", "l4", "l5", "l6", "l7")
@@ -141,6 +142,7 @@ object LogisticsDomain {
         }
 
         val robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1 = problem(DomainsDSL.logistics) {
+            name = "robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1"
             objects {
                 +"robots"("r")
                 +"locations"("l1", "l2", "l3", "l4", "l5", "l6", "l7")
@@ -178,6 +180,7 @@ object LogisticsDomain {
 
         val robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1notDSL =
             problem(Domains.logisticsWorld) {
+                name = "robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1notDSL"
                 objects {
                     +"robots"("r")
                     +"locations"("l1", "l2", "l3", "l4", "l5", "l6", "l7")
