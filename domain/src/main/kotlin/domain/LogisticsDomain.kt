@@ -403,7 +403,7 @@ object LogisticsDomain {
     object Problems {
         val rToXdslDomain = Problem.of(
             domain = DomainsDSL.logistics,
-            name = "rToXdslDomain",
+            name = "rToXdsl",
             objects = ObjectSets.all,
             initialState = States.initial,
             goal = Goals.atRobotAtlocation5inContainer1Location4InContainer2Location1,
