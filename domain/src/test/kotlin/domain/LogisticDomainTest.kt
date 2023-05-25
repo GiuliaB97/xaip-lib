@@ -5,6 +5,7 @@ import domain.BlockWorldDomain.Planners
 import domain.LogisticsDomain.Actions
 import domain.LogisticsDomain.Operators
 import domain.LogisticsDomain.Problems
+import domain.LogisticsDomain.ProblemsDSL
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
 
@@ -126,12 +127,48 @@ class LogisticDomainTest : AnnotationSpec() {
     }
 
     @Test
-    fun testProblemDSL() {
+    fun testrToXdslProblemDSL() {
         val problem = Problems.rToXdslDomain
         problem.name shouldBe "rToXdsl"
         val plans = planner.plan(problem).toSet()
         plans.size shouldBe 1
         plans.first() shouldBe planner
             .plan(Problems.rToXdslDomain).first()
+    }
+
+    @Test
+    fun testrToXdslProblemsDSL() {
+        val problem = ProblemsDSL.rToX
+        problem.name shouldBe "rToX"
+        val plans = planner.plan(problem).toSet()
+        plans.size shouldBe 1
+        plans.first() shouldBe planner
+            .plan(ProblemsDSL.rToX).first()
+    }
+
+    @Test
+    fun testRobotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1() {
+        val problem = ProblemsDSL.robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1
+        problem.name shouldBe "robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1"
+        val plans = planner.plan(problem).toSet()
+        plans.size shouldBe 1
+        plans.first() shouldBe planner
+            .plan(
+                ProblemsDSL
+                    .robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1,
+            ).first()
+    }
+
+    @Test
+    fun testRobotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1notDSL() {
+        val problem = ProblemsDSL.robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1notDSL
+        problem.name shouldBe "robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1notDSL"
+        val plans = planner.plan(problem).toSet()
+        plans.size shouldBe 1
+        plans.first() shouldBe planner
+            .plan(
+                ProblemsDSL
+                    .robotFromLoc1ToLoc5Container1FromLoc2ToLoc4Container2FromLoc3ToLoc1notDSL,
+            ).first()
     }
 }
