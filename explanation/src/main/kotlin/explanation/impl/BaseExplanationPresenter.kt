@@ -63,7 +63,13 @@ internal open class BaseExplanationPresenter(
 
     private val isPlanValid by lazy {
         "\nThe novel plan is: ${explanation.novelPlan.operators}." +
-            "\nThe novel plan is ${if (!explanation.isPlanValid()){"not"}else {""}}a valid solution for the problem.\n"
+            "\nThe novel plan is ${
+                if (!explanation.isPlanValid()) {
+                    "not "
+                } else {
+                    ""
+                }
+            }a valid solution for the problem.\n"
     }
 
     private fun areAllGroundFluents(targets: Set<Fluent>) = targets.all { it.isGround }
