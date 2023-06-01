@@ -7,7 +7,7 @@ tuprolog = "0.31.5"
 ktlint-plugin = "11.0.0"
 detekt = "1.21.0"
 kotlinx = "1.7.1"
-kover = "0.7.0"
+kover = "0.7.1"
 dokka-version = "0.10.1"
 
 [libraries]
