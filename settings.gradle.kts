@@ -7,7 +7,7 @@ include("evaluation")
 
 pluginManagement {
     plugins {
-        kotlin("jvm") version "1.9.20"
+        kotlin("jvm") version "1.9.21"
         id("org.jetbrains.dokka") version ("1.9.10")
     }
 }
