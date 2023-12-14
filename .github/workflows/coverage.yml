@@ -27,31 +27,31 @@ jobs:
           files: build/reports/kover/report.xml
 
       - name: Archive framework test report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ReportFramework
           path: framework/build/reports/
 
       - name: Archive domain test report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ReportDomain
           path: domain/build/reports/
 
       - name: Archive dsl test report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ReportDsl
           path: dsl/build/reports/
 
       - name: Archive explanation test report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ReportExplanation
           path: explanation/build/reports/
 
       - name: Archive explanation test report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ReportEvaluation
           path: evaluation/build/reports/
