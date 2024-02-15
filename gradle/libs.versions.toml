@@ -6,7 +6,7 @@ java-toolchain = "11"
 tuprolog = "0.32.1"
 ktlint-plugin = "11.0.0"
 detekt = "1.21.0"
-kotlinx = "1.7.3"
+kotlinx = "1.8.0"
 kover = "0.7.5"
 dokka-version = "0.10.1"
 
